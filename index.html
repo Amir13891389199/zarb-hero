@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>قهرمان ضرب 🦸</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--p:#6c4cf1;--p2:#9b7bff;--g:#22c55e;--r:#ef4444;--y:#f59e0b;--bg:#f3f0ff;--card:#fff;--t:#2a2346;--mut:#7b7497}
+body{font-family:Vazirmatn,Vazir,"IRANSans",Tahoma,"Segoe UI",sans-serif;background:linear-gradient(160deg,#f3f0ff,#e8f4ff);color:var(--t);min-height:100vh;line-height:1.9}
+#app{max-width:860px;margin:0 auto;padding:14px 14px 40px}
+button{font-family:inherit;cursor:pointer;border:none}
+.m{direction:ltr;unicode-bidi:isolate;font-weight:700;white-space:nowrap}
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;background:var(--card);border-radius:18px;padding:10px 16px;box-shadow:0 4px 16px #6c4cf118;margin-bottom:14px}
+.brand{font-size:22px;font-weight:900;color:var(--p)}
+.stats{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.stats span{background:var(--bg);padding:3px 10px;border-radius:99px;font-size:14px;font-weight:700}
+.icon-btn{background:var(--bg);border-radius:99px;padding:4px 10px;font-size:16px}
+.card{background:var(--card);border-radius:20px;padding:18px;box-shadow:0 4px 18px #6c4cf114;margin-bottom:14px}
+.hero{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff}
+.hero h1{font-size:22px;margin-bottom:4px}
+.bar{height:12px;background:#ffffff44;border-radius:99px;overflow:hidden;margin-top:10px}
+.bar>i{display:block;height:100%;background:#fff;border-radius:99px;transition:width .4s}
+.pbar{height:10px;background:#e7e2ff;border-radius:99px;overflow:hidden;flex:1}
+.pbar>i{display:block;height:100%;background:linear-gradient(90deg,var(--p2),var(--p));transition:width .4s}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.mode{background:var(--card);border-radius:18px;padding:14px 8px;text-align:center;box-shadow:0 4px 14px #6c4cf114;font-weight:800;font-size:15px;color:var(--t);transition:transform .15s}
+.mode:hover{transform:translateY(-3px)}
+.mode b{display:block;font-size:30px}
+.mode small{display:block;color:var(--mut);font-weight:400;font-size:12px}
+details.plan summary{font-weight:800;cursor:pointer;font-size:17px}
+details.plan ul{list-style:none;margin-top:8px}
+details.plan li{padding:6px 0;border-bottom:1px dashed #e4defc}
+h2{font-size:19px;margin:6px 4px 10px}
+.map{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.stage{background:var(--card);border-radius:18px;padding:12px;text-align:right;box-shadow:0 3px 12px #6c4cf112;border:2px solid transparent;transition:transform .15s;color:var(--t);position:relative}
+.stage:hover{transform:translateY(-3px);border-color:var(--p2)}
+.stage .ic{font-size:28px}
+.stage .num{position:absolute;left:10px;top:8px;font-size:12px;color:var(--mut);font-weight:700}
+.stage .tt{font-weight:800;font-size:15px;line-height:1.6}
+.stage .st{font-size:15px;letter-spacing:2px}
+.stage.locked{opacity:.5;filter:grayscale(.7)}
+.stage.done{border-color:#bbf7d0;background:#f0fdf4}
+.stage.next{border-color:var(--p);box-shadow:0 0 0 4px #6c4cf133}
+.sec-title{grid-column:1/-1;font-weight:800;color:var(--p);margin-top:6px}
+.btn{background:var(--p);color:#fff;border-radius:14px;padding:10px 20px;font-size:16px;font-weight:800;box-shadow:0 4px 0 #4a2fc4;transition:transform .1s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #4a2fc4}
+.btn.sec{background:#fff;color:var(--p);box-shadow:0 4px 0 #d6ccff;border:2px solid #d6ccff}
+.btn.green{background:var(--g);box-shadow:0 4px 0 #15803d}
+.btn.warn{background:var(--y);box-shadow:0 4px 0 #b45309}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.between{justify-content:space-between}
+.center{text-align:center}
+.lesson{min-height:340px;font-size:17px}
+.lesson h3{font-size:21px;color:var(--p);margin-bottom:8px}
+.lesson p{margin:8px 0}
+.lesson .tip{background:#fff7e6;border-right:5px solid var(--y);padding:8px 12px;border-radius:10px;margin:10px 0}
+.lesson .key{background:#eef9f1;border-right:5px solid var(--g);padding:8px 12px;border-radius:10px;margin:10px 0}
+.dots{display:flex;gap:4px;justify-content:center;margin:12px 0}
+.groups{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:12px 0}
+.grp{background:#f1edff;border:2px dashed var(--p2);border-radius:14px;padding:8px;display:flex;flex-wrap:wrap;gap:5px;max-width:92px;justify-content:center}
+.dot{width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ff8a8a,#e11d48);display:inline-block}
+.dot.b{background:radial-gradient(circle at 35% 35%,#8ab4ff,#2563eb)}
+.arr{display:inline-grid;gap:5px;padding:10px;background:#f7f5ff;border-radius:14px;direction:ltr}
+.vizwrap{text-align:center;margin:8px 0}
+.dots-row{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;align-items:center}
+.fingers{display:flex;gap:6px;justify-content:center;align-items:flex-end;direction:ltr;margin:12px 0;height:80px}
+.fingers i{display:block;width:18px;height:64px;background:#fcd9b6;border:2px solid #d9a877;border-radius:10px 10px 4px 4px;position:relative}
+.fingers i.fold{height:22px;background:#fca5a5;border-color:var(--r)}
+.fingers i.gap{margin-left:14px}
+.fingers i span{position:absolute;bottom:-22px;left:0;right:0;font-size:11px;text-align:center;font-style:normal;color:var(--mut)}
+table.area{border-collapse:separate;border-spacing:4px;margin:10px auto;direction:ltr}
+table.area th{color:var(--p);font-size:16px;padding:4px 10px}
+table.area td{background:#efeaff;border-radius:10px;padding:10px 16px;font-weight:800;text-align:center;min-width:60px}
+table.area td.z{background:transparent}
+.col-grid{display:inline-grid;grid-template-columns:repeat(5,34px);direction:ltr;font-size:26px;font-weight:800;text-align:center;margin:10px auto;line-height:1.4}
+.col-grid .c{color:var(--r);font-size:15px;height:22px}
+.col-grid .ln{grid-column:1/-1;border-top:3px solid var(--t);margin:2px 0}
+.col-grid .res{color:var(--g)}
+.quiz-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.qcard{text-align:center;padding:22px 14px}
+.qtext{font-size:36px;font-weight:900;margin:8px 0}
+.qsub{font-size:17px;color:var(--mut)}
+.disp{direction:ltr;font-size:38px;font-weight:900;min-height:64px;background:var(--bg);border-radius:16px;margin:10px auto;max-width:280px;padding:4px 10px;border:3px solid #ddd5ff;color:var(--p)}
+.disp.ok{border-color:var(--g);background:#ecfdf3;color:var(--g)}
+.disp.bad{border-color:var(--r);background:#fef2f2;color:var(--r);animation:shake .35s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.fb{min-height:30px;font-size:17px}
+.fb .hintbox{background:#fff7e6;border-radius:12px;padding:10px;margin-top:8px;text-align:right;line-height:2.1}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:330px;margin:10px auto 0;direction:ltr}
+.pad button{background:#fff;border-radius:14px;padding:12px 0;font-size:24px;font-weight:800;color:var(--t);box-shadow:0 4px 0 #d6ccff;border:2px solid #ece7ff;font-family:inherit}
+.pad button:active{transform:translateY(3px);box-shadow:0 1px 0 #d6ccff}
+.pad .ok{background:var(--g);color:#fff;box-shadow:0 4px 0 #15803d;border-color:var(--g);grid-column:span 2}
+.pad .bk{background:#fff1f1;color:var(--r)}
+.tag{display:inline-block;background:#fff1d6;color:#b45309;border-radius:99px;padding:0 10px;font-size:13px;font-weight:700}
+.bigstars{font-size:54px;letter-spacing:6px}
+.tbl{display:grid;grid-template-columns:repeat(11,1fr);gap:3px;direction:ltr;font-size:14px}
+.tbl div{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:8px;font-weight:800;cursor:pointer;background:#f1f1f5}
+.tbl .h{background:var(--p);color:#fff;cursor:default}
+.tbl .easy{background:#dcfce7}
+.b0{background:#fee2e2!important}.b1{background:#ffedd5!important}.b2{background:#fef9c3!important}.b3{background:#d9f99d!important}.b4{background:#86efac!important}.b5{background:#22c55e!important;color:#fff}
+.tbl .new{background:#f1f1f5}
+.tbl .sel{outline:3px solid var(--p)}
+.legend{display:flex;gap:6px;flex-wrap:wrap;font-size:12px;margin-top:10px}
+.legend span{padding:2px 8px;border-radius:8px}
+.timer{font-size:28px;font-weight:900;color:var(--r)}
+.confetti{position:fixed;top:-20px;width:10px;height:14px;z-index:99;animation:fall linear forwards;pointer-events:none}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+.pop{animation:pop .4s}
+@keyframes pop{0%{transform:scale(.7);opacity:0}100%{transform:scale(1);opacity:1}}
+input[type=range]{width:100%;accent-color:var(--p)}
+.builder label{display:block;font-weight:700;margin:6px 0}
+.sdots{display:flex;gap:6px;justify-content:center;margin-top:10px}
+.sdots i{width:10px;height:10px;border-radius:50%;background:#ddd5ff}
+.sdots i.on{background:var(--p);width:24px;border-radius:99px}
+@media(max-width:560px){.modes{grid-template-columns:1fr 1fr 1fr}.mode{font-size:13px}.qtext{font-size:30px}.map{grid-template-columns:1fr 1fr}.lesson{font-size:16px}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* ============ ابزارها ============ */
+const FA='۰۱۲۳۴۵۶۷۸۹';
+const fa=x=>String(x).replace(/\d/g,d=>FA[d]).replace(/\./g,'٫').replace(/-/g,'−').replace(/\?/g,'؟');
+const M=s=>`<span class="m">${fa(s)}</span>`;
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const range=(a,b)=>Array.from({length:b-a+1},(_,i)=>a+i);
+const app=document.getElementById('app');
+
+/* ============ ذخیره پیشرفت ============ */
+const KEY='zarb-hero-v1';
+let store=null;try{store=window.localStorage;store.getItem('t')}catch(e){store=null}
+let S={xp:0,stars:{},lt:{},best:0,mute:false};
+try{const d=store&&JSON.parse(store.getItem(KEY));if(d)S=Object.assign(S,d)}catch(e){}
+function save(){try{store&&store.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+/* ============ صدا ============ */
+let actx=null;
+function tone(fs,dur=.12,type='sine'){if(S.mute)return;try{actx=actx||new(window.AudioContext||window.webkitAudioContext)();const t=actx.currentTime;fs.forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.18,t+i*dur);g.gain.exponentialRampToValueAtTime(.001,t+(i+1)*dur);o.connect(g);g.connect(actx.destination);o.start(t+i*dur);o.stop(t+(i+1)*dur+.03)})}catch(e){}}
+const sGood=()=>tone([660,880],.1);
+const sBad=()=>tone([260,200],.16,'triangle');
+const sWin=()=>tone([523,659,784,1046],.13);
+
+function confetti(){const c=['#6c4cf1','#22c55e','#f59e0b','#ef4444','#06b6d4','#ec4899'];for(let i=0;i<70;i++){const d=document.createElement('div');d.className='confetti';d.style.left=Math.random()*100+'vw';d.style.background=pick(c);d.style.animationDuration=(1.8+Math.random()*1.8)+'s';d.style.animationDelay=(Math.random()*.5)+'s';document.body.appendChild(d);setTimeout(()=>d.remove(),4200)}}
+
+const praise=['آفرین! 🎉','عالی بود! 🌟','دمت گرم! 💪','ایول! 🔥','باریکلا! 👏','درسته! ✨','نابغه‌ای! 🧠','همینه! 🚀'];
+
+/* ============ تصویرسازی ============ */
+function groupsViz(a,b){let h='<div class="groups">';for(let i=0;i<a;i++){h+='<div class="grp">'+'<i class="dot"></i>'.repeat(b)+'</div>'}return h+'</div>'}
+function arrayViz(r,c,blue){return `<div class="arr" style="grid-template-columns:repeat(${c},16px)">`+`<i class="dot${blue?' b':''}"></i>`.repeat(r*c)+'</div>'}
+function fingersViz(k){let h='<div class="fingers">';for(let i=1;i<=10;i++){h+=`<i class="${i===k?'fold':''}${i===6?' gap':''}"><span>${fa(i)}</span></i>`}return h+'</div>'}
+function areaTable(cols,rows){let h='<table class="area"><tr><th>×</th>'+cols.map(c=>`<th>${fa(c)}</th>`).join('')+'</tr>';rows.forEach(r=>{h+=`<tr><th>${fa(r)}</th>`+cols.map(c=>`<td>${fa(r*c)}</td>`).join('')+'</tr>'});return h+'</table>'}
+
+/* ============ راهبرد (ترفند) برای هر ضرب ============ */
+function strat(a,b){
+  const pr=[0,1,10,2,5,4,9,3,6,8,7];
+  const ia=pr.indexOf(a),ib=pr.indexOf(b);
+  if(ia<0&&ib<0)return M(`${a} × ${b} = ${a*b}`);
+  let m,n,sw=false;
+  if(ib>=0&&(ia<0||ib<=ia)){m=b;n=a}else{m=a;n=b;sw=true}
+  let s='';
+  switch(m){
+    case 0:s=`هر عددی ضرب در صفر میشه صفر ← ${M(`${n} × 0 = 0`)}`;break;
+    case 1:s=`هر عددی ضرب در یک میشه خودش ← ${M(`${n} × 1 = ${n}`)}`;break;
+    case 10:s=`ضرب در ${M('10')} یعنی یه صفر بذار سمت راستش ← ${M(`${n} × 10 = ${n*10}`)}`;break;
+    case 2:s=`ضرب در ${M('2')} یعنی دو برابر ← ${M(`${n} + ${n} = ${2*n}`)}`;break;
+    case 5:s=`ضرب در ${M('5')} = نصفِ ضرب در ${M('10')} ← ${M(`${n} × 10 = ${10*n}`)} و نصفش میشه ${M(5*n)}`;break;
+    case 4:s=`ضرب در ${M('4')} = دوبار دو برابر ← ${M(`${n} → ${2*n} → ${4*n}`)}`;break;
+    case 9:s=`ضرب در ${M('9')} = ضرب در ${M('10')} منهای یکی ← ${M(`${10*n} − ${n} = ${9*n}`)}`;break;
+    case 3:s=`ضرب در ${M('3')} = دو برابر به‌علاوه یکی ← ${M(`${2*n} + ${n} = ${3*n}`)}`;break;
+    case 6:s=`ضرب در ${M('6')} = ضرب در ${M('5')} به‌علاوه یکی ← ${M(`${5*n} + ${n} = ${6*n}`)}`;break;
+    case 8:s=`ضرب در ${M('8')} = سه‌بار دو برابر ← ${M(`${n} → ${2*n} → ${4*n} → ${8*n}`)}`;break;
+    case 7:s=`ضرب در ${M('7')} = ضرب در ${M('5')} به‌علاوه ضرب در ${M('2')} ← ${M(`${5*n} + ${2*n} = ${7*n}`)}`;break;
+  }
+  if(sw&&a!==b)s=`🔄 جابه‌جا کن: ${M(`${a} × ${b}`)} همون ${M(`${b} × ${a}`)} است.<br>`+s;
+  return s;
+}
+
+/* ============ جعبه لایتنر (تکرار با فاصله) ============ */
+const fkey=(a,b)=>a<b?`${a}x${b}`:`${b}x${a}`;
+const isCore=(a,b)=>a>=2&&a<=9&&b>=2&&b<=9;
+function ltBox(a,b){return S.lt[fkey(a,b)]}
+function ltUpdate(a,b,ok,ms){if(!isCore(a,b))return;const k=fkey(a,b);let v=S.lt[k]||0;if(!ok)v=0;else if(ms<7000)v=Math.min(5,v+1);S.lt[k]=v}
+function coreFacts(){const f=[];for(let a=2;a<=9;a++)for(let b=a;b<=9;b++)f.push([a,b]);return f}
+function mastered(){return coreFacts().filter(([a,b])=>(ltBox(a,b)||0)>=3).length}
+let lastFact='';
+function pickFact(){const f=coreFacts();let tot=0;const w=f.map(([a,b])=>{const bx=ltBox(a,b);const x=bx===undefined?16:Math.pow(6-bx,2);tot+=x;return x});
+  for(let t=0;t<10;t++){let r=Math.random()*tot,i=0;while(r>w[i]){r-=w[i];i++}const [a,b]=f[Math.min(i,f.length-1)];if(fkey(a,b)!==lastFact||t===9){lastFact=fkey(a,b);return Math.random()<.5?[a,b]:[b,a]}}}
+
+/* ============ سازنده سوال ============ */
+function factQ(a,b,extra){return Object.assign({text:M(`${a} × ${b} = ?`),ans:a*b,hint:strat(a,b),fact:[a,b]},extra||{})}
+function tableGen(m){return()=>{const n=rnd(2,10);return Math.random()<.5?factQ(n,m):factQ(m,n)}}
+function tableDeck(m){const ns=shuffle(range(2,10)).concat([pick([0,1,rnd(2,10)])]);return shuffle(ns).map(n=>Math.random()<.5?factQ(n,m):factQ(m,n))}
+const fmtN=x=>x<0?`(${x})`:`${x}`;
+function decStr(i,d){return d===0?String(i):(i/Math.pow(10,d)).toFixed(d)}
+
+/* ============ مراحل ============ */
+const STAGES=[
+/* 1 */{id:'s1',icon:'🍎',title:'ضرب یعنی چی؟',sec:'بخش ۱: پایه‌ها',
+ lesson:[
+  `<h3>ضرب = جمعِ تکراریِ سریع ⚡</h3><p>فرض کن ${M(3)} تا بشقاب داری و تو هر بشقاب ${M(4)} تا سیب هست:</p>${groupsViz(3,4)}<p>می‌تونی بشمری: ${M('4 + 4 + 4 = 12')}</p><div class="key">به زبان ضرب می‌نویسیم: ${M('3 × 4 = 12')}<br>یعنی «${M(3)} تا گروهِ ${M(4)}تایی». علامت ${M('×')} رو «ضربدر» می‌خونیم.</div>`,
+  {html:`<h3>آرایه: ردیف × ستون 🟦</h3><p>اگه چیزها رو مرتب توی ردیف و ستون بچینیم، تعداد کل = <b>تعداد ردیف × تعداد ستون</b>. خودت امتحان کن! اسلایدرها رو تکون بده:</p><div class="builder"><label>ردیف‌ها: <span id="brv"></span></label><input type="range" min="1" max="10" value="3" id="br"><label>ستون‌ها: <span id="bcv"></span></label><input type="range" min="1" max="10" value="4" id="bc"><div class="vizwrap" id="bviz"></div><div class="center" id="beq" style="font-size:22px"></div></div>`,
+   mount(){const br=document.getElementById('br'),bc=document.getElementById('bc');const up=()=>{const r=+br.value,c=+bc.value;document.getElementById('brv').innerHTML=M(r);document.getElementById('bcv').innerHTML=M(c);document.getElementById('bviz').innerHTML=arrayViz(r,c);document.getElementById('beq').innerHTML=M(`${r} × ${c} = ${r*c}`)+'<br><small style="font-size:15px;color:#7b7497">'+M(Array(r).fill(c).join(' + ')+` = ${r*c}`)+'</small>'};br.oninput=up;bc.oninput=up;up()}},
+  `<h3>چرا ضرب مهمه؟ 🤔</h3><p>تصور کن ${M(8)} تا جعبه داری و تو هر کدوم ${M(7)} تا مداد. جمع کردن ${M('7+7+7+7+7+7+7+7')} طول می‌کشه، ولی اگه بدونی ${M('8 × 7 = 56')} یه لحظه‌ای جواب رو داری!</p><div class="tip">🎮 تو تمرین این مرحله گروه‌ها رو می‌بینی. اگه لازم شد بشمار، هیچ اشکالی نداره! هدف اینه که <b>معنی</b> ضرب رو بفهمی.</div>`
+ ],
+ gen(){const a=rnd(2,5),b=rnd(2,5);const arr=Math.random()<.4;return{viz:arr?`<div class="vizwrap">${arrayViz(a,b)}</div>`:groupsViz(a,b),sub:arr?`${fa(a)} ردیف و ${fa(b)} ستون`:`${fa(a)} گروهِ ${fa(b)}تایی`,text:M(`${a} × ${b} = ?`),ans:a*b,hint:`جمع تکراری: ${M(Array(a).fill(b).join(' + ')+` = ${a*b}`)}`,fact:[a,b]}},
+ count:8,pass:6},
+
+/* 2 */{id:'s2',icon:'🔄',title:'جابه‌جایی: نصف کار حذف!',
+ lesson:[
+  `<h3>راز بزرگ: ترتیب مهم نیست! 🔄</h3><div class="dots-row"><div>${arrayViz(3,5)}<div>${M('3 × 5')}</div></div><div style="font-size:28px">=</div><div>${arrayViz(5,3,true)}<div>${M('5 × 3')}</div></div></div><p>همون ${M(15)} تا نقطه‌ست، فقط چرخیده! پس:</p><div class="key">${M('a × b = b × a')} ← مثلاً ${M('3 × 5 = 5 × 3 = 15')}</div>`,
+  `<h3>یعنی چی برای تو؟ 😎</h3><p>جدول ضرب ${M(100)} خونه داره، ولی:</p><p>✅ با جابه‌جایی تقریباً <b>نصفش</b> حذف میشه.</p><p>✅ با ترفندهای ${M('0, 1, 2, 5, 10')} یه عالمه‌ی دیگه‌ش هم آسون میشه.</p><p>✅ آخرش فقط چند تا ضرب می‌مونه که با ترفندهای ${M('9, 3, 6, 8, 7')} حلشون می‌کنیم.</p><div class="tip">پس اگه ${M('4 × 7')} رو بلدی، ${M('7 × 4')} رو هم مجانی بلدی! 🎁</div>`
+ ],
+ gen(){let a=rnd(2,9),b=rnd(2,9);while(a===b)b=rnd(2,9);return{sub:`اگه ${M(`${a} × ${b} = ${a*b}`)} باشه، پس...`,text:M(`${b} × ${a} = ?`),ans:a*b,hint:`جابه‌جایی! ترتیب مهم نیست، پس جواب همونه: ${M(a*b)}`,fact:[a,b]}},
+ count:8,pass:6},
+
+/* 3 */{id:'s3',icon:'🎯',title:'صفر، یک و ده',
+ lesson:[
+  `<h3>ضرب در صفر ${M('× 0')}</h3><p>${M(5)} تا بشقاب خالی داری. چند تا سیب داری؟ هیچی!</p><div class="key">هر عددی ${M('× 0 = 0')} ← ${M('487 × 0 = 0')}</div><h3>ضرب در یک ${M('× 1')}</h3><p>${M(1)} گروهِ ${M(7)}تایی = ${M(7)} تا.</p><div class="key">هر عددی ${M('× 1')} = خودش ← ${M('9 × 1 = 9')}</div>`,
+  `<h3>ضرب در ده ${M('× 10')} 🔟</h3><p>${M(10)} تا اسکناس ${M(6)} تومنی = ${M(60)} تومن.</p><div class="key">برای ضرب در ${M(10)} فقط یه صفر بذار سمت راست عدد:<br>${M('6 × 10 = 60')} &nbsp; ${M('23 × 10 = 230')} &nbsp; ${M('10 × 8 = 80')}</div><div class="tip">این سه تا قانون همین الان ${M(36)} خونه از جدول ضرب رو برات حل کرد! 🎉</div>`
+ ],
+ gen(){const m=pick([0,1,10,10]),n=rnd(0,12);return Math.random()<.5?factQ(n,m):factQ(m,n)},
+ count:10,pass:8},
+
+/* 4 */{id:'s4',icon:'✌️',title:'ضرب در ۲ = دو برابر',
+ lesson:[
+  `<h3>ضرب در ${M(2)} = دو برابر کردن ✌️</h3><p>${M('7 × 2')} یعنی ${M(2)} تا ${M(7)}: ${M('7 + 7 = 14')}</p>${groupsViz(2,7)}<div class="key">هر عددی ${M('× 2')} = خودش + خودش</div><p>دو برابرها رو یه بار با صدای بلند بخون:</p><p>${M('2×2=4 , 3×2=6 , 4×2=8 , 5×2=10 , 6×2=12')}<br>${M('7×2=14 , 8×2=16 , 9×2=18 , 10×2=20')}</p><div class="tip">جواب ضرب در ${M(2)} همیشه <b>زوج</b> است (به ${M('0, 2, 4, 6, 8')} ختم میشه).</div>`
+ ],
+ gen:tableGen(2),deck:()=>tableDeck(2),count:10,pass:8},
+
+/* 5 */{id:'s5',icon:'🖐️',title:'ضرب در ۵ = نصفِ ده',
+ lesson:[
+  `<h3>ضرب در ${M(5)} 🖐️</h3><p>${M(5)} نصفِ ${M(10)} است. پس:</p><div class="key">۱) عدد رو ${M('× 10')} کن (یه صفر بذار)<br>۲) نصفش کن!</div><p>مثال: ${M('8 × 5')} ← ${M('8 × 10 = 80')} ← نصفش ${M(40)} ✅</p><p>مثال: ${M('7 × 5')} ← ${M(70)} ← نصفش ${M(35)} ✅</p><div class="tip">⏰ مثل ساعت! دقیقه‌ها ۵تا۵تا جلو میرن: ${M('5, 10, 15, 20, 25, 30, 35, 40, 45, 50')}<br>جواب ضرب در ${M(5)} همیشه به ${M(0)} یا ${M(5)} ختم میشه.</div>`
+ ],
+ gen:tableGen(5),deck:()=>tableDeck(5),count:10,pass:8},
+
+/* 6 */{id:'s6',icon:'🍀',title:'ضرب در ۴ = دوبار دو برابر',
+ lesson:[
+  `<h3>ضرب در ${M(4)} 🍀</h3><p>${M('4 = 2 × 2')}. پس به جای ضرب در ${M(4)}، <b>دوبار دو برابر</b> کن:</p><div class="key">${M('7 × 4')} ← ${M('7 → 14 → 28')} ✅<br>${M('6 × 4')} ← ${M('6 → 12 → 24')} ✅<br>${M('9 × 4')} ← ${M('9 → 18 → 36')} ✅</div><div class="tip">مثل برگ شبدر ۴ برگ: دو تا جفت برگ! 🍀</div>`
+ ],
+ gen:tableGen(4),deck:()=>tableDeck(4),count:10,pass:8},
+
+/* 7 */{id:'s7',icon:'🪄',title:'ضرب در ۹ = جادوی انگشت',sec:'بخش ۲: ترفندهای جادویی',
+ lesson:[
+  `<h3>ضرب در ${M(9)}: روش اول 🪄</h3><p>${M(9)} یکی کمتر از ${M(10)} است. پس:</p><div class="key">عدد × ${M(10)}، بعد منهای خودِ عدد<br>${M('7 × 9 = 70 − 7 = 63')}<br>${M('6 × 9 = 60 − 6 = 54')}</div>`,
+  `<h3>روش دوم: جادوی انگشت‌ها ✋✋</h3><p>ده تا انگشتت رو باز کن. برای ${M('4 × 9')} انگشت <b>چهارم</b> رو خم کن:</p>${fingersViz(4)}<br><p>سمتِ چپِ انگشت خم‌شده ${M(3)} انگشت ← <b>دهگان</b><br>سمتِ راستش ${M(6)} انگشت ← <b>یکان</b><br>جواب: ${M(36)} 🎉</p><div class="tip">امتحان کن: برای ${M('7 × 9')} انگشت هفتم رو خم کن ← ${M(6)} و ${M(3)} ← ${M(63)}</div>`,
+  `<h3>الگوی مخفی ${M(9)} 🔍</h3><p>${M('9, 18, 27, 36, 45, 54, 63, 72, 81, 90')}</p><div class="key">۱) رقم دهگان یکی کمتر از عدده: ${M('8 × 9')} ← دهگان ${M(7)}<br>۲) جمع دو رقم همیشه ${M(9)} میشه: ${M('7 + ? = 9')} ← ${M(2)} ← ${M(72)}</div>`
+ ],
+ gen:tableGen(9),deck:()=>tableDeck(9),count:10,pass:8},
+
+/* 8 */{id:'s8',icon:'🔺',title:'ضرب در ۳',
+ lesson:[
+  `<h3>ضرب در ${M(3)} 🔺</h3><p>${M('3 = 2 + 1')}. پس: <b>دو برابر کن، بعد یه بار دیگه خود عدد رو اضافه کن</b>.</p><div class="key">${M('7 × 3 = 14 + 7 = 21')}<br>${M('8 × 3 = 16 + 8 = 24')}<br>${M('6 × 3 = 12 + 6 = 18')}</div><p>سه‌تا سه‌تا بشمار: ${M('3, 6, 9, 12, 15, 18, 21, 24, 27, 30')}</p><div class="tip">با جابه‌جایی: ${M('3 × 2, 3 × 4, 3 × 5, 3 × 9')} رو از قبل بلدی! 😉</div>`
+ ],
+ gen:tableGen(3),deck:()=>tableDeck(3),count:10,pass:8},
+
+/* 9 */{id:'s9',icon:'🎲',title:'ضرب در ۶',
+ lesson:[
+  `<h3>ضرب در ${M(6)} 🎲</h3><p>${M('6 = 5 + 1')}. پس: <b>ضرب در ${M(5)} کن، بعد یه بار خود عدد رو اضافه کن</b>.</p><div class="key">${M('7 × 6 = 35 + 7 = 42')}<br>${M('8 × 6 = 40 + 8 = 48')}<br>${M('9 × 6 = 45 + 9 = 54')}</div><div class="tip">✨ ترفند زوج‌ها: وقتی ${M(6)} رو در عدد زوج ضرب می‌کنی، جواب به <b>همون عدد</b> ختم میشه و دهگانش <b>نصفِ</b> اون عدده:<br>${M('6 × 4 = 24')} &nbsp; ${M('6 × 6 = 36')} &nbsp; ${M('6 × 8 = 48')}</div>`
+ ],
+ gen:tableGen(6),deck:()=>tableDeck(6),count:10,pass:8},
+
+/* 10 */{id:'s10',icon:'🐙',title:'ضرب در ۸',
+ lesson:[
+  `<h3>ضرب در ${M(8)} 🐙</h3><p>${M('8 = 2 × 2 × 2')}. پس: <b>سه‌بار دو برابر کن</b>!</p><div class="key">${M('7 × 8')} ← ${M('7 → 14 → 28 → 56')} ✅<br>${M('6 × 8')} ← ${M('6 → 12 → 24 → 48')} ✅</div><p>یا روش دیگه: ${M('8 = 10 − 2')}</p><div class="key">${M('7 × 8 = 70 − 14 = 56')}</div><div class="tip">🐙 هشت‌پا ۸ تا پا داره: ۲ هشت‌پا = ${M(16)} پا، ۴ هشت‌پا = ${M(32)} پا، ۸ هشت‌پا = ${M(64)} پا!</div>`
+ ],
+ gen:tableGen(8),deck:()=>tableDeck(8),count:10,pass:8},
+
+/* 11 */{id:'s11',icon:'🌈',title:'ضرب در ۷ (آخریش!)',
+ lesson:[
+  `<h3>ضرب در ${M(7)} 🌈</h3><p>${M('7 = 5 + 2')}. پس: <b>ضرب در ${M(5)} + ضرب در ${M(2)}</b></p><div class="key">${M('7 × 7 = 35 + 14 = 49')}<br>${M('8 × 7 = 40 + 16 = 56')}<br>${M('6 × 7 = 30 + 12 = 42')}</div>`,
+  `<h3>خبر خوب! 🎁</h3><p>با جابه‌جایی، تقریباً همه‌ی ضرب‌های ${M(7)} رو از مراحل قبل بلدی. تنها ضرب واقعاً جدید: ${M('7 × 7 = 49')}</p><div class="tip">🔢 رمز ${M('5 6 7 8')}: اعداد رو پشت سر هم بخون ← ${M('56 = 7 × 8')}</div><div class="key">مربع‌ها (عدد × خودش) رو هم یه بار ببین:<br>${M('2×2=4 , 3×3=9 , 4×4=16 , 5×5=25')}<br>${M('6×6=36 , 7×7=49 , 8×8=64 , 9×9=81')}</div>`
+ ],
+ gen:tableGen(7),deck:()=>tableDeck(7),count:10,pass:8},
+
+/* 12 */{id:'s12',icon:'🏆',title:'کل جدول ضرب',
+ lesson:[
+  `<h3>همه‌ی ترفندها با هم! 🏆</h3><p>حالا همه‌ی ضرب‌های ${M('2')} تا ${M('9')} قاطی میان. خلاصه‌ی ترفندها:</p><div class="key">${M('×2')} دو برابر &nbsp;|&nbsp; ${M('×4')} دوبار دو برابر &nbsp;|&nbsp; ${M('×8')} سه‌بار دو برابر<br>${M('×5')} نصفِ ${M('×10')} &nbsp;|&nbsp; ${M('×9')} = ${M('×10')} منهای یکی<br>${M('×3')} = ${M('×2')} + یکی &nbsp;|&nbsp; ${M('×6')} = ${M('×5')} + یکی &nbsp;|&nbsp; ${M('×7')} = ${M('×5')} + ${M('×2')}</div><div class="tip">🧠 سیستم هوشمند (جعبه لایتنر): ضرب‌هایی که اشتباه کردی یا دیر جواب دادی رو <b>بیشتر</b> ازت می‌پرسه تا کامل تو ذهنت بشینه.</div>`
+ ],
+ gen(){const [a,b]=pickFact();return factQ(a,b)},
+ deck(){lastFact='';return Array.from({length:15},()=>{const [a,b]=pickFact();return factQ(a,b)})},count:15,pass:12},
+
+/* 13 */{id:'s13',icon:'🔟',title:'ضرب در ۱۰، ۱۰۰ و ۱۰۰۰',sec:'بخش ۳: ضرب اعداد بزرگ',
+ lesson:[
+  `<h3>قانون صفرها 0️⃣</h3><div class="key">${M('× 10')} ← یه صفر بذار: ${M('37 × 10 = 370')}<br>${M('× 100')} ← دو تا صفر: ${M('37 × 100 = 3700')}<br>${M('× 1000')} ← سه تا صفر: ${M('37 × 1000 = 37000')}</div>`,
+  `<h3>ضرب عددهای صفردار 🎩</h3><p>${M('30 × 4')} = ؟</p><div class="key">۱) صفرها رو فعلاً کنار بذار: ${M('3 × 4 = 12')}<br>۲) صفرها رو برگردون: ${M(120)}</div><p>${M('40 × 60')} ← ${M('4 × 6 = 24')} + دو تا صفر ← ${M(2400)}</p><p>${M('700 × 8')} ← ${M('7 × 8 = 56')} + دو تا صفر ← ${M(5600)}</p>`
+ ],
+ gen(){const t=rnd(0,3);
+  if(t===0){const n=rnd(2,99),k=pick([10,100,1000]);return{text:M(`${n} × ${k} = ?`),ans:n*k,hint:`${M(k)} ${fa(String(k).length-1)} تا صفر داره، پس ${fa(String(k).length-1)} تا صفر بذار جلوی ${M(n)} ← ${M(n*k)}`}}
+  if(t===1){const a=rnd(2,9),b=rnd(2,9);return{text:M(`${a*10} × ${b} = ?`),ans:a*b*10,hint:`${M(`${a} × ${b} = ${a*b}`)} و یه صفر ← ${M(a*b*10)}`}}
+  if(t===2){const a=rnd(2,9),b=rnd(2,9);return{text:M(`${a*10} × ${b*10} = ?`),ans:a*b*100,hint:`${M(`${a} × ${b} = ${a*b}`)} و دو تا صفر ← ${M(a*b*100)}`}}
+  const a=rnd(2,9),b=rnd(2,9);return{text:M(`${b} × ${a*100} = ?`),ans:a*b*100,hint:`${M(`${b} × ${a} = ${a*b}`)} و دو تا صفر ← ${M(a*b*100)}`}},
+ count:10,pass:8},
+
+/* 14 */{id:'s14',icon:'🔨',title:'شکستن عدد (دو رقمی × یک رقمی)',
+ lesson:[
+  `<h3>عدد بزرگ رو بشکن! 🔨</h3><p>${M('23 × 4')} = ؟ &nbsp; ${M(23)} رو بشکن به ${M('20 + 3')}:</p>${areaTable([20,3],[4])}<div class="key">${M('20 × 4 = 80')}<br>${M('3 × 4 = 12')}<br>جمع: ${M('80 + 12 = 92')} ✅</div><div class="tip">این مهم‌ترین روش ضرب ذهنیه (اسمش «پخشی» یا توزیع‌پذیریه). خیلی از آدم‌هایی که تو حساب ذهنی سریعن، همینو استفاده می‌کنن!</div>`,
+  `<h3>یه مثال دیگه 💡</h3><p>${M('47 × 6')} = ؟</p><div class="key">${M('40 × 6 = 240')} &nbsp;(چون ${M('4 × 6 = 24')} و یه صفر)<br>${M('7 × 6 = 42')}<br>${M('240 + 42 = 282')} ✅</div><p>تو تمرین اگه خواستی از دکمه‌ی 💡 راهنما کمک بگیر.</p>`
+ ],
+ gen(){const t=rnd(1,9),o=rnd(1,9),a=10*t+o,b=rnd(2,9);return{text:M(`${a} × ${b} = ?`),ans:a*b,hint:`${M(`${a} = ${10*t} + ${o}`)}<br>${M(`${10*t} × ${b} = ${10*t*b}`)}<br>${M(`${o} × ${b} = ${o*b}`)}<br>${M(`${10*t*b} + ${o*b} = ${a*b}`)}`}},
+ count:10,pass:8},
+
+/* 15 */{id:'s15',icon:'📝',title:'ضرب ستونی',
+ lesson:[
+  {html:`<h3>ضرب ستونی قدم به قدم 📝</h3><p>بیا ${M('234 × 3')} رو با روش ستونی (همون روش مدرسه) حل کنیم:</p><div class="center"><div class="col-grid" id="cg"></div></div><div class="key" id="cmsg"></div><div class="center"><button class="btn sec" id="cnext">قدم بعدی ⬅️</button></div>`,
+   mount(){const steps=[
+     {c:['','','',''],r:['','','',''],m:`از <b>سمت راست</b> (یکان) شروع می‌کنیم. عدد پایین (${M(3)}) رو در تک‌تک رقم‌های بالا ضرب می‌کنیم.`},
+     {c:['','','1',''],r:['','','','2'],m:`${M('4 × 3 = 12')} ← ${M(2)} رو پایین می‌نویسیم و ${M(1)} رو بالای ستون بعدی می‌بریم (ده بر یک).`},
+     {c:['','1','1',''],r:['','','0','2'],m:`${M('3 × 3 = 9')} و ${M('9 + 1 = 10')} ← ${M(0)} رو می‌نویسیم و ${M(1)} رو می‌بریم بالا.`},
+     {c:['','1','1',''],r:['','7','0','2'],m:`${M('2 × 3 = 6')} و ${M('6 + 1 = 7')} ← ${M(7)} رو می‌نویسیم. جواب: ${M(702)} 🎉`}];
+    let i=0;const cg=document.getElementById('cg'),msg=document.getElementById('cmsg'),nb=document.getElementById('cnext');
+    const draw=()=>{const s=steps[i];let h='<div></div>'+s.c.map(x=>`<div class="c">${fa(x)}</div>`).join('');h+='<div></div><div></div><div>'+fa(2)+'</div><div>'+fa(3)+'</div><div>'+fa(4)+'</div>';h+='<div>×</div><div></div><div></div><div></div><div>'+fa(3)+'</div><div class="ln"></div>';h+='<div></div>'+s.r.map(x=>`<div class="res">${fa(x)}</div>`).join('');cg.innerHTML=h;msg.innerHTML=s.m;nb.textContent=i<steps.length-1?'قدم بعدی ⬅️':'از اول 🔁'};
+    nb.onclick=()=>{i=(i+1)%steps.length;draw()};draw()}},
+  `<h3>راه ذهنی: شکستن به صدگان، دهگان، یکان 🧩</h3><p>همون ${M('234 × 3')}:</p><div class="key">${M('200 × 3 = 600')}<br>${M('30 × 3 = 90')}<br>${M('4 × 3 = 12')}<br>${M('600 + 90 + 12 = 702')} ✅</div><div class="tip">هر دو روش یکی‌ان! هر کدوم راحت‌تری رو روی کاغذ استفاده کن. (برای تمرین می‌تونی کاغذ و قلم کنارت بذاری ✏️)</div>`
+ ],
+ gen(){const a=rnd(102,999),b=rnd(2,9);const h=Math.floor(a/100)*100,t=Math.floor(a%100/10)*10,o=a%10;return{text:M(`${a} × ${b} = ?`),ans:a*b,hint:`${M(`${h} × ${b} = ${h*b}`)}<br>${M(`${t} × ${b} = ${t*b}`)}<br>${M(`${o} × ${b} = ${o*b}`)}<br>${M(`${h*b} + ${t*b} + ${o*b} = ${a*b}`)}`}},
+ count:8,pass:6},
+
+/* 16 */{id:'s16',icon:'🧱',title:'دو رقمی × دو رقمی',
+ lesson:[
+  `<h3>روش مساحت (جدول) 🧱</h3><p>${M('23 × 14')} = ؟ هر دو عدد رو بشکن: ${M('23 = 20 + 3')} و ${M('14 = 10 + 4')}</p>${areaTable([20,3],[10,4])}<div class="key">${M('200 + 30 + 80 + 12 = 322')} ✅</div><div class="tip">هر خونه‌ی جدول یه ضربِ ساده‌ست که بلدی! آخرش همه رو جمع کن.</div>`,
+  `<h3>روش ستونی دو رقمی ✍️</h3><p>${M('23 × 14')}:</p><div class="key">۱) ${M(23)} × یکانِ ${M(14)}: ${M('23 × 4 = 92')}<br>۲) ${M(23)} × دهگانِ ${M(14)}: ${M('23 × 10 = 230')}<br>۳) جمع: ${M('92 + 230 = 322')} ✅</div><div class="tip">✨ ترفند جایزه: ضرب در ${M(11)} برای دو رقمی‌ها ← دو رقم رو جمع کن و وسطشون بذار: ${M('32 × 11')} ← ${M('3 (3+2) 2')} = ${M(352)}</div>`
+ ],
+ gen(){let a=rnd(11,59),b=rnd(11,29);if(a%10===0)a++;if(b%10===0)b++;const a1=Math.floor(a/10)*10,a0=a%10,b1=Math.floor(b/10)*10,b0=b%10;return{text:M(`${a} × ${b} = ?`),ans:a*b,hint:areaTable([a1,a0],[b1,b0])+M(`${a1*b1} + ${a0*b1} + ${a1*b0} + ${a0*b0} = ${a*b}`)}},
+ count:8,pass:6},
+
+/* 17 */{id:'s17',icon:'➖',title:'ضرب عددهای منفی',sec:'بخش ۴: مخصوص دبیرستان',
+ lesson:[
+  `<h3>قانون علامت‌ها ➕➖</h3><table class="area"><tr><th>×</th><th>+</th><th>−</th></tr><tr><th>+</th><td>+</td><td style="background:#fee2e2">−</td></tr><tr><th>−</th><td style="background:#fee2e2">−</td><td>+</td></tr></table><div class="key">علامت‌های <b>یکسان</b> ← جواب <b>مثبت</b><br>علامت‌های <b>متفاوت</b> ← جواب <b>منفی</b></div><p>روش: ۱) بدون علامت ضرب کن ۲) علامت رو تعیین کن.</p><p>${M('(−3) × 4 = −12')} &nbsp; ${M('(−3) × (−4) = 12')}</p>`,
+  `<h3>چند تا منفی؟ 🔢</h3><div class="key">تعداد منفی‌ها <b>زوج</b> ← مثبت<br>تعداد منفی‌ها <b>فرد</b> ← منفی</div><p>${M('(−2) × (−3) × (−1) = −6')} (سه تا منفی = فرد)</p><div class="tip">برای وارد کردن جواب منفی، دکمه‌ی ${M('−')} رو روی صفحه‌کلید بزن.</div>`
+ ],
+ gen(){const s=()=>Math.random()<.55?-1:1;if(Math.random()<.25){const x=[rnd(1,5)*s(),rnd(1,5)*s(),rnd(1,4)*s()];if(x.every(v=>v>0))x[1]*=-1;const p=x[0]*x[1]*x[2];const neg=x.filter(v=>v<0).length;return{text:M(`${x.map(fmtN).join(' × ')} = ?`),ans:p,hint:`بدون علامت: ${M(`${x.map(Math.abs).join(' × ')} = ${Math.abs(p)}`)}<br>${fa(neg)} تا منفی (${neg%2?'فرد ← منفی':'زوج ← مثبت'}) ← ${M(p)}`}}
+  let a=rnd(1,9)*s(),b=rnd(2,9)*s();if(a>0&&b>0)a=-a;const p=a*b;return{text:M(`${fmtN(a)} × ${fmtN(b)} = ?`),ans:p,hint:`بدون علامت: ${M(`${Math.abs(a)} × ${Math.abs(b)} = ${Math.abs(p)}`)}<br>${(a<0)===(b<0)?'علامت‌ها یکسان ← مثبت':'علامت‌ها متفاوت ← منفی'} ← ${M(p)}`}},
+ count:10,pass:8},
+
+/* 18 */{id:'s18',icon:'🔸',title:'ضرب اعشاری',
+ lesson:[
+  `<h3>ضرب اعشاری در ۳ قدم 🔸</h3><div class="key">۱) ممیز رو نادیده بگیر و معمولی ضرب کن.<br>۲) تعداد رقم‌های <b>بعد از ممیز</b> در هر دو عدد رو بشمار و جمع کن.<br>۳) از سمت راستِ جواب، همون‌قدر رقم جدا کن و ممیز بذار.</div><p>${M('0.3 × 0.4')} ← ${M('3 × 4 = 12')} ← دو رقم اعشار ← ${M('0.12')}</p><p>${M('1.2 × 3')} ← ${M('12 × 3 = 36')} ← یک رقم اعشار ← ${M('3.6')}</p><div class="tip">برای ممیز دکمه‌ی ${M('.')} رو بزن.</div>`
+ ],
+ gen(){const t=rnd(0,3);let ia,da,ib,db;
+  if(t===0){ia=rnd(1,9);da=1;ib=rnd(2,9);db=0}
+  else if(t===1){ia=rnd(1,9);da=1;ib=rnd(1,9);db=1}
+  else if(t===2){ia=rnd(11,59);if(ia%10===0)ia++;da=1;ib=rnd(2,9);db=0}
+  else{ia=rnd(11,29);if(ia%10===0)ia++;da=1;ib=rnd(2,9);db=1}
+  const D=da+db,prod=ia*ib,ans=parseFloat((prod/Math.pow(10,D)).toFixed(D));
+  return{text:M(`${decStr(ia,da)} × ${decStr(ib,db)} = ?`),ans,hint:`بدون ممیز: ${M(`${ia} × ${ib} = ${prod}`)}<br>تعداد رقم اعشار: ${M(`${da} + ${db} = ${D}`)}<br>${fa(D)} رقم از راست جدا کن ← ${M((prod/Math.pow(10,D)).toFixed(D))} = ${M(ans)}`}},
+ count:10,pass:8},
+
+/* 19 */{id:'s19',icon:'👹',title:'غول آخر!',sec:'🏁 نبرد نهایی',
+ lesson:[
+  `<h3>نبرد با غول ضرب 👹</h3><p>این مرحله از <b>همه‌ی</b> مراحل سوال داره: جدول ضرب، صفرها، شکستن عدد، ستونی، منفی‌ها و اعشاری.</p><div class="key">${M(20)} سوال — برای شکست دادن غول ${M(16)} تا رو باید درست جواب بدی!</div><div class="tip">نفس عمیق بکش، کاغذ و قلم بردار و از ترفندها استفاده کن. تو می‌تونی! 💪</div>`
+ ],
+ gen(){return STAGES[pick([2,3,4,5,6,7,8,9,10,11,11,11,12,13,13,14,15,16,17])].gen()},
+ count:20,pass:16}
+];
+
+/* ============ کیبورد عددی ============ */
+let pad=null; // {buf, locked, submit, cont}
+function padHTML(){const k=[['7','7'],['8','8'],['9','9'],['4','4'],['5','5'],['6','6'],['1','1'],['2','2'],['3','3'],['-','−'],['0','0'],['.','٫']];return '<div class="pad">'+k.map(([v,l])=>`<button data-k="${v}">${fa(l)}</button>`).join('')+'<button class="bk" data-k="back">⌫</button><button class="ok" data-k="ok">✔ ثبت</button></div>'}
+function bindPad(){document.querySelectorAll('.pad button').forEach(b=>b.onclick=()=>padPress(b.dataset.k))}
+function padPress(k){if(!pad)return;if(pad.locked){if(k==='ok'&&pad.cont)pad.cont();return}
+  if(k==='back')pad.buf=pad.buf.slice(0,-1);
+  else if(k==='ok'){pad.submit();return}
+  else if(k==='-')pad.buf=pad.buf.startsWith('-')?pad.buf.slice(1):'-'+pad.buf;
+  else if(k==='.'){if(!pad.buf.includes('.'))pad.buf+=(pad.buf===''||pad.buf==='-')?'0.':'.'}
+  else if(pad.buf.replace(/[-.]/g,'').length<9)pad.buf+=k;
+  const d=document.getElementById('disp');if(d)d.innerHTML=pad.buf?fa(pad.buf):'<span style="opacity:.3">؟</span>'}
+document.addEventListener('keydown',e=>{if(!pad)return;let k=e.key;const i='۰۱۲۳۴۵۶۷۸۹'.indexOf(k),j='٠١٢٣٤٥٦٧٨٩'.indexOf(k);if(i>=0)k=String(i);if(j>=0)k=String(j);
+  if(/^[0-9]$/.test(k))padPress(k);else if(k==='Enter'){e.preventDefault();padPress('ok')}else if(k==='Backspace')padPress('back');else if(k==='-')padPress('-');else if(k==='.'||k==='٫'||k==='/')padPress('.')});
+
+/* ============ صفحه اصلی ============ */
+const totalStars=()=>Object.values(S.stars).reduce((a,b)=>a+b,0);
+const passed=i=>(S.stars[STAGES[i].id]||0)>0;
+const unlocked=i=>i===0||passed(i-1);
+function header(){const lvl=Math.floor(S.xp/250)+1;return `<header class="top"><div class="brand" style="cursor:pointer" onclick="home()">🦸 قهرمان ضرب</div><div class="stats"><span>⭐ ${fa(totalStars())}</span><span>⚡ ${fa(S.xp)}</span><span>🎖️ سطح ${fa(lvl)}</span><button class="icon-btn" onclick="S.mute=!S.mute;save();this.textContent=S.mute?'🔇':'🔊'">${S.mute?'🔇':'🔊'}</button></div></header>`}
+function home(){pad=null;clearTimeout(window._nq);clearInterval(window._spT);SP=null;
+  const done=STAGES.filter((_,i)=>passed(i)).length,nextI=STAGES.findIndex((_,i)=>!passed(i));
+  const msg=done===0?'سلام قهرمان! 👋 امروز قراره ضرب رو از صفر تا صد با بازی یاد بگیری. از مرحله‌ی ۱ شروع کن.':done===STAGES.length?'🏆 تبریک! همه‌ی مراحل رو تموم کردی. حالا تو یه قهرمان ضربی! برای اینکه یادت نره، هر روز چند دقیقه «مرور هوشمند» بزن.':`عالی پیش میری! ${fa(done)} مرحله از ${fa(STAGES.length)} تموم شده. بزن بریم مرحله‌ی بعد! 🚀`;
+  let map='';STAGES.forEach((s,i)=>{if(s.sec)map+=`<div class="sec-title">${s.sec}</div>`;const st=S.stars[s.id]||0;map+=`<button class="stage ${unlocked(i)?'':'locked'} ${st?'done':''} ${i===nextI?'next':''}" onclick="openStage(${i})"><span class="num">${fa(i+1)}</span><div class="ic">${unlocked(i)?s.icon:'🔒'}</div><div class="tt">${s.title}</div><div class="st">${'⭐'.repeat(st)}${'☆'.repeat(3-st)}</div></button>`});
+  app.innerHTML=header()+`
+  <div class="card hero"><h1>${done===STAGES.length?'🏆 قهرمان ضرب!':'🎮 ماموریت امروز: یادگیری کامل ضرب'}</h1><div>${msg}</div><div class="bar"><i style="width:${done/STAGES.length*100}%"></i></div><div style="font-size:13px;margin-top:6px">پیشرفت مراحل: ${fa(done)}/${fa(STAGES.length)} &nbsp;•&nbsp; ضرب‌های مسلط‌شده: ${fa(mastered())}/${fa(36)}</div></div>
+  <div class="modes"><button class="mode" onclick="startReview()"><b>🧠</b>مرور هوشمند<small>ضرب‌های سخت تو</small></button><button class="mode" onclick="speedIntro()"><b>⏱️</b>مسابقه سرعت<small>رکورد: ${fa(S.best)}</small></button><button class="mode" onclick="tableScreen()"><b>📊</b>جدول من<small>ببین چی بلدی</small></button></div>
+  <details class="card plan"><summary>📅 برنامه‌ی یک‌روزه (پیشنهادی)</summary><ul>
+   <li>☀️ <b>صبح (حدود ۱ ساعت):</b> مراحل ۱ تا ۶ — معنی ضرب و ترفندهای ${M('0, 1, 2, 5, 10, 4')}</li>
+   <li>☕ <b>۱۵ دقیقه استراحت</b> — مغز موقع استراحت یادگرفته‌ها رو تثبیت می‌کنه!</li>
+   <li>🌤️ <b>قبل از ظهر:</b> مراحل ۷ تا ۱۱ — ترفندهای ${M('9, 3, 6, 8, 7')}</li>
+   <li>🍽️ <b>ناهار و استراحت</b></li>
+   <li>🌇 <b>عصر:</b> مرحله ۱۲ + ۱۰ دقیقه «مرور هوشمند» + یه دور «مسابقه سرعت»</li>
+   <li>🌙 <b>شب:</b> مراحل ۱۳ تا ۱۸ — ضرب عددهای بزرگ، منفی و اعشاری</li>
+   <li>👹 <b>قبل خواب:</b> غول آخر + یه دور مرور هوشمند (خواب حافظه رو محکم می‌کنه 😴)</li>
+   <li>💡 <b>نکته طلایی:</b> تو یه روز یاد می‌گیری، ولی برای اینکه <b>همیشه</b> یادت بمونه، تا یه هفته هر روز ۵ دقیقه «مرور هوشمند» بزن.</li></ul></details>
+  <h2>🗺️ نقشه‌ی مراحل</h2><div class="map">${map}</div>
+  <p class="center" style="margin-top:18px;font-size:12px;color:var(--mut)">پیشرفتت خودکار ذخیره میشه. <a href="#" onclick="if(confirm('همه‌ی پیشرفت پاک بشه؟')){S={xp:0,stars:{},lt:{},best:0,mute:false};save();home()}return false" style="color:var(--mut)">شروع از اول</a></p>`;
+  window.scrollTo(0,0)}
+
+function openStage(i){if(!unlocked(i)&&!confirm('این مرحله هنوز قفله 🔒\nپیشنهاد می‌کنم مراحل رو به ترتیب بری. ولی اگه این قسمت رو بلدی، می‌خوای بری؟'))return;lesson(i,0)}
+
+/* ============ درس ============ */
+function lesson(i,k){pad=null;const s=STAGES[i],sl=s.lesson[k],html=typeof sl==='string'?sl:sl.html,last=k===s.lesson.length-1;
+  app.innerHTML=header()+`<div class="row between" style="margin-bottom:10px"><button class="btn sec" onclick="home()">→ نقشه</button><b>${s.icon} مرحله ${fa(i+1)}: ${s.title}</b><button class="btn sec" onclick="startQuiz(${i})">تمرین ⏭</button></div>
+  <div class="card lesson pop">${html}<div class="sdots">${s.lesson.map((_,j)=>`<i class="${j===k?'on':''}"></i>`).join('')}</div></div>
+  <div class="row between">${k>0?`<button class="btn sec" onclick="lesson(${i},${k-1})">→ قبلی</button>`:'<span></span>'}${last?`<button class="btn green" onclick="startQuiz(${i})">بزن بریم تمرین! 🚀</button>`:`<button class="btn" onclick="lesson(${i},${k+1})">بعدی ←</button>`}</div>`;
+  if(sl.mount)sl.mount();window.scrollTo(0,0)}
+
+/* ============ آزمون / تمرین ============ */
+let Q=null;
+function startQuiz(i){const s=STAGES[i];const deck=s.deck?s.deck():Array.from({length:s.count},()=>s.gen());Q={mode:'stage',i,title:`${s.icon} ${s.title}`,queue:deck,total:deck.length,pass:s.pass,done:0,first:0,xp:0,streak:0};nextQ()}
+function startReview(){lastFact='';const deck=Array.from({length:15},()=>{const [a,b]=pickFact();return factQ(a,b)});Q={mode:'review',title:'🧠 مرور هوشمند',queue:deck,total:15,pass:0,done:0,first:0,xp:0,streak:0};nextQ()}
+function nextQ(){if(!Q.queue.length)return finish();const c=Q.cur=Q.queue.shift();Q.t0=Date.now();Q.hint=false;
+  app.innerHTML=header()+`<div class="quiz-top"><button class="btn sec" onclick="if(confirm('از تمرین خارج میشی؟'))home()">✕</button><div class="pbar"><i style="width:${Q.done/Q.total*100}%"></i></div><b>${fa(Q.done)}/${fa(Q.total)}</b></div>
+  <div class="card qcard pop"><div class="qsub">${Q.title} ${c.retry?'<span class="tag">🔁 دوباره</span>':''} ${Q.streak>=3?`<span class="tag">🔥 ${fa(Q.streak)} تا پشت هم</span>`:''}</div>${c.viz||''}${c.sub?`<div class="qsub" style="font-size:19px;color:var(--t)">${c.sub}</div>`:''}<div class="qtext">${c.text}</div>
+  <div class="disp" id="disp"><span style="opacity:.3">؟</span></div><div class="fb" id="fb"></div>
+  <button class="btn sec" id="hbtn" style="font-size:14px;padding:6px 14px">💡 راهنما</button>${padHTML()}</div>`;
+  bindPad();document.getElementById('hbtn').onclick=()=>{Q.hint=true;document.getElementById('fb').innerHTML=`<div class="hintbox">💡 ${c.hint}</div>`;document.getElementById('hbtn').style.display='none'};
+  pad={buf:'',locked:false,submit:checkAns,cont:null}}
+function checkAns(){if(pad.buf===''||pad.buf==='-'||pad.buf==='.')return;const c=Q.cur,v=parseFloat(pad.buf),ok=Math.abs(v-c.ans)<1e-9,ms=Date.now()-Q.t0;
+  if(c.fact)ltUpdate(c.fact[0],c.fact[1],ok,ms);
+  pad.locked=true;const d=document.getElementById('disp'),fb=document.getElementById('fb');document.getElementById('hbtn').style.display='none';
+  if(!c.retry)Q.done++;
+  if(ok){sGood();Q.streak++;if(!c.retry)Q.first++;const g=c.retry?3:(Q.hint?5:10)+(Q.streak>=5?2:0);Q.xp+=g;d.classList.add('ok');fb.innerHTML=`<b style="color:var(--g)">${pick(praise)}</b> <span class="tag">+${fa(g)} XP</span>${ms<4000&&!Q.hint?' ⚡سریع!':''}`;save();window._nq=setTimeout(nextQ,900)}
+  else{sBad();Q.streak=0;d.classList.add('bad');Q.queue.push(Object.assign({},c,{retry:true}));
+   fb.innerHTML=`<div>❌ نزدیک بود! جواب درست: <b style="font-size:22px">${M(c.ans)}</b></div><div class="hintbox">💡 ${c.hint}</div><div style="margin-top:8px"><button class="btn" id="cbtn">فهمیدم، ادامه ←</button></div><div style="font-size:13px;color:var(--mut)">این سوال آخر تمرین دوباره میاد 🔁</div>`;
+   pad.cont=()=>{pad=null;nextQ()};document.getElementById('cbtn').onclick=pad.cont;save()}}
+function finish(){pad=null;S.xp+=Q.xp;let html;
+  if(Q.mode==='review'){save();sWin();html=`<div class="bigstars">🧠</div><h2>مرور تموم شد!</h2><p>${fa(Q.first)} از ${fa(Q.total)} رو اولِ کار درست زدی.</p><p><span class="tag">+${fa(Q.xp)} XP</span></p><p>ضرب‌های مسلط‌شده: <b>${fa(mastered())}/${fa(36)}</b></p><div class="row" style="justify-content:center;margin-top:12px"><button class="btn" onclick="startReview()">یه دور دیگه 🔁</button><button class="btn sec" onclick="tableScreen()">📊 جدول من</button><button class="btn sec" onclick="home()">🗺️ نقشه</button></div>`}
+  else{const s=STAGES[Q.i],f=Q.first,t=Q.total;let st=f>=t?3:f>=Q.pass+Math.ceil((t-Q.pass)/2)?2:f>=Q.pass?1:0;
+   const prev=S.stars[s.id]||0;if(st>prev)S.stars[s.id]=st;save();
+   if(st>0){sWin();confetti()}
+   const hasNext=Q.i<STAGES.length-1;
+   html=st>0?`<div class="bigstars">${'⭐'.repeat(st)}${'☆'.repeat(3-st)}</div><h2>${Q.i===STAGES.length-1?'👹 غول رو شکست دادی! تو قهرمان ضربی! 🏆':'مرحله رد شد! 🎉'}</h2><p>${fa(f)} از ${fa(t)} رو در اولین تلاش درست جواب دادی.</p><p><span class="tag">+${fa(Q.xp)} XP</span></p><div class="row" style="justify-content:center;margin-top:12px">${hasNext?`<button class="btn green" onclick="lesson(${Q.i+1},0)">مرحله بعد ←</button>`:''}<button class="btn sec" onclick="startQuiz(${Q.i})">دوباره (برای ⭐ بیشتر)</button><button class="btn sec" onclick="home()">🗺️ نقشه</button></div>`
+   :`<div class="bigstars">💪</div><h2>تقریباً رسیدی!</h2><p>${fa(f)} از ${fa(t)} درست در اولین تلاش. برای قبولی ${fa(Q.pass)} تا لازمه.</p><p>اشکالی نداره — مغز با اشتباه کردن یاد می‌گیره! یه بار دیگه درس رو نگاه کن و دوباره امتحان کن.</p><p><span class="tag">+${fa(Q.xp)} XP</span></p><div class="row" style="justify-content:center;margin-top:12px"><button class="btn" onclick="startQuiz(${Q.i})">دوباره امتحان کن 🔁</button><button class="btn sec" onclick="lesson(${Q.i},0)">📖 دیدن درس</button><button class="btn sec" onclick="home()">🗺️ نقشه</button></div>`}
+  app.innerHTML=header()+`<div class="card center pop" style="padding:30px 16px">${html}</div>`;window.scrollTo(0,0)}
+
+/* ============ مسابقه سرعت ============ */
+let SP=null;
+function speedIntro(){pad=null;app.innerHTML=header()+`<div class="card center pop" style="padding:30px 16px"><div class="bigstars">⏱️</div><h2>مسابقه سرعت</h2><p>${fa(60)} ثانیه وقت داری تا جایی که می‌تونی ضرب‌های جدول (${M('2')} تا ${M('9')}) رو جواب بدی!</p><p>رکورد تو: <b>${fa(S.best)}</b></p><div class="row" style="justify-content:center;margin-top:12px"><button class="btn green" onclick="speedStart()">شروع! 🏁</button><button class="btn sec" onclick="home()">🗺️ نقشه</button></div></div>`}
+function speedStart(){SP={score:0,wrong:0,end:Date.now()+60000};clearInterval(window._spT);window._spT=setInterval(()=>{const el=document.getElementById('tm');const r=Math.max(0,Math.ceil((SP.end-Date.now())/1000));if(el)el.textContent=fa(r);if(r<=0){clearInterval(window._spT);speedEnd()}},250);speedQ()}
+function speedQ(){if(!SP||Date.now()>=SP.end)return;const [a,b]=pickFact();SP.a=a;SP.b=b;SP.t0=Date.now();
+  app.innerHTML=header()+`<div class="card qcard"><div class="row between"><span class="timer">⏱️ <span id="tm">${fa(Math.ceil((SP.end-Date.now())/1000))}</span></span><b style="font-size:22px">✅ ${fa(SP.score)}</b></div><div class="qtext">${M(`${a} × ${b} = ?`)}</div><div class="disp" id="disp"><span style="opacity:.3">؟</span></div><div class="fb" id="fb"></div>${padHTML()}</div>`;
+  bindPad();pad={buf:'',locked:false,cont:null,submit(){if(pad.buf===''||pad.buf==='-')return;const ok=parseInt(pad.buf)===a*b;ltUpdate(a,b,ok,Date.now()-SP.t0);const d=document.getElementById('disp');pad.locked=true;
+   if(ok){SP.score++;sGood();d.classList.add('ok');setTimeout(speedQ,250)}else{SP.wrong++;sBad();d.classList.add('bad');document.getElementById('fb').innerHTML=`${M(`${a} × ${b} = ${a*b}`)}`;setTimeout(speedQ,1300)}}}}
+function speedEnd(){pad=null;if(!SP)return;const rec=SP.score>S.best;if(rec)S.best=SP.score;const g=SP.score*4;S.xp+=g;save();if(rec&&SP.score>0){sWin();confetti()}
+  app.innerHTML=header()+`<div class="card center pop" style="padding:30px 16px"><div class="bigstars">${rec?'🏆':'⏱️'}</div><h2>${rec?'رکورد جدید!':'وقت تموم شد!'}</h2><p>درست: <b>${fa(SP.score)}</b> &nbsp; اشتباه: <b>${fa(SP.wrong)}</b></p><p>رکورد: <b>${fa(S.best)}</b> &nbsp; <span class="tag">+${fa(g)} XP</span></p><p style="color:var(--mut)">🎯 هدف: ${fa(30)} تا یا بیشتر در یک دقیقه = تسلط کامل!</p><div class="row" style="justify-content:center;margin-top:12px"><button class="btn green" onclick="speedStart()">دوباره 🔁</button><button class="btn sec" onclick="home()">🗺️ نقشه</button></div></div>`;SP=null}
+
+/* ============ جدول من ============ */
+function tableScreen(){pad=null;let h='<div class="h">×</div>';for(let c=1;c<=10;c++)h+=`<div class="h">${fa(c)}</div>`;
+  for(let r=1;r<=10;r++){h+=`<div class="h">${fa(r)}</div>`;for(let c=1;c<=10;c++){let cls='easy';if(isCore(r,c)){const b=ltBox(r,c);cls=b===undefined?'new':'b'+b}h+=`<div class="${cls}" data-r="${r}" data-c="${c}">${fa(r*c)}</div>`}}
+  app.innerHTML=header()+`<div class="row between" style="margin-bottom:10px"><button class="btn sec" onclick="home()">→ نقشه</button><b>📊 جدول ضرب من</b><button class="btn" onclick="startReview()">🧠 مرور</button></div>
+  <div class="card"><p style="margin-bottom:8px">رنگ هر خونه نشون میده چقدر بلدیش. روی هر خونه بزن تا ترفندش رو ببینی 👇</p><div class="tbl">${h}</div>
+  <div class="legend"><span class="new" style="background:#f1f1f5">هنوز تمرین نشده</span><span class="b0">نیاز به تمرین</span><span class="b2">در حال یادگیری</span><span class="b3">خوب</span><span class="b5">مسلط 💪</span><span class="easy" style="background:#dcfce7">آسون (×۱، ×۱۰)</span></div>
+  <div class="hintbox fb" id="tinfo" style="background:#f7f5ff;border-radius:12px;padding:12px;margin-top:12px;line-height:2.1">یه خونه رو انتخاب کن...</div></div>`;
+  document.querySelectorAll('.tbl div[data-r]').forEach(el=>el.onclick=()=>{document.querySelectorAll('.tbl .sel').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');const r=+el.dataset.r,c=+el.dataset.c;document.getElementById('tinfo').innerHTML=`<b style="font-size:20px">${M(`${r} × ${c} = ${r*c}`)}</b><br>💡 ${strat(r,c)}`})}
+
+home();
+</script>
+</body>
+</html>
