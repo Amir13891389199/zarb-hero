@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
     @Override
     public void onBackPressed() {
         web.evaluateJavascript(
-            "(function(){var onHome=!!document.querySelector('.map');if(!onHome&&typeof home==='function'){home();return 'handled';}return 'exit';})()",
+            "(window.onAndroidBack?window.onAndroidBack():'exit')",
             new ValueCallback<String>() {
                 @Override public void onReceiveValue(String v) {
                     if (v != null && v.contains("exit")) finish();
