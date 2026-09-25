@@ -1,92 +1,92 @@
 const STAGES=[
-/* 1 */{id:'s1',icon:'🍎',title:'ضرب یعنی چی؟',sec:'بخش ۱: پایه‌ها',
+/* 1 */{id:'s1',icon:'apple',title:'ضرب یعنی چی؟',sec:'بخش ۱: پایه‌ها',
  lesson:[
-  `<h3>ضرب = جمعِ تکراریِ سریع ⚡</h3><p>فرض کن ${M(3)} تا بشقاب داری و تو هر بشقاب ${M(4)} تا سیب هست:</p>${groupsViz(3,4)}<p>می‌تونی بشمری: ${M('4 + 4 + 4 = 12')}</p><div class="key">به زبان ضرب می‌نویسیم: ${M('3 × 4 = 12')}<br>یعنی «${M(3)} تا گروهِ ${M(4)}تایی». علامت ${M('×')} رو «ضربدر» می‌خونیم.</div>`,
-  {html:`<h3>آرایه: ردیف × ستون 🟦</h3><p>اگه چیزها رو مرتب توی ردیف و ستون بچینیم، تعداد کل = <b>تعداد ردیف × تعداد ستون</b>. خودت امتحان کن! اسلایدرها رو تکون بده:</p><div class="builder"><label>ردیف‌ها: <span id="brv"></span></label><input type="range" min="1" max="10" value="3" id="br"><label>ستون‌ها: <span id="bcv"></span></label><input type="range" min="1" max="10" value="4" id="bc"><div class="vizwrap" id="bviz"></div><div class="center" id="beq" style="font-size:22px"></div></div>`,
+  `<h3>ضرب = جمعِ تکراریِ سریع <svg class=ic data-c=amber><use href=#izap></use></svg></h3><p>فرض کن ${M(3)} تا بشقاب داری و تو هر بشقاب ${M(4)} تا سیب هست:</p>${groupsViz(3,4)}<p>می‌تونی بشمری: ${M('4 + 4 + 4 = 12')}</p><div class="key">به زبان ضرب می‌نویسیم: ${M('3 × 4 = 12')}<br>یعنی «${M(3)} تا گروهِ ${M(4)}تایی». علامت ${M('×')} رو «ضربدر» می‌خونیم.</div>`,
+  {html:`<h3>آرایه: ردیف × ستون <svg class=ic data-c=blue><use href=#isquare></use></svg></h3><p>اگه چیزها رو مرتب توی ردیف و ستون بچینیم، تعداد کل = <b>تعداد ردیف × تعداد ستون</b>. خودت امتحان کن! اسلایدرها رو تکون بده:</p><div class="builder"><label>ردیف‌ها: <span id="brv"></span></label><input type="range" min="1" max="10" value="3" id="br"><label>ستون‌ها: <span id="bcv"></span></label><input type="range" min="1" max="10" value="4" id="bc"><div class="vizwrap" id="bviz"></div><div class="center" id="beq" style="font-size:22px"></div></div>`,
    mount(){const br=document.getElementById('br'),bc=document.getElementById('bc');const up=()=>{const r=+br.value,c=+bc.value;document.getElementById('brv').innerHTML=M(r);document.getElementById('bcv').innerHTML=M(c);document.getElementById('bviz').innerHTML=arrayViz(r,c);document.getElementById('beq').innerHTML=M(`${r} × ${c} = ${r*c}`)+'<br><small style="font-size:15px;color:#7b7497">'+M(Array(r).fill(c).join(' + ')+` = ${r*c}`)+'</small>'};br.oninput=up;bc.oninput=up;up()}},
-  `<h3>چرا ضرب مهمه؟ 🤔</h3><p>تصور کن ${M(8)} تا جعبه داری و تو هر کدوم ${M(7)} تا مداد. جمع کردن ${M('7+7+7+7+7+7+7+7')} طول می‌کشه، ولی اگه بدونی ${M('8 × 7 = 56')} یه لحظه‌ای جواب رو داری!</p><div class="tip">🎮 تو تمرین این مرحله گروه‌ها رو می‌بینی. اگه لازم شد بشمار، هیچ اشکالی نداره! هدف اینه که <b>معنی</b> ضرب رو بفهمی.</div>`
+  `<h3>چرا ضرب مهمه؟ <svg class=ic data-c=violet><use href=#imessage_circle_question></use></svg></h3><p>تصور کن ${M(8)} تا جعبه داری و تو هر کدوم ${M(7)} تا مداد. جمع کردن ${M('7+7+7+7+7+7+7+7')} طول می‌کشه، ولی اگه بدونی ${M('8 × 7 = 56')} یه لحظه‌ای جواب رو داری!</p><div class="tip"><svg class=ic data-c=violet><use href=#igamepad_c></use></svg> تو تمرین این مرحله گروه‌ها رو می‌بینی. اگه لازم شد بشمار، هیچ اشکالی نداره! هدف اینه که <b>معنی</b> ضرب رو بفهمی.</div>`
  ],
  gen(){const a=rnd(2,5),b=rnd(2,5);const arr=Math.random()<.4;return{viz:arr?`<div class="vizwrap">${arrayViz(a,b)}</div>`:groupsViz(a,b),sub:arr?`${fa(a)} ردیف و ${fa(b)} ستون`:`${fa(a)} گروهِ ${fa(b)}تایی`,text:M(`${a} × ${b} = ?`),ans:a*b,hint:`جمع تکراری: ${M(Array(a).fill(b).join(' + ')+` = ${a*b}`)}`,fact:[a,b]}},
  count:8,pass:6},
 
-/* 2 */{id:'s2',icon:'🔄',title:'جابه‌جایی: نصف کار حذف!',
+/* 2 */{id:'s2',icon:'arrow-left-right',title:'جابه‌جایی: نصف کار حذف!',
  lesson:[
-  `<h3>راز بزرگ: ترتیب مهم نیست! 🔄</h3><div class="dots-row"><div>${arrayViz(3,5)}<div>${M('3 × 5')}</div></div><div style="font-size:28px">=</div><div>${arrayViz(5,3,true)}<div>${M('5 × 3')}</div></div></div><p>همون ${M(15)} تا نقطه‌ست، فقط چرخیده! پس:</p><div class="key">${M('a × b = b × a')} ← مثلاً ${M('3 × 5 = 5 × 3 = 15')}</div>`,
-  `<h3>یعنی چی برای تو؟ 😎</h3><p>جدول ضرب ${M(100)} خونه داره، ولی:</p><p>✅ با جابه‌جایی تقریباً <b>نصفش</b> حذف میشه.</p><p>✅ با ترفندهای ${M('0, 1, 2, 5, 10')} یه عالمه‌ی دیگه‌ش هم آسون میشه.</p><p>✅ آخرش فقط چند تا ضرب می‌مونه که با ترفندهای ${M('9, 3, 6, 8, 7')} حلشون می‌کنیم.</p><div class="tip">پس اگه ${M('4 × 7')} رو بلدی، ${M('7 × 4')} رو هم مجانی بلدی! 🎁</div>`
+  `<h3>راز بزرگ: ترتیب مهم نیست! <svg class=ic data-c=blue><use href=#iarrow_left_right></use></svg></h3><div class="dots-row"><div>${arrayViz(3,5)}<div>${M('3 × 5')}</div></div><div style="font-size:28px">=</div><div>${arrayViz(5,3,true)}<div>${M('5 × 3')}</div></div></div><p>همون ${M(15)} تا نقطه‌ست، فقط چرخیده! پس:</p><div class="key">${M('a × b = b × a')} ← مثلاً ${M('3 × 5 = 5 × 3 = 15')}</div>`,
+  `<h3>یعنی چی برای تو؟ <svg class=ic data-c=amber><use href=#ismile></use></svg></h3><p>جدول ضرب ${M(100)} خونه داره، ولی:</p><p><svg class=ic data-c=green><use href=#icircle_check></use></svg> با جابه‌جایی تقریباً <b>نصفش</b> حذف میشه.</p><p><svg class=ic data-c=green><use href=#icircle_check></use></svg> با ترفندهای ${M('0, 1, 2, 5, 10')} یه عالمه‌ی دیگه‌ش هم آسون میشه.</p><p><svg class=ic data-c=green><use href=#icircle_check></use></svg> آخرش فقط چند تا ضرب می‌مونه که با ترفندهای ${M('9, 3, 6, 8, 7')} حلشون می‌کنیم.</p><div class="tip">پس اگه ${M('4 × 7')} رو بلدی، ${M('7 × 4')} رو هم مجانی بلدی! <svg class=ic data-c=pink><use href=#igift></use></svg></div>`
  ],
  gen(){let a=rnd(2,9),b=rnd(2,9);while(a===b)b=rnd(2,9);return{sub:`اگه ${M(`${a} × ${b} = ${a*b}`)} باشه، پس...`,text:M(`${b} × ${a} = ?`),ans:a*b,hint:`جابه‌جایی! ترتیب مهم نیست، پس جواب همونه: ${M(a*b)}`,fact:[a,b]}},
  count:8,pass:6},
 
-/* 3 */{id:'s3',icon:'🎯',title:'صفر، یک و ده',
+/* 3 */{id:'s3',icon:'target',title:'صفر، یک و ده',
  lesson:[
   `<h3>ضرب در صفر ${M('× 0')}</h3><p>${M(5)} تا بشقاب خالی داری. چند تا سیب داری؟ هیچی!</p><div class="key">هر عددی ${M('× 0 = 0')} ← ${M('487 × 0 = 0')}</div><h3>ضرب در یک ${M('× 1')}</h3><p>${M(1)} گروهِ ${M(7)}تایی = ${M(7)} تا.</p><div class="key">هر عددی ${M('× 1')} = خودش ← ${M('9 × 1 = 9')}</div>`,
-  `<h3>ضرب در ده ${M('× 10')} 🔟</h3><p>${M(10)} تا اسکناس ${M(6)} تومنی = ${M(60)} تومن.</p><div class="key">برای ضرب در ${M(10)} فقط یه صفر بذار سمت راست عدد:<br>${M('6 × 10 = 60')} &nbsp; ${M('23 × 10 = 230')} &nbsp; ${M('10 × 8 = 80')}</div><div class="tip">این سه تا قانون همین الان ${M(36)} خونه از جدول ضرب رو برات حل کرد! 🎉</div>`
+  `<h3>ضرب در ده ${M('× 10')}</h3><p>${M(10)} تا اسکناس ${M(6)} تومنی = ${M(60)} تومن.</p><div class="key">برای ضرب در ${M(10)} فقط یه صفر بذار سمت راست عدد:<br>${M('6 × 10 = 60')} &nbsp; ${M('23 × 10 = 230')} &nbsp; ${M('10 × 8 = 80')}</div><div class="tip">این سه تا قانون همین الان ${M(36)} خونه از جدول ضرب رو برات حل کرد! <svg class=ic data-c=pink><use href=#iparty_popper></use></svg></div>`
  ],
  gen(){const m=pick([0,1,10,10]),n=rnd(0,12);return Math.random()<.5?factQ(n,m):factQ(m,n)},
  count:10,pass:8},
 
-/* 4 */{id:'s4',icon:'✌️',title:'ضرب در ۲ = دو برابر',
+/* 4 */{id:'s4',icon:'#×۲',title:'ضرب در ۲ = دو برابر',
  lesson:[
-  `<h3>ضرب در ${M(2)} = دو برابر کردن ✌️</h3><p>${M('7 × 2')} یعنی ${M(2)} تا ${M(7)}: ${M('7 + 7 = 14')}</p>${groupsViz(2,7)}<div class="key">هر عددی ${M('× 2')} = خودش + خودش</div><p>دو برابرها رو یه بار با صدای بلند بخون:</p><p>${M('2×2=4 , 3×2=6 , 4×2=8 , 5×2=10 , 6×2=12')}<br>${M('7×2=14 , 8×2=16 , 9×2=18 , 10×2=20')}</p><div class="tip">جواب ضرب در ${M(2)} همیشه <b>زوج</b> است (به ${M('0, 2, 4, 6, 8')} ختم میشه).</div>`
+  `<h3>ضرب در ${M(2)} = دو برابر کردن <svg class=ic data-c=violet><use href=#icopy></use></svg></h3><p>${M('7 × 2')} یعنی ${M(2)} تا ${M(7)}: ${M('7 + 7 = 14')}</p>${groupsViz(2,7)}<div class="key">هر عددی ${M('× 2')} = خودش + خودش</div><p>دو برابرها رو یه بار با صدای بلند بخون:</p><p>${M('2×2=4 , 3×2=6 , 4×2=8 , 5×2=10 , 6×2=12')}<br>${M('7×2=14 , 8×2=16 , 9×2=18 , 10×2=20')}</p><div class="tip">جواب ضرب در ${M(2)} همیشه <b>زوج</b> است (به ${M('0, 2, 4, 6, 8')} ختم میشه).</div>`
  ],
  gen:tableGen(2),deck:()=>tableDeck(2),count:10,pass:8},
 
-/* 5 */{id:'s5',icon:'🖐️',title:'ضرب در ۵ = نصفِ ده',
+/* 5 */{id:'s5',icon:'#×۵',title:'ضرب در ۵ = نصفِ ده',
  lesson:[
-  `<h3>ضرب در ${M(5)} 🖐️</h3><p>${M(5)} نصفِ ${M(10)} است. پس:</p><div class="key">۱) عدد رو ${M('× 10')} کن (یه صفر بذار)<br>۲) نصفش کن!</div><p>مثال: ${M('8 × 5')} ← ${M('8 × 10 = 80')} ← نصفش ${M(40)} ✅</p><p>مثال: ${M('7 × 5')} ← ${M(70)} ← نصفش ${M(35)} ✅</p><div class="tip">⏰ مثل ساعت! دقیقه‌ها ۵تا۵تا جلو میرن: ${M('5, 10, 15, 20, 25, 30, 35, 40, 45, 50')}<br>جواب ضرب در ${M(5)} همیشه به ${M(0)} یا ${M(5)} ختم میشه.</div>`
+  `<h3>ضرب در ${M(5)} <svg class=ic data-c=amber><use href=#ihand></use></svg></h3><p>${M(5)} نصفِ ${M(10)} است. پس:</p><div class="key">۱) عدد رو ${M('× 10')} کن (یه صفر بذار)<br>۲) نصفش کن!</div><p>مثال: ${M('8 × 5')} ← ${M('8 × 10 = 80')} ← نصفش ${M(40)} <svg class=ic data-c=green><use href=#icircle_check></use></svg></p><p>مثال: ${M('7 × 5')} ← ${M(70)} ← نصفش ${M(35)} <svg class=ic data-c=green><use href=#icircle_check></use></svg></p><div class="tip">⏰ مثل ساعت! دقیقه‌ها ۵تا۵تا جلو میرن: ${M('5, 10, 15, 20, 25, 30, 35, 40, 45, 50')}<br>جواب ضرب در ${M(5)} همیشه به ${M(0)} یا ${M(5)} ختم میشه.</div>`
  ],
  gen:tableGen(5),deck:()=>tableDeck(5),count:10,pass:8},
 
-/* 6 */{id:'s6',icon:'🍀',title:'ضرب در ۴ = دوبار دو برابر',
+/* 6 */{id:'s6',icon:'#×۴',title:'ضرب در ۴ = دوبار دو برابر',
  lesson:[
-  `<h3>ضرب در ${M(4)} 🍀</h3><p>${M('4 = 2 × 2')}. پس به جای ضرب در ${M(4)}، <b>دوبار دو برابر</b> کن:</p><div class="key">${M('7 × 4')} ← ${M('7 → 14 → 28')} ✅<br>${M('6 × 4')} ← ${M('6 → 12 → 24')} ✅<br>${M('9 × 4')} ← ${M('9 → 18 → 36')} ✅</div><div class="tip">مثل برگ شبدر ۴ برگ: دو تا جفت برگ! 🍀</div>`
+  `<h3>ضرب در ${M(4)} <svg class=ic data-c=green><use href=#iclover></use></svg></h3><p>${M('4 = 2 × 2')}. پس به جای ضرب در ${M(4)}، <b>دوبار دو برابر</b> کن:</p><div class="key">${M('7 × 4')} ← ${M('7 → 14 → 28')} <svg class=ic data-c=green><use href=#icircle_check></use></svg><br>${M('6 × 4')} ← ${M('6 → 12 → 24')} <svg class=ic data-c=green><use href=#icircle_check></use></svg><br>${M('9 × 4')} ← ${M('9 → 18 → 36')} <svg class=ic data-c=green><use href=#icircle_check></use></svg></div><div class="tip">مثل برگ شبدر ۴ برگ: دو تا جفت برگ! <svg class=ic data-c=green><use href=#iclover></use></svg></div>`
  ],
  gen:tableGen(4),deck:()=>tableDeck(4),count:10,pass:8},
 
-/* 7 */{id:'s7',icon:'🪄',title:'ضرب در ۹ = جادوی انگشت',sec:'بخش ۲: ترفندهای جادویی',
+/* 7 */{id:'s7',icon:'#×۹',title:'ضرب در ۹ = جادوی انگشت',sec:'بخش ۲: ترفندهای جادویی',
  lesson:[
-  `<h3>ضرب در ${M(9)}: روش اول 🪄</h3><p>${M(9)} یکی کمتر از ${M(10)} است. پس:</p><div class="key">عدد × ${M(10)}، بعد منهای خودِ عدد<br>${M('7 × 9 = 70 − 7 = 63')}<br>${M('6 × 9 = 60 − 6 = 54')}</div>`,
-  `<h3>روش دوم: جادوی انگشت‌ها ✋✋</h3><p>ده تا انگشتت رو باز کن. برای ${M('4 × 9')} انگشت <b>چهارم</b> رو خم کن:</p>${fingersViz(4)}<br><p>سمتِ چپِ انگشت خم‌شده ${M(3)} انگشت ← <b>دهگان</b><br>سمتِ راستش ${M(6)} انگشت ← <b>یکان</b><br>جواب: ${M(36)} 🎉</p><div class="tip">امتحان کن: برای ${M('7 × 9')} انگشت هفتم رو خم کن ← ${M(6)} و ${M(3)} ← ${M(63)}</div>`,
-  `<h3>الگوی مخفی ${M(9)} 🔍</h3><p>${M('9, 18, 27, 36, 45, 54, 63, 72, 81, 90')}</p><div class="key">۱) رقم دهگان یکی کمتر از عدده: ${M('8 × 9')} ← دهگان ${M(7)}<br>۲) جمع دو رقم همیشه ${M(9)} میشه: ${M('7 + ? = 9')} ← ${M(2)} ← ${M(72)}</div>`
+  `<h3>ضرب در ${M(9)}: روش اول <svg class=ic data-c=violet><use href=#iwand_sparkles></use></svg></h3><p>${M(9)} یکی کمتر از ${M(10)} است. پس:</p><div class="key">عدد × ${M(10)}، بعد منهای خودِ عدد<br>${M('7 × 9 = 70 − 7 = 63')}<br>${M('6 × 9 = 60 − 6 = 54')}</div>`,
+  `<h3>روش دوم: جادوی انگشت‌ها <svg class=ic data-c=amber><use href=#ihand></use></svg></h3><p>ده تا انگشتت رو باز کن. برای ${M('4 × 9')} انگشت <b>چهارم</b> رو خم کن:</p>${fingersViz(4)}<br><p>سمتِ چپِ انگشت خم‌شده ${M(3)} انگشت ← <b>دهگان</b><br>سمتِ راستش ${M(6)} انگشت ← <b>یکان</b><br>جواب: ${M(36)} <svg class=ic data-c=pink><use href=#iparty_popper></use></svg></p><div class="tip">امتحان کن: برای ${M('7 × 9')} انگشت هفتم رو خم کن ← ${M(6)} و ${M(3)} ← ${M(63)}</div>`,
+  `<h3>الگوی مخفی ${M(9)} <svg class=ic data-c=blue><use href=#isearch></use></svg></h3><p>${M('9, 18, 27, 36, 45, 54, 63, 72, 81, 90')}</p><div class="key">۱) رقم دهگان یکی کمتر از عدده: ${M('8 × 9')} ← دهگان ${M(7)}<br>۲) جمع دو رقم همیشه ${M(9)} میشه: ${M('7 + ? = 9')} ← ${M(2)} ← ${M(72)}</div>`
  ],
  gen:tableGen(9),deck:()=>tableDeck(9),count:10,pass:8},
 
-/* 8 */{id:'s8',icon:'🔺',title:'ضرب در ۳',
+/* 8 */{id:'s8',icon:'#×۳',title:'ضرب در ۳',
  lesson:[
-  `<h3>ضرب در ${M(3)} 🔺</h3><p>${M('3 = 2 + 1')}. پس: <b>دو برابر کن، بعد یه بار دیگه خود عدد رو اضافه کن</b>.</p><div class="key">${M('7 × 3 = 14 + 7 = 21')}<br>${M('8 × 3 = 16 + 8 = 24')}<br>${M('6 × 3 = 12 + 6 = 18')}</div><p>سه‌تا سه‌تا بشمار: ${M('3, 6, 9, 12, 15, 18, 21, 24, 27, 30')}</p><div class="tip">با جابه‌جایی: ${M('3 × 2, 3 × 4, 3 × 5, 3 × 9')} رو از قبل بلدی! 😉</div>`
+  `<h3>ضرب در ${M(3)} <svg class=ic data-c=red><use href=#itriangle></use></svg></h3><p>${M('3 = 2 + 1')}. پس: <b>دو برابر کن، بعد یه بار دیگه خود عدد رو اضافه کن</b>.</p><div class="key">${M('7 × 3 = 14 + 7 = 21')}<br>${M('8 × 3 = 16 + 8 = 24')}<br>${M('6 × 3 = 12 + 6 = 18')}</div><p>سه‌تا سه‌تا بشمار: ${M('3, 6, 9, 12, 15, 18, 21, 24, 27, 30')}</p><div class="tip">با جابه‌جایی: ${M('3 × 2, 3 × 4, 3 × 5, 3 × 9')} رو از قبل بلدی! <svg class=ic data-c=amber><use href=#ismile></use></svg></div>`
  ],
  gen:tableGen(3),deck:()=>tableDeck(3),count:10,pass:8},
 
-/* 9 */{id:'s9',icon:'🎲',title:'ضرب در ۶',
+/* 9 */{id:'s9',icon:'#×۶',title:'ضرب در ۶',
  lesson:[
-  `<h3>ضرب در ${M(6)} 🎲</h3><p>${M('6 = 5 + 1')}. پس: <b>ضرب در ${M(5)} کن، بعد یه بار خود عدد رو اضافه کن</b>.</p><div class="key">${M('7 × 6 = 35 + 7 = 42')}<br>${M('8 × 6 = 40 + 8 = 48')}<br>${M('9 × 6 = 45 + 9 = 54')}</div><div class="tip">✨ ترفند زوج‌ها: وقتی ${M(6)} رو در عدد زوج ضرب می‌کنی، جواب به <b>همون عدد</b> ختم میشه و دهگانش <b>نصفِ</b> اون عدده:<br>${M('6 × 4 = 24')} &nbsp; ${M('6 × 6 = 36')} &nbsp; ${M('6 × 8 = 48')}</div>`
+  `<h3>ضرب در ${M(6)} <svg class=ic data-c=violet><use href=#idice_f></use></svg></h3><p>${M('6 = 5 + 1')}. پس: <b>ضرب در ${M(5)} کن، بعد یه بار خود عدد رو اضافه کن</b>.</p><div class="key">${M('7 × 6 = 35 + 7 = 42')}<br>${M('8 × 6 = 40 + 8 = 48')}<br>${M('9 × 6 = 45 + 9 = 54')}</div><div class="tip"><svg class=ic data-c=violet><use href=#isparkles></use></svg> ترفند زوج‌ها: وقتی ${M(6)} رو در عدد زوج ضرب می‌کنی، جواب به <b>همون عدد</b> ختم میشه و دهگانش <b>نصفِ</b> اون عدده:<br>${M('6 × 4 = 24')} &nbsp; ${M('6 × 6 = 36')} &nbsp; ${M('6 × 8 = 48')}</div>`
  ],
  gen:tableGen(6),deck:()=>tableDeck(6),count:10,pass:8},
 
-/* 10 */{id:'s10',icon:'🐙',title:'ضرب در ۸',
+/* 10 */{id:'s10',icon:'#×۸',title:'ضرب در ۸',
  lesson:[
-  `<h3>ضرب در ${M(8)} 🐙</h3><p>${M('8 = 2 × 2 × 2')}. پس: <b>سه‌بار دو برابر کن</b>!</p><div class="key">${M('7 × 8')} ← ${M('7 → 14 → 28 → 56')} ✅<br>${M('6 × 8')} ← ${M('6 → 12 → 24 → 48')} ✅</div><p>یا روش دیگه: ${M('8 = 10 − 2')}</p><div class="key">${M('7 × 8 = 70 − 14 = 56')}</div><div class="tip">🐙 هشت‌پا ۸ تا پا داره: ۲ هشت‌پا = ${M(16)} پا، ۴ هشت‌پا = ${M(32)} پا، ۸ هشت‌پا = ${M(64)} پا!</div>`
+  `<h3>ضرب در ${M(8)} <svg class=ic data-c=pink><use href=#ifootprints></use></svg></h3><p>${M('8 = 2 × 2 × 2')}. پس: <b>سه‌بار دو برابر کن</b>!</p><div class="key">${M('7 × 8')} ← ${M('7 → 14 → 28 → 56')} <svg class=ic data-c=green><use href=#icircle_check></use></svg><br>${M('6 × 8')} ← ${M('6 → 12 → 24 → 48')} <svg class=ic data-c=green><use href=#icircle_check></use></svg></div><p>یا روش دیگه: ${M('8 = 10 − 2')}</p><div class="key">${M('7 × 8 = 70 − 14 = 56')}</div><div class="tip"><svg class=ic data-c=pink><use href=#ifootprints></use></svg> هشت‌پا ۸ تا پا داره: ۲ هشت‌پا = ${M(16)} پا، ۴ هشت‌پا = ${M(32)} پا، ۸ هشت‌پا = ${M(64)} پا!</div>`
  ],
  gen:tableGen(8),deck:()=>tableDeck(8),count:10,pass:8},
 
-/* 11 */{id:'s11',icon:'🌈',title:'ضرب در ۷ (آخریش!)',
+/* 11 */{id:'s11',icon:'#×۷',title:'ضرب در ۷ (آخریش!)',
  lesson:[
-  `<h3>ضرب در ${M(7)} 🌈</h3><p>${M('7 = 5 + 2')}. پس: <b>ضرب در ${M(5)} + ضرب در ${M(2)}</b></p><div class="key">${M('7 × 7 = 35 + 14 = 49')}<br>${M('8 × 7 = 40 + 16 = 56')}<br>${M('6 × 7 = 30 + 12 = 42')}</div>`,
-  `<h3>خبر خوب! 🎁</h3><p>با جابه‌جایی، تقریباً همه‌ی ضرب‌های ${M(7)} رو از مراحل قبل بلدی. تنها ضرب واقعاً جدید: ${M('7 × 7 = 49')}</p><div class="tip">🔢 رمز ${M('5 6 7 8')}: اعداد رو پشت سر هم بخون ← ${M('56 = 7 × 8')}</div><div class="key">مربع‌ها (عدد × خودش) رو هم یه بار ببین:<br>${M('2×2=4 , 3×3=9 , 4×4=16 , 5×5=25')}<br>${M('6×6=36 , 7×7=49 , 8×8=64 , 9×9=81')}</div>`
+  `<h3>ضرب در ${M(7)} <svg class=ic data-c=pink><use href=#irainbow></use></svg></h3><p>${M('7 = 5 + 2')}. پس: <b>ضرب در ${M(5)} + ضرب در ${M(2)}</b></p><div class="key">${M('7 × 7 = 35 + 14 = 49')}<br>${M('8 × 7 = 40 + 16 = 56')}<br>${M('6 × 7 = 30 + 12 = 42')}</div>`,
+  `<h3>خبر خوب! <svg class=ic data-c=pink><use href=#igift></use></svg></h3><p>با جابه‌جایی، تقریباً همه‌ی ضرب‌های ${M(7)} رو از مراحل قبل بلدی. تنها ضرب واقعاً جدید: ${M('7 × 7 = 49')}</p><div class="tip"><svg class=ic data-c=blue><use href=#ihash></use></svg> رمز ${M('5 6 7 8')}: اعداد رو پشت سر هم بخون ← ${M('56 = 7 × 8')}</div><div class="key">مربع‌ها (عدد × خودش) رو هم یه بار ببین:<br>${M('2×2=4 , 3×3=9 , 4×4=16 , 5×5=25')}<br>${M('6×6=36 , 7×7=49 , 8×8=64 , 9×9=81')}</div>`
  ],
  gen:tableGen(7),deck:()=>tableDeck(7),count:10,pass:8},
 
-/* 12 */{id:'s12',icon:'🏆',title:'کل جدول ضرب',
+/* 12 */{id:'s12',icon:'grid-3x3',title:'کل جدول ضرب',
  lesson:[
-  `<h3>همه‌ی ترفندها با هم! 🏆</h3><p>حالا همه‌ی ضرب‌های ${M('2')} تا ${M('9')} قاطی میان. خلاصه‌ی ترفندها:</p><div class="key">${M('×2')} دو برابر &nbsp;|&nbsp; ${M('×4')} دوبار دو برابر &nbsp;|&nbsp; ${M('×8')} سه‌بار دو برابر<br>${M('×5')} نصفِ ${M('×10')} &nbsp;|&nbsp; ${M('×9')} = ${M('×10')} منهای یکی<br>${M('×3')} = ${M('×2')} + یکی &nbsp;|&nbsp; ${M('×6')} = ${M('×5')} + یکی &nbsp;|&nbsp; ${M('×7')} = ${M('×5')} + ${M('×2')}</div><div class="tip">🧠 سیستم هوشمند (جعبه لایتنر): ضرب‌هایی که اشتباه کردی یا دیر جواب دادی رو <b>بیشتر</b> ازت می‌پرسه تا کامل تو ذهنت بشینه.</div>`
+  `<h3>همه‌ی ترفندها با هم! <svg class=ic data-c=gold><use href=#itrophy></use></svg></h3><p>حالا همه‌ی ضرب‌های ${M('2')} تا ${M('9')} قاطی میان. خلاصه‌ی ترفندها:</p><div class="key">${M('×2')} دو برابر &nbsp;|&nbsp; ${M('×4')} دوبار دو برابر &nbsp;|&nbsp; ${M('×8')} سه‌بار دو برابر<br>${M('×5')} نصفِ ${M('×10')} &nbsp;|&nbsp; ${M('×9')} = ${M('×10')} منهای یکی<br>${M('×3')} = ${M('×2')} + یکی &nbsp;|&nbsp; ${M('×6')} = ${M('×5')} + یکی &nbsp;|&nbsp; ${M('×7')} = ${M('×5')} + ${M('×2')}</div><div class="tip"><svg class=ic data-c=pink><use href=#ibrain></use></svg> سیستم هوشمند (جعبه لایتنر): ضرب‌هایی که اشتباه کردی یا دیر جواب دادی رو <b>بیشتر</b> ازت می‌پرسه تا کامل تو ذهنت بشینه.</div>`
  ],
  gen(){const [a,b]=pickFact();return factQ(a,b)},
  deck(){lastFact='';return Array.from({length:15},()=>{const [a,b]=pickFact();return factQ(a,b)})},count:15,pass:12},
 
-/* 13 */{id:'s13',icon:'🔟',title:'ضرب در ۱۰، ۱۰۰ و ۱۰۰۰',sec:'بخش ۳: ضرب اعداد بزرگ',
+/* 13 */{id:'s13',icon:'#×۱۰',title:'ضرب در ۱۰، ۱۰۰ و ۱۰۰۰',sec:'بخش ۳: ضرب اعداد بزرگ',
  lesson:[
-  `<h3>قانون صفرها 0️⃣</h3><div class="key">${M('× 10')} ← یه صفر بذار: ${M('37 × 10 = 370')}<br>${M('× 100')} ← دو تا صفر: ${M('37 × 100 = 3700')}<br>${M('× 1000')} ← سه تا صفر: ${M('37 × 1000 = 37000')}</div>`,
-  `<h3>ضرب عددهای صفردار 🎩</h3><p>${M('30 × 4')} = ؟</p><div class="key">۱) صفرها رو فعلاً کنار بذار: ${M('3 × 4 = 12')}<br>۲) صفرها رو برگردون: ${M(120)}</div><p>${M('40 × 60')} ← ${M('4 × 6 = 24')} + دو تا صفر ← ${M(2400)}</p><p>${M('700 × 8')} ← ${M('7 × 8 = 56')} + دو تا صفر ← ${M(5600)}</p>`
+  `<h3>قانون صفرها 0⃣</h3><div class="key">${M('× 10')} ← یه صفر بذار: ${M('37 × 10 = 370')}<br>${M('× 100')} ← دو تا صفر: ${M('37 × 100 = 3700')}<br>${M('× 1000')} ← سه تا صفر: ${M('37 × 1000 = 37000')}</div>`,
+  `<h3>ضرب عددهای صفردار <svg class=ic data-c=violet><use href=#iwand_sparkles></use></svg></h3><p>${M('30 × 4')} = ؟</p><div class="key">۱) صفرها رو فعلاً کنار بذار: ${M('3 × 4 = 12')}<br>۲) صفرها رو برگردون: ${M(120)}</div><p>${M('40 × 60')} ← ${M('4 × 6 = 24')} + دو تا صفر ← ${M(2400)}</p><p>${M('700 × 8')} ← ${M('7 × 8 = 56')} + دو تا صفر ← ${M(5600)}</p>`
  ],
  gen(){const t=rnd(0,3);
   if(t===0){const n=rnd(2,99),k=pick([10,100,1000]);return{text:M(`${n} × ${k} = ?`),ans:n*k,hint:`${M(k)} ${fa(String(k).length-1)} تا صفر داره، پس ${fa(String(k).length-1)} تا صفر بذار جلوی ${M(n)} ← ${M(n*k)}`}}
@@ -95,50 +95,50 @@ const STAGES=[
   const a=rnd(2,9),b=rnd(2,9);return{text:M(`${b} × ${a*100} = ?`),ans:a*b*100,hint:`${M(`${b} × ${a} = ${a*b}`)} و دو تا صفر ← ${M(a*b*100)}`}},
  count:10,pass:8},
 
-/* 14 */{id:'s14',icon:'🔨',title:'شکستن عدد (دو رقمی × یک رقمی)',
+/* 14 */{id:'s14',icon:'hammer',title:'شکستن عدد (دو رقمی × یک رقمی)',
  lesson:[
-  `<h3>عدد بزرگ رو بشکن! 🔨</h3><p>${M('23 × 4')} = ؟ &nbsp; ${M(23)} رو بشکن به ${M('20 + 3')}:</p>${areaTable([20,3],[4])}<div class="key">${M('20 × 4 = 80')}<br>${M('3 × 4 = 12')}<br>جمع: ${M('80 + 12 = 92')} ✅</div><div class="tip">این مهم‌ترین روش ضرب ذهنیه (اسمش «پخشی» یا توزیع‌پذیریه). خیلی از آدم‌هایی که تو حساب ذهنی سریعن، همینو استفاده می‌کنن!</div>`,
-  `<h3>یه مثال دیگه 💡</h3><p>${M('47 × 6')} = ؟</p><div class="key">${M('40 × 6 = 240')} &nbsp;(چون ${M('4 × 6 = 24')} و یه صفر)<br>${M('7 × 6 = 42')}<br>${M('240 + 42 = 282')} ✅</div><p>تو تمرین اگه خواستی از دکمه‌ی 💡 راهنما کمک بگیر.</p>`
+  `<h3>عدد بزرگ رو بشکن! <svg class=ic data-c=orange><use href=#ihammer></use></svg></h3><p>${M('23 × 4')} = ؟ &nbsp; ${M(23)} رو بشکن به ${M('20 + 3')}:</p>${areaTable([20,3],[4])}<div class="key">${M('20 × 4 = 80')}<br>${M('3 × 4 = 12')}<br>جمع: ${M('80 + 12 = 92')} <svg class=ic data-c=green><use href=#icircle_check></use></svg></div><div class="tip">این مهم‌ترین روش ضرب ذهنیه (اسمش «پخشی» یا توزیع‌پذیریه). خیلی از آدم‌هایی که تو حساب ذهنی سریعن، همینو استفاده می‌کنن!</div>`,
+  `<h3>یه مثال دیگه <svg class=ic data-c=amber><use href=#ilightbulb></use></svg></h3><p>${M('47 × 6')} = ؟</p><div class="key">${M('40 × 6 = 240')} &nbsp;(چون ${M('4 × 6 = 24')} و یه صفر)<br>${M('7 × 6 = 42')}<br>${M('240 + 42 = 282')} <svg class=ic data-c=green><use href=#icircle_check></use></svg></div><p>تو تمرین اگه خواستی از دکمه‌ی <svg class=ic data-c=amber><use href=#ilightbulb></use></svg> راهنما کمک بگیر.</p>`
  ],
  gen(){const t=rnd(1,9),o=rnd(1,9),a=10*t+o,b=rnd(2,9);return{text:M(`${a} × ${b} = ?`),ans:a*b,hint:`${M(`${a} = ${10*t} + ${o}`)}<br>${M(`${10*t} × ${b} = ${10*t*b}`)}<br>${M(`${o} × ${b} = ${o*b}`)}<br>${M(`${10*t*b} + ${o*b} = ${a*b}`)}`}},
  count:10,pass:8},
 
-/* 15 */{id:'s15',icon:'📝',title:'ضرب ستونی',
+/* 15 */{id:'s15',icon:'calculator',title:'ضرب ستونی',
  lesson:[
-  {html:`<h3>ضرب ستونی قدم به قدم 📝</h3><p>بیا ${M('234 × 3')} رو با روش ستونی (همون روش مدرسه) حل کنیم:</p><div class="center"><div class="col-grid" id="cg"></div></div><div class="key" id="cmsg"></div><div class="center"><button class="btn sec" id="cnext">قدم بعدی ⬅️</button></div>`,
+  {html:`<h3>ضرب ستونی قدم به قدم <svg class=ic data-c=blue><use href=#inotebook_pen></use></svg></h3><p>بیا ${M('234 × 3')} رو با روش ستونی (همون روش مدرسه) حل کنیم:</p><div class="center"><div class="col-grid" id="cg"></div></div><div class="key" id="cmsg"></div><div class="center"><button class="btn sec" id="cnext">قدم بعدی <svg class=ic><use href=#ichevron_left></use></svg></button></div>`,
    mount(){const steps=[
      {c:['','','',''],r:['','','',''],m:`از <b>سمت راست</b> (یکان) شروع می‌کنیم. عدد پایین (${M(3)}) رو در تک‌تک رقم‌های بالا ضرب می‌کنیم.`},
      {c:['','','1',''],r:['','','','2'],m:`${M('4 × 3 = 12')} ← ${M(2)} رو پایین می‌نویسیم و ${M(1)} رو بالای ستون بعدی می‌بریم (ده بر یک).`},
      {c:['','1','1',''],r:['','','0','2'],m:`${M('3 × 3 = 9')} و ${M('9 + 1 = 10')} ← ${M(0)} رو می‌نویسیم و ${M(1)} رو می‌بریم بالا.`},
-     {c:['','1','1',''],r:['','7','0','2'],m:`${M('2 × 3 = 6')} و ${M('6 + 1 = 7')} ← ${M(7)} رو می‌نویسیم. جواب: ${M(702)} 🎉`}];
+     {c:['','1','1',''],r:['','7','0','2'],m:`${M('2 × 3 = 6')} و ${M('6 + 1 = 7')} ← ${M(7)} رو می‌نویسیم. جواب: ${M(702)} <svg class=ic data-c=pink><use href=#iparty_popper></use></svg>`}];
     let i=0;const cg=document.getElementById('cg'),msg=document.getElementById('cmsg'),nb=document.getElementById('cnext');
-    const draw=()=>{const s=steps[i];let h='<div></div>'+s.c.map(x=>`<div class="c">${fa(x)}</div>`).join('');h+='<div></div><div></div><div>'+fa(2)+'</div><div>'+fa(3)+'</div><div>'+fa(4)+'</div>';h+='<div>×</div><div></div><div></div><div></div><div>'+fa(3)+'</div><div class="ln"></div>';h+='<div></div>'+s.r.map(x=>`<div class="res">${fa(x)}</div>`).join('');cg.innerHTML=h;msg.innerHTML=s.m;nb.textContent=i<steps.length-1?'قدم بعدی ⬅️':'از اول 🔁'};
+    const draw=()=>{const s=steps[i];let h='<div></div>'+s.c.map(x=>`<div class="c">${fa(x)}</div>`).join('');h+='<div></div><div></div><div>'+fa(2)+'</div><div>'+fa(3)+'</div><div>'+fa(4)+'</div>';h+='<div>×</div><div></div><div></div><div></div><div>'+fa(3)+'</div><div class="ln"></div>';h+='<div></div>'+s.r.map(x=>`<div class="res">${fa(x)}</div>`).join('');cg.innerHTML=h;msg.innerHTML=s.m;nb.innerHTML=i<steps.length-1?'قدم بعدی <svg class=ic><use href=#ichevron_left></use></svg>':'از اول <svg class=ic data-c=blue><use href=#irepeat></use></svg>'};
     nb.onclick=()=>{i=(i+1)%steps.length;draw()};draw()}},
-  `<h3>راه ذهنی: شکستن به صدگان، دهگان، یکان 🧩</h3><p>همون ${M('234 × 3')}:</p><div class="key">${M('200 × 3 = 600')}<br>${M('30 × 3 = 90')}<br>${M('4 × 3 = 12')}<br>${M('600 + 90 + 12 = 702')} ✅</div><div class="tip">هر دو روش یکی‌ان! هر کدوم راحت‌تری رو روی کاغذ استفاده کن. (برای تمرین می‌تونی کاغذ و قلم کنارت بذاری ✏️)</div>`
+  `<h3>راه ذهنی: شکستن به صدگان، دهگان، یکان <svg class=ic data-c=teal><use href=#ipuzzle></use></svg></h3><p>همون ${M('234 × 3')}:</p><div class="key">${M('200 × 3 = 600')}<br>${M('30 × 3 = 90')}<br>${M('4 × 3 = 12')}<br>${M('600 + 90 + 12 = 702')} <svg class=ic data-c=green><use href=#icircle_check></use></svg></div><div class="tip">هر دو روش یکی‌ان! هر کدوم راحت‌تری رو روی کاغذ استفاده کن. (برای تمرین می‌تونی کاغذ و قلم کنارت بذاری <svg class=ic><use href=#ipencil></use></svg>)</div>`
  ],
  gen(){const a=rnd(102,999),b=rnd(2,9);const h=Math.floor(a/100)*100,t=Math.floor(a%100/10)*10,o=a%10;return{text:M(`${a} × ${b} = ?`),ans:a*b,hint:`${M(`${h} × ${b} = ${h*b}`)}<br>${M(`${t} × ${b} = ${t*b}`)}<br>${M(`${o} × ${b} = ${o*b}`)}<br>${M(`${h*b} + ${t*b} + ${o*b} = ${a*b}`)}`}},
  count:8,pass:6},
 
-/* 16 */{id:'s16',icon:'🧱',title:'دو رقمی × دو رقمی',
+/* 16 */{id:'s16',icon:'layout-grid',title:'دو رقمی × دو رقمی',
  lesson:[
-  `<h3>روش مساحت (جدول) 🧱</h3><p>${M('23 × 14')} = ؟ هر دو عدد رو بشکن: ${M('23 = 20 + 3')} و ${M('14 = 10 + 4')}</p>${areaTable([20,3],[10,4])}<div class="key">${M('200 + 30 + 80 + 12 = 322')} ✅</div><div class="tip">هر خونه‌ی جدول یه ضربِ ساده‌ست که بلدی! آخرش همه رو جمع کن.</div>`,
-  `<h3>روش ستونی دو رقمی ✍️</h3><p>${M('23 × 14')}:</p><div class="key">۱) ${M(23)} × یکانِ ${M(14)}: ${M('23 × 4 = 92')}<br>۲) ${M(23)} × دهگانِ ${M(14)}: ${M('23 × 10 = 230')}<br>۳) جمع: ${M('92 + 230 = 322')} ✅</div><div class="tip">✨ ترفند جایزه: ضرب در ${M(11)} برای دو رقمی‌ها ← دو رقم رو جمع کن و وسطشون بذار: ${M('32 × 11')} ← ${M('3 (3+2) 2')} = ${M(352)}</div>`
+  `<h3>روش مساحت (جدول) <svg class=ic data-c=teal><use href=#ilayout_grid></use></svg></h3><p>${M('23 × 14')} = ؟ هر دو عدد رو بشکن: ${M('23 = 20 + 3')} و ${M('14 = 10 + 4')}</p>${areaTable([20,3],[10,4])}<div class="key">${M('200 + 30 + 80 + 12 = 322')} <svg class=ic data-c=green><use href=#icircle_check></use></svg></div><div class="tip">هر خونه‌ی جدول یه ضربِ ساده‌ست که بلدی! آخرش همه رو جمع کن.</div>`,
+  `<h3>روش ستونی دو رقمی <svg class=ic data-c=blue><use href=#ipen_line></use></svg></h3><p>${M('23 × 14')}:</p><div class="key">۱) ${M(23)} × یکانِ ${M(14)}: ${M('23 × 4 = 92')}<br>۲) ${M(23)} × دهگانِ ${M(14)}: ${M('23 × 10 = 230')}<br>۳) جمع: ${M('92 + 230 = 322')} <svg class=ic data-c=green><use href=#icircle_check></use></svg></div><div class="tip"><svg class=ic data-c=violet><use href=#isparkles></use></svg> ترفند جایزه: ضرب در ${M(11)} برای دو رقمی‌ها ← دو رقم رو جمع کن و وسطشون بذار: ${M('32 × 11')} ← ${M('3 (3+2) 2')} = ${M(352)}</div>`
  ],
  gen(){let a=rnd(11,59),b=rnd(11,29);if(a%10===0)a++;if(b%10===0)b++;const a1=Math.floor(a/10)*10,a0=a%10,b1=Math.floor(b/10)*10,b0=b%10;return{text:M(`${a} × ${b} = ?`),ans:a*b,hint:areaTable([a1,a0],[b1,b0])+M(`${a1*b1} + ${a0*b1} + ${a1*b0} + ${a0*b0} = ${a*b}`)}},
  count:8,pass:6},
 
-/* 17 */{id:'s17',icon:'➖',title:'ضرب عددهای منفی',sec:'بخش ۴: مخصوص دبیرستان',
+/* 17 */{id:'s17',icon:'diff',title:'ضرب عددهای منفی',sec:'بخش ۴: مخصوص دبیرستان',
  lesson:[
-  `<h3>قانون علامت‌ها ➕➖</h3><table class="area"><tr><th>×</th><th>+</th><th>−</th></tr><tr><th>+</th><td>+</td><td style="background:#fee2e2">−</td></tr><tr><th>−</th><td style="background:#fee2e2">−</td><td>+</td></tr></table><div class="key">علامت‌های <b>یکسان</b> ← جواب <b>مثبت</b><br>علامت‌های <b>متفاوت</b> ← جواب <b>منفی</b></div><p>روش: ۱) بدون علامت ضرب کن ۲) علامت رو تعیین کن.</p><p>${M('(−3) × 4 = −12')} &nbsp; ${M('(−3) × (−4) = 12')}</p>`,
-  `<h3>چند تا منفی؟ 🔢</h3><div class="key">تعداد منفی‌ها <b>زوج</b> ← مثبت<br>تعداد منفی‌ها <b>فرد</b> ← منفی</div><p>${M('(−2) × (−3) × (−1) = −6')} (سه تا منفی = فرد)</p><div class="tip">برای وارد کردن جواب منفی، دکمه‌ی ${M('−')} رو روی صفحه‌کلید بزن.</div>`
+  `<h3>قانون علامت‌ها <svg class=ic data-c=green><use href=#iplus></use></svg><svg class=ic data-c=red><use href=#iminus></use></svg></h3><table class="area"><tr><th>×</th><th>+</th><th>−</th></tr><tr><th>+</th><td>+</td><td style="background:#fee2e2">−</td></tr><tr><th>−</th><td style="background:#fee2e2">−</td><td>+</td></tr></table><div class="key">علامت‌های <b>یکسان</b> ← جواب <b>مثبت</b><br>علامت‌های <b>متفاوت</b> ← جواب <b>منفی</b></div><p>روش: ۱) بدون علامت ضرب کن ۲) علامت رو تعیین کن.</p><p>${M('(−3) × 4 = −12')} &nbsp; ${M('(−3) × (−4) = 12')}</p>`,
+  `<h3>چند تا منفی؟ <svg class=ic data-c=blue><use href=#ihash></use></svg></h3><div class="key">تعداد منفی‌ها <b>زوج</b> ← مثبت<br>تعداد منفی‌ها <b>فرد</b> ← منفی</div><p>${M('(−2) × (−3) × (−1) = −6')} (سه تا منفی = فرد)</p><div class="tip">برای وارد کردن جواب منفی، دکمه‌ی ${M('−')} رو روی صفحه‌کلید بزن.</div>`
  ],
  gen(){const s=()=>Math.random()<.55?-1:1;if(Math.random()<.25){const x=[rnd(1,5)*s(),rnd(1,5)*s(),rnd(1,4)*s()];if(x.every(v=>v>0))x[1]*=-1;const p=x[0]*x[1]*x[2];const neg=x.filter(v=>v<0).length;return{text:M(`${x.map(fmtN).join(' × ')} = ?`),ans:p,hint:`بدون علامت: ${M(`${x.map(Math.abs).join(' × ')} = ${Math.abs(p)}`)}<br>${fa(neg)} تا منفی (${neg%2?'فرد ← منفی':'زوج ← مثبت'}) ← ${M(p)}`}}
   let a=rnd(1,9)*s(),b=rnd(2,9)*s();if(a>0&&b>0)a=-a;const p=a*b;return{text:M(`${fmtN(a)} × ${fmtN(b)} = ?`),ans:p,hint:`بدون علامت: ${M(`${Math.abs(a)} × ${Math.abs(b)} = ${Math.abs(p)}`)}<br>${(a<0)===(b<0)?'علامت‌ها یکسان ← مثبت':'علامت‌ها متفاوت ← منفی'} ← ${M(p)}`}},
  count:10,pass:8},
 
-/* 18 */{id:'s18',icon:'🔸',title:'ضرب اعشاری',
+/* 18 */{id:'s18',icon:'decimals-arrow-right',title:'ضرب اعشاری',
  lesson:[
-  `<h3>ضرب اعشاری در ۳ قدم 🔸</h3><div class="key">۱) ممیز رو نادیده بگیر و معمولی ضرب کن.<br>۲) تعداد رقم‌های <b>بعد از ممیز</b> در هر دو عدد رو بشمار و جمع کن.<br>۳) از سمت راستِ جواب، همون‌قدر رقم جدا کن و ممیز بذار.</div><p>${M('0.3 × 0.4')} ← ${M('3 × 4 = 12')} ← دو رقم اعشار ← ${M('0.12')}</p><p>${M('1.2 × 3')} ← ${M('12 × 3 = 36')} ← یک رقم اعشار ← ${M('3.6')}</p><div class="tip">برای ممیز دکمه‌ی ${M('.')} رو بزن.</div>`
+  `<h3>ضرب اعشاری در ۳ قدم <svg class=ic data-c=orange><use href=#idiamond></use></svg></h3><div class="key">۱) ممیز رو نادیده بگیر و معمولی ضرب کن.<br>۲) تعداد رقم‌های <b>بعد از ممیز</b> در هر دو عدد رو بشمار و جمع کن.<br>۳) از سمت راستِ جواب، همون‌قدر رقم جدا کن و ممیز بذار.</div><p>${M('0.3 × 0.4')} ← ${M('3 × 4 = 12')} ← دو رقم اعشار ← ${M('0.12')}</p><p>${M('1.2 × 3')} ← ${M('12 × 3 = 36')} ← یک رقم اعشار ← ${M('3.6')}</p><div class="tip">برای ممیز دکمه‌ی ${M('.')} رو بزن.</div>`
  ],
  gen(){const t=rnd(0,3);let ia,da,ib,db;
   if(t===0){ia=rnd(1,9);da=1;ib=rnd(2,9);db=0}
@@ -149,9 +149,9 @@ const STAGES=[
   return{text:M(`${decStr(ia,da)} × ${decStr(ib,db)} = ?`),ans,hint:`بدون ممیز: ${M(`${ia} × ${ib} = ${prod}`)}<br>تعداد رقم اعشار: ${M(`${da} + ${db} = ${D}`)}<br>${fa(D)} رقم از راست جدا کن ← ${M((prod/Math.pow(10,D)).toFixed(D))} = ${M(ans)}`}},
  count:10,pass:8},
 
-/* 19 */{id:'s19',icon:'👹',title:'غول آخر!',sec:'🏁 نبرد نهایی',
+/* 19 */{id:'s19',icon:'swords',title:'غول آخر!',sec:'نبرد نهایی',
  lesson:[
-  `<h3>نبرد با غول ضرب 👹</h3><p>این مرحله از <b>همه‌ی</b> مراحل سوال داره: جدول ضرب، صفرها، شکستن عدد، ستونی، منفی‌ها و اعشاری.</p><div class="key">${M(20)} سوال — برای شکست دادن غول ${M(16)} تا رو باید درست جواب بدی!</div><div class="tip">نفس عمیق بکش، کاغذ و قلم بردار و از ترفندها استفاده کن. تو می‌تونی! 💪</div>`
+  `<h3>نبرد با غول ضرب <svg class=ic data-c=red><use href=#iswords></use></svg></h3><p>این مرحله از <b>همه‌ی</b> مراحل سوال داره: جدول ضرب، صفرها، شکستن عدد، ستونی، منفی‌ها و اعشاری.</p><div class="key">${M(20)} سوال — برای شکست دادن غول ${M(16)} تا رو باید درست جواب بدی!</div><div class="tip">نفس عمیق بکش، کاغذ و قلم بردار و از ترفندها استفاده کن. تو می‌تونی! <svg class=ic data-c=orange><use href=#ibiceps_flexed></use></svg></div>`
  ],
  gen(){return STAGES[pick([2,3,4,5,6,7,8,9,10,11,11,11,12,13,13,14,15,16,17])].gen()},
  count:20,pass:16}

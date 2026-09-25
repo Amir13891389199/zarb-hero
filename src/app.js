@@ -11,6 +11,14 @@ const RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').match
 const app=$('#app');
 const SPRING='cubic-bezier(.2,.9,.25,1.15)';
 
+
+/* ============ آیکون‌های برداری ============ */
+const ic=(n,c,f)=>`<svg class=${f?'icf':'ic'}${c?' data-c='+c:''}><use href=#i${n.replace(/-/g,'_').replace(/\d/g,d=>'abcdefghij'[d])}></use></svg>`;
+const PAL=[['#6d4aff','#a47dff'],['#2f7bff','#22c4ff'],['#00a88f','#35d8a8'],['#10a760','#7fd24a'],['#ff9a12','#ffcc33'],['#ff5a3c','#ffa04a'],['#ec3f78','#ff82c3'],['#9546ff','#dd6bff']];
+function sVars(s){const p=PAL[Math.max(0,STAGES.indexOf(s))%PAL.length];return `--g1:${p[0]};--g2:${p[1]}`}
+function sGlyph(s){return s.icon[0]==='#'?`<b class="gt${s.icon.length>4?' sm':''}">${s.icon.slice(1)}</b>`:ic(s.icon)}
+const LOGO='<svg viewBox="0 0 36 36" aria-hidden="true"><path d="M11.5 11.5l13 13M24.5 11.5l-13 13" stroke="#fff" stroke-width="4.4" stroke-linecap="round" fill="none"/><path d="M28.6 3.6l1 2.4 2.4 1-2.4 1-1 2.4-1-2.4-2.4-1 2.4-1z" fill="#fff"/></svg>';
+
 /* ============ ذخیره پیشرفت ============ */
 const KEY='zarb-hero-v1';
 let store=null;try{store=window.localStorage;store.getItem('t')}catch(e){store=null}
@@ -29,7 +37,7 @@ const sWin=()=>tone([523,659,784,1046],.12);
 const sTap=()=>tone([420],.03,'sine');
 
 function confetti(){if(RM)return;const c=['#6d4aff','#12b76a','#ffb020','#f04467','#00b3ff','#ff6ec7'];for(let i=0;i<80;i++){const d=document.createElement('div');d.className='confetti';d.style.left=Math.random()*100+'vw';d.style.background=pick(c);d.style.animationDuration=(1.8+Math.random()*1.8)+'s';d.style.animationDelay=(Math.random()*.5)+'s';document.body.appendChild(d);setTimeout(()=>d.remove(),4300)}}
-const praise=['آفرین! 🎉','عالی بود! 🌟','دمت گرم! 💪','ایول! 🔥','باریکلا! 👏','درسته! ✨','نابغه‌ای! 🧠','همینه! 🚀'];
+const praise=['آفرین! <svg class=ic data-c=pink><use href=#iparty_popper></use></svg>','عالی بود! <svg class=ic data-c=gold><use href=#isparkles></use></svg>','دمت گرم! <svg class=ic data-c=orange><use href=#ibiceps_flexed></use></svg>','ایول! <svg class=ic data-c=orange><use href=#iflame></use></svg>','باریکلا! <svg class=ic data-c=violet><use href=#ithumbs_up></use></svg>','درسته! <svg class=ic data-c=violet><use href=#isparkles></use></svg>','نابغه‌ای! <svg class=ic data-c=pink><use href=#ibrain></use></svg>','همینه! <svg class=ic data-c=violet><use href=#irocket></use></svg>'];
 
 /* ============ تصویرسازی ============ */
 function groupsViz(a,b){let h='<div class="groups">';for(let i=0;i<a;i++){h+=`<div class="grp" style="animation-delay:${i*70}ms">`+'<i class="dot"></i>'.repeat(b)+'</div>'}return h+'</div>'}
@@ -59,7 +67,7 @@ function strat(a,b){
     case 8:s=`ضرب در ${M('8')} = سه‌بار دو برابر ← ${M(`${n} → ${2*n} → ${4*n} → ${8*n}`)}`;break;
     case 7:s=`ضرب در ${M('7')} = ضرب در ${M('5')} به‌علاوه ضرب در ${M('2')} ← ${M(`${5*n} + ${2*n} = ${7*n}`)}`;break;
   }
-  if(sw&&a!==b)s=`🔄 جابه‌جا کن: ${M(`${a} × ${b}`)} همون ${M(`${b} × ${a}`)} است.<br>`+s;
+  if(sw&&a!==b)s=`<svg class=ic data-c=blue><use href=#iarrow_left_right></use></svg> جابه‌جا کن: ${M(`${a} × ${b}`)} همون ${M(`${b} × ${a}`)} است.<br>`+s;
   return s;
 }
 
@@ -93,7 +101,7 @@ const nextStageIdx=()=>STAGES.findIndex((_,i)=>!passed(i));
 const today=()=>new Date().toDateString();
 
 /* ============ تم (Adaptive) ============ */
-const THEMES=['auto','light','dark'],TICON={auto:'🌓',light:'☀️',dark:'🌙'},TNAME={auto:'خودکار (مثل سیستم)',light:'روشن',dark:'تاریک'};
+const THEMES=['auto','light','dark'],TICON={auto:'<svg class=ic><use href=#isun_moon></use></svg>',light:'<svg class=ic data-c=amber><use href=#isun></use></svg>',dark:'<svg class=ic data-c=violet><use href=#imoon></use></svg>'},TNAME={auto:'خودکار (مثل سیستم)',light:'روشن',dark:'تاریک'};
 const darkMQ=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):{matches:false};
 const isDark=()=>S.theme==='dark'||(S.theme==='auto'&&darkMQ.matches);
 function applyTheme(){const h=document.documentElement;if(S.theme==='auto')h.removeAttribute('data-theme');else h.setAttribute('data-theme',S.theme);const mt=$('meta[name=theme-color]');if(mt)mt.content=isDark()?'#07061a':'#eef0fb'}
@@ -117,12 +125,12 @@ let cur='home';
 /* ============ صدای معلم (روایت صوتی) ============ */
 const AUD='audio/';
 const SPK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path class="w1" d="M16.5 12A4.5 4.5 0 0 0 14 7.97v8.05A4.47 4.47 0 0 0 16.5 12z"/><path class="w2" d="M14 3.23v2.06a7 7 0 0 1 0 13.42v2.06A9 9 0 0 0 14 3.23z"/></svg>';
-const RATES=[[1,'سرعت ۱×'],[.8,'آهسته 🐢'],[1.2,'تند 🐇']];
+const RATES=[[1,'سرعت ۱×'],[.8,'آهسته <svg class=ic><use href=#iturtle></use></svg>'],[1.2,'تند <svg class=ic><use href=#irabbit></use></svg>']];
 if(S.auto===undefined)S.auto=true;if(!(S.rate>=0&&S.rate<RATES.length))S.rate=0;
-const NLBL={load:'یه لحظه صبر کن…',play:'معلم داره توضیح میده…',pause:'مکث شد — بزن تا ادامه بده',done:'✓ تموم شد — بزن تا دوباره گوش بدی',err:'صدا الان در دسترس نیست'};
+const NLBL={load:'یه لحظه صبر کن…',play:'معلم داره توضیح میده…',pause:'مکث شد — بزن تا ادامه بده',done:'<svg class=ic><use href=#icheck></use></svg> تموم شد — بزن تا دوباره گوش بدی',err:'صدا الان در دسترس نیست'};
 const NV={a:null,key:null,st:'idle',onEnd:null};
 function narrEl(){return NV.key?$$('.narr').find(e=>e.dataset.nk===NV.key):null}
-function narrUI(){$$('.narr').forEach(el=>{const on=el.dataset.nk===NV.key,st=on?NV.st:'idle';el.dataset.st=st;const l=el.querySelector('.nlbl');if(l)l.textContent=st==='idle'?el.dataset.l:NLBL[st];const b=el.querySelector('.nbtn');if(b)b.setAttribute('aria-pressed',String(st==='play'));if(!on){const i=el.querySelector('.nprog i');if(i)i.style.width='0'}})}
+function narrUI(){$$('.narr').forEach(el=>{const on=el.dataset.nk===NV.key,st=on?NV.st:'idle';el.dataset.st=st;const l=el.querySelector('.nlbl');if(l)l.innerHTML=st==='idle'?el.dataset.l:NLBL[st];const b=el.querySelector('.nbtn');if(b)b.setAttribute('aria-pressed',String(st==='play'));if(!on){const i=el.querySelector('.nprog i');if(i)i.style.width='0'}})}
 function narrAudio(){if(NV.a)return NV.a;const a=NV.a=new Audio();a.preload='auto';
   const set=st=>{NV.st=st;narrUI()};
   a.addEventListener('playing',()=>set('play'));a.addEventListener('waiting',()=>{if(!a.paused)set('load')});
@@ -139,11 +147,11 @@ function narrPlay(key,o){o=o||{};const a=narrAudio();try{a.pause()}catch(e){}
   if(p&&p.then)p.then(()=>{if(o.ok)o.ok()}).catch(e=>{if(NV.key!==key)return;if(e&&e.name==='NotAllowedError'){NV.st='idle';narrUI();const el=narrEl();if(el)el.classList.add('call')}else if(e&&e.name!=='AbortError'){NV.st='err';narrUI()}});
 }
 function narrToggle(key){const a=NV.a;if(NV.key===key&&a&&NV.st!=='done'&&NV.st!=='err'){if(a.paused){a.play().catch(()=>{})}else a.pause();return}narrPlay(key,{onEnd:key[0]==='s'?lessonEnded:null})}
-function narrHTML(key,label,compact){return `<div class="narr${compact?' compact':''}" data-nk="${key}" data-l="${label}" data-st="idle"><button class="nbtn" aria-label="گوش بده" aria-pressed="false">${SPK}<span class="nspin"></span></button><div class="ninfo"><b class="nlbl">${label}</b><div class="nprog"><i></i></div></div>${compact?'':`<div class="nopts"><button class="nrate" aria-label="سرعت صدا">${RATES[S.rate][1]}</button><button class="nauto${S.auto?' on':''}" aria-pressed="${S.auto}" aria-label="پخش خودکار درس‌ها">${S.auto?'▶︎ خودکار':'خودکار'}</button></div>`}</div>`}
+function narrHTML(key,label,compact){return `<div class="narr${compact?' compact':''}" data-nk="${key}" data-l="${label}" data-st="idle"><button class="nbtn" aria-label="گوش بده" aria-pressed="false">${SPK}<span class="nspin"></span></button><div class="ninfo"><b class="nlbl">${label}</b><div class="nprog"><i></i></div></div>${compact?'':`<div class="nopts"><button class="nrate" aria-label="سرعت صدا">${RATES[S.rate][1]}</button><button class="nauto${S.auto?' on':''}" aria-pressed="${S.auto}" aria-label="پخش خودکار درس‌ها">${S.auto?'<svg class=ic><use href=#iplay></use></svg> خودکار':'خودکار'}</button></div>`}</div>`}
 function bindNarr(root){$$('.narr',root||document).forEach(el=>{const k=el.dataset.nk;
   el.querySelector('.nbtn').onclick=()=>{el.classList.remove('call');narrToggle(k)};
-  const r=el.querySelector('.nrate');if(r)r.onclick=()=>{S.rate=(S.rate+1)%RATES.length;save();$$('.nrate').forEach(b=>b.textContent=RATES[S.rate][1]);if(NV.a)NV.a.defaultPlaybackRate=NV.a.playbackRate=RATES[S.rate][0];toast('🔊 سرعت صدا: '+RATES[S.rate][1])};
-  const au=el.querySelector('.nauto');if(au)au.onclick=()=>{S.auto=!S.auto;save();$$('.nauto').forEach(b=>{b.classList.toggle('on',S.auto);b.setAttribute('aria-pressed',String(S.auto));b.textContent=S.auto?'▶︎ خودکار':'خودکار'});toast(S.auto?'▶︎ از این به بعد درس‌ها خودشون پخش میشن':'⏸ پخش خودکار خاموش شد؛ هر وقت خواستی دکمه‌ی 🔊 رو بزن')};
+  const r=el.querySelector('.nrate');if(r)r.onclick=()=>{S.rate=(S.rate+1)%RATES.length;save();$$('.nrate').forEach(b=>b.innerHTML=RATES[S.rate][1]);if(NV.a)NV.a.defaultPlaybackRate=NV.a.playbackRate=RATES[S.rate][0];toast('<svg class=ic><use href=#ivolume_c></use></svg> سرعت صدا: '+RATES[S.rate][1])};
+  const au=el.querySelector('.nauto');if(au)au.onclick=()=>{S.auto=!S.auto;save();$$('.nauto').forEach(b=>{b.classList.toggle('on',S.auto);b.setAttribute('aria-pressed',String(S.auto));b.innerHTML=S.auto?'<svg class=ic><use href=#iplay></use></svg> خودکار':'خودکار'});toast(S.auto?'<svg class=ic><use href=#iplay></use></svg> از این به بعد درس‌ها خودشون پخش میشن':'<svg class=ic><use href=#ipause></use></svg> پخش خودکار خاموش شد؛ هر وقت خواستی دکمه‌ی <svg class=ic><use href=#ivolume_c></use></svg> رو بزن')};
   narrUI()})}
 function lessonEnded(){const b=$('#lnext');if(b){b.classList.remove('nudge2');void b.offsetWidth;b.classList.add('nudge2')}}
 /* صدای تشویق کوتاه */
@@ -154,7 +162,7 @@ function vfxPreload(){['ok1','ok2','ok3','ok4','ok5','no1','no2'].forEach(k=>{if
 let faV=null;
 function findFaV(){try{faV=speechSynthesis.getVoices().find(v=>/^fa\b|^fa[-_]|persian|farsi/i.test(v.lang+' '+v.name))||null}catch(e){faV=null}document.body.classList.toggle('has-tts',!!faV)}
 if('speechSynthesis' in window){findFaV();try{speechSynthesis.addEventListener('voiceschanged',findFaV)}catch(e){}}
-function ttsText(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent.replace(/×/g,' ضربدر ').replace(/=\s*[؟?]/g,' چند میشه؟').replace(/=/g,' مساوی ').replace(/−/g,' منفی ').replace(/٫/g,' ممیز ').replace(/[💡✨🔁⚡🎉🌟💪🔥👏🧠🚀]/g,'').replace(/\s+/g,' ').trim()}
+function ttsText(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent.replace(/×/g,' ضربدر ').replace(/=\s*[؟?]/g,' چند میشه؟').replace(/=/g,' مساوی ').replace(/−/g,' منفی ').replace(/٫/g,' ممیز ').replace(/\s+/g,' ').trim()}
 function ttsSay(h){if(!faV)return;try{narrStop();const u=new SpeechSynthesisUtterance(ttsText(h));u.voice=faV;u.lang=faV.lang;u.rate=.9*RATES[S.rate][0];speechSynthesis.speak(u)}catch(e){}}
 const ttsBtn=(id)=>`<button class="tts-btn" data-tts="${id}" aria-label="برام بخون">${SPK}</button>`;
 function bindTTS(root){$$('[data-tts]',root||document).forEach(b=>b.onclick=e=>{e.stopPropagation();const t=document.getElementById(b.dataset.tts);if(t)ttsSay(t.innerHTML)})}
@@ -163,16 +171,16 @@ function go(fn){const run=()=>{closeSheet(true);narrStop();fn();window.scrollTo(
 
 /* ============ هدر و ناوبری شناور ============ */
 function renderChrome(){
-  $('#top').innerHTML=`<button class="brand" id="brand" aria-label="خانه"><span class="logo">🦸</span><b>قهرمان ضرب</b></button>
-  <div class="chips"><span class="chip" id="chStars" title="ستاره‌ها">⭐ <b></b></span><span class="chip" id="xpchip" title="امتیاز">⚡ <b></b></span><span class="chip hide-sm" id="chLvl" title="سطح">🎖️ <b></b></span>
+  $('#top').innerHTML=`<button class="brand" id="brand" aria-label="خانه"><span class="logo">${LOGO}</span><b>قهرمان ضرب</b></button>
+  <div class="chips"><span class="chip" id="chStars" title="ستاره‌ها"><svg class=icf data-c=gold><use href=#istar></use></svg> <b></b></span><span class="chip" id="xpchip" title="امتیاز"><svg class=ic data-c=amber><use href=#izap></use></svg> <b></b></span><span class="chip hide-sm" id="chLvl" title="سطح"><svg class=ic data-c=violet><use href=#iaward></use></svg> <b></b></span>
   <button class="icon-btn" id="thBtn" aria-label="تغییر تم"></button><button class="icon-btn" id="muBtn" aria-label="صدا"></button></div>`;
   $('#brand').onclick=()=>home();$('#thBtn').onclick=cycleTheme;
-  $('#muBtn').onclick=()=>{S.mute=!S.mute;save();if(S.mute)narrStop();updateHeader();toast(S.mute?'🔇 صدا خاموش شد':'🔊 صدا روشن شد')};
+  $('#muBtn').onclick=()=>{S.mute=!S.mute;save();if(S.mute)narrStop();updateHeader();toast(S.mute?'<svg class=ic><use href=#ivolume_x></use></svg> صدا خاموش شد':'<svg class=ic><use href=#ivolume_c></use></svg> صدا روشن شد')};
   $('#nav').innerHTML='<div class="pill" id="pill"></div>'+TABS.map(t=>`<button class="nav-item" data-tab="${t[0]}" aria-current="false"><span class="ni">${t[1]}</span>${t[2]}</button>`).join('');
   $$('.nav-item').forEach(b=>b.onclick=()=>{const t=TABS.find(x=>x[0]===b.dataset.tab);if(t)t[3]()});
   updateHeader();
 }
-function updateHeader(){const q=s=>$(s+' b');if(!q('#xpchip'))return;q('#chStars').textContent=fa(totalStars());q('#xpchip').textContent=fa(S.xp);q('#chLvl').textContent='سطح '+fa(Math.floor(S.xp/250)+1);$('#thBtn').textContent=TICON[S.theme];$('#muBtn').textContent=S.mute?'🔇':'🔊'}
+function updateHeader(){const q=s=>$(s+' b');if(!q('#xpchip'))return;q('#chStars').textContent=fa(totalStars());q('#xpchip').textContent=fa(S.xp);q('#chLvl').textContent='سطح '+fa(Math.floor(S.xp/250)+1);$('#thBtn').innerHTML=TICON[S.theme];$('#muBtn').innerHTML=S.mute?'<svg class=ic><use href=#ivolume_x></use></svg>':'<svg class=ic><use href=#ivolume_c></use></svg>'}
 let curTab='map';
 function setTab(t){curTab=t;document.body.classList.toggle('focus',!t);$$('.nav-item').forEach(b=>b.setAttribute('aria-current',String(b.dataset.tab===t)));movePill()}
 function movePill(){const it=curTab&&$(`.nav-item[data-tab=${curTab}]`),p=$('#pill');if(!it||!p)return;p.style.width=it.offsetWidth+'px';p.style.height=it.offsetHeight+'px';p.style.transform=`translate(${it.offsetLeft}px,${it.offsetTop}px)`}
@@ -218,26 +226,26 @@ function closeSheet(instant){
   back.animate([{opacity:1},{opacity:0}],{duration:280}).onfinish=()=>back.remove();
 }
 function askConfirm(o){
-  openSheet(o.origin,`<div class="sheet-icon">${o.icon||'🤔'}</div><h3>${o.title}</h3>${o.text?`<p class="mut" style="margin-top:4px">${o.text}</p>`:''}<div class="sheet-actions"><button class="btn ${o.danger?'danger':''} block" id="cy">${o.yes||'بله'}</button><button class="btn ghost block" id="cn">${o.no||'نه، برگرد'}</button></div>`);
+  openSheet(o.origin,`<div class="sheet-icon">${o.icon||'<svg class=ic data-c=violet><use href=#imessage_circle_question></use></svg>'}</div><h3>${o.title}</h3>${o.text?`<p class="mut" style="margin-top:4px">${o.text}</p>`:''}<div class="sheet-actions"><button class="btn ${o.danger?'danger':''} block" id="cy">${o.yes||'بله'}</button><button class="btn ghost block" id="cn">${o.no||'نه، برگرد'}</button></div>`);
   $('#cy').onclick=()=>{o.onYes();closeSheet(true)};$('#cn').onclick=()=>closeSheet();
 }
 
 /* ============ مربی هوشمند (UX هوشمند داخل تجربه) ============ */
-function greeting(){const h=new Date().getHours();return h<5?'شب بخیر 🌙':h<12?'صبح بخیر ☀️':h<17?'ظهر بخیر 🌤️':h<20?'عصر بخیر 🌇':'شب بخیر 🌙'}
+function greeting(){const h=new Date().getHours();return h<5?'شب بخیر <svg class=ic data-c=violet><use href=#imoon></use></svg>':h<12?'صبح بخیر <svg class=ic data-c=amber><use href=#isun></use></svg>':h<17?'ظهر بخیر <svg class=ic data-c=amber><use href=#icloud_sun></use></svg>':h<20?'عصر بخیر <svg class=ic data-c=orange><use href=#isunset></use></svg>':'شب بخیر <svg class=ic data-c=violet><use href=#imoon></use></svg>'}
 function coach(){
   const done=STAGES.filter((_,i)=>passed(i)).length,nx=nextStageIdx(),weak=weakFacts();
   const recent=S.log.filter(t=>Date.now()-t<50*60000).length;
   const toNext=el=>nx>=0?stageSheet(nx,el):startReview();
-  if(done===0&&!Object.keys(S.lt).length)return{e:'👋',t:'بیا از اول شروع کنیم',x:`اول می‌فهمیم ضرب اصلاً یعنی چی، با شکل و نقطه. فقط ${fa(5)} دقیقه طول می‌کشه و بعدش هر مرحله یه ترفند جدید یادت میده.`,a:[['شروع مرحله ۱ 🚀',el=>stageSheet(0,el),1]]};
-  if(recent>=4)return{e:'☕',t:'وقت یه استراحت کوتاهه',x:`تو ${fa(50)} دقیقه‌ی اخیر ${fa(recent)} مرحله رو تموم کردی! ${fa(10)} دقیقه استراحت کن؛ مغزت موقع استراحت چیزایی که یاد گرفتی رو محکم می‌کنه.`,a:[['باشه، استراحت ☕',()=>{S.log=[];save();toast('☕ استراحت خوبی داشته باشی!');home()},1],['نه، ادامه بدیم',toNext,0]]};
-  if(S.lastDay&&S.lastDay!==today()&&done>0)return{e:'🔁',t:'خوش برگشتی!',x:'قبل از ادامه یه مرور سریع بزنیم تا چیزایی که دفعه‌ی قبل یاد گرفتی از یادت نره. این همون «تکرار با فاصله»ست، یعنی بهترین روش علمی برای حفظ کردن.',a:[['مرور ۲ دقیقه‌ای 🧠',()=>startReview(),1],['ادامه‌ی مراحل',toNext,0]]};
-  if(weak.length>=2&&done>=3)return{e:'🎯',t:'چند تا ضرب هنوز لجبازی می‌کنن',x:`این‌ها رو هنوز کامل بلد نیستی: ${weak.map(([a,b])=>M(`${a}×${b}`)).join('، ')}. یه تمرین هدفمند فقط روی همین‌ها بزنیم؟`,a:[['تمرین هدفمند 🎯',()=>startFocus(weak),1],['بعداً',toNext,0]]};
-  if(passed(11)&&S.best<20&&nx>12)return{e:'⚡',t:'وقت سرعت گرفتنه',x:`جدول ضرب رو یاد گرفتی! حالا با مسابقه‌ی سرعت کاری کن جواب‌ها خودکار به ذهنت برسن. هدف: ${fa(30)} جواب در یک دقیقه.`,a:[['مسابقه سرعت ⚡',()=>speedIntro(),1],['ادامه‌ی مراحل',toNext,0]]};
-  if(nx===-1)return{e:'🏆',t:'تو قهرمان ضربی!',x:`همه‌ی مراحل رو تموم کردی. برای اینکه همیشه یادت بمونه، تا یه هفته هر روز ${fa(5)} دقیقه مرور هوشمند بزن.`,a:[['مرور هوشمند 🧠',()=>startReview(),1]]};
+  if(done===0&&!Object.keys(S.lt).length)return{e:'<svg class=ic data-c=amber><use href=#ihand></use></svg>',t:'بیا از اول شروع کنیم',x:`اول می‌فهمیم ضرب اصلاً یعنی چی، با شکل و نقطه. فقط ${fa(5)} دقیقه طول می‌کشه و بعدش هر مرحله یه ترفند جدید یادت میده.`,a:[['شروع مرحله ۱ <svg class=ic data-c=violet><use href=#irocket></use></svg>',el=>stageSheet(0,el),1]]};
+  if(recent>=4)return{e:'<svg class=ic data-c=orange><use href=#icoffee></use></svg>',t:'وقت یه استراحت کوتاهه',x:`تو ${fa(50)} دقیقه‌ی اخیر ${fa(recent)} مرحله رو تموم کردی! ${fa(10)} دقیقه استراحت کن؛ مغزت موقع استراحت چیزایی که یاد گرفتی رو محکم می‌کنه.`,a:[['باشه، استراحت <svg class=ic data-c=orange><use href=#icoffee></use></svg>',()=>{S.log=[];save();toast('<svg class=ic data-c=orange><use href=#icoffee></use></svg> استراحت خوبی داشته باشی!');home()},1],['نه، ادامه بدیم',toNext,0]]};
+  if(S.lastDay&&S.lastDay!==today()&&done>0)return{e:'<svg class=ic data-c=blue><use href=#irepeat></use></svg>',t:'خوش برگشتی!',x:'قبل از ادامه یه مرور سریع بزنیم تا چیزایی که دفعه‌ی قبل یاد گرفتی از یادت نره. این همون «تکرار با فاصله»ست، یعنی بهترین روش علمی برای حفظ کردن.',a:[['مرور ۲ دقیقه‌ای <svg class=ic data-c=pink><use href=#ibrain></use></svg>',()=>startReview(),1],['ادامه‌ی مراحل',toNext,0]]};
+  if(weak.length>=2&&done>=3)return{e:'<svg class=ic data-c=red><use href=#itarget></use></svg>',t:'چند تا ضرب هنوز لجبازی می‌کنن',x:`این‌ها رو هنوز کامل بلد نیستی: ${weak.map(([a,b])=>M(`${a}×${b}`)).join('، ')}. یه تمرین هدفمند فقط روی همین‌ها بزنیم؟`,a:[['تمرین هدفمند <svg class=ic data-c=red><use href=#itarget></use></svg>',()=>startFocus(weak),1],['بعداً',toNext,0]]};
+  if(passed(11)&&S.best<20&&nx>12)return{e:'<svg class=ic data-c=amber><use href=#izap></use></svg>',t:'وقت سرعت گرفتنه',x:`جدول ضرب رو یاد گرفتی! حالا با مسابقه‌ی سرعت کاری کن جواب‌ها خودکار به ذهنت برسن. هدف: ${fa(30)} جواب در یک دقیقه.`,a:[['مسابقه سرعت <svg class=ic data-c=amber><use href=#izap></use></svg>',()=>speedIntro(),1],['ادامه‌ی مراحل',toNext,0]]};
+  if(nx===-1)return{e:'<svg class=ic data-c=gold><use href=#itrophy></use></svg>',t:'تو قهرمان ضربی!',x:`همه‌ی مراحل رو تموم کردی. برای اینکه همیشه یادت بمونه، تا یه هفته هر روز ${fa(5)} دقیقه مرور هوشمند بزن.`,a:[['مرور هوشمند <svg class=ic data-c=pink><use href=#ibrain></use></svg>',()=>startReview(),1]]};
   const s=STAGES[nx],mins=Math.max(3,Math.round(s.lesson.length*1.2+s.count*.35));
-  return{e:s.icon,t:`قدم بعدی: ${s.title}`,x:`حدود ${fa(mins)} دقیقه طول می‌کشه. ${done?`تا اینجا ${fa(done)} مرحله رو رد کردی. ${done>=N/2?'بیشتر از نصف راه رو اومدی! 💪':'عالی پیش میری!'}`:''}`,a:[['بزن بریم 🚀',el=>stageSheet(nx,el),1]]};
+  return{e:sGlyph(s),g:sVars(s),t:`قدم بعدی: ${s.title}`,x:`حدود ${fa(mins)} دقیقه طول می‌کشه. ${done?`تا اینجا ${fa(done)} مرحله رو رد کردی. ${done>=N/2?'بیشتر از نصف راه رو اومدی! <svg class=ic data-c=orange><use href=#ibiceps_flexed></use></svg>':'عالی پیش میری!'}`:''}`,a:[['بزن بریم <svg class=ic data-c=violet><use href=#irocket></use></svg>',el=>stageSheet(nx,el),1]]};
 }
-function coachHTML(c){return `<section class="card coach" id="coach"><div class="coach-glow"></div><span class="coach-badge">✨ مربی هوشمند</span><div class="coach-body"><div class="coach-emoji">${c.e}</div><div><h3>${c.t}</h3><p><span id="coachText">${c.x}</span>${ttsBtn('coachText')}</p></div></div><div class="coach-actions">${c.a.map((a,i)=>`<button class="btn ${a[2]?'':'ghost'}" data-ca="${i}">${a[0]}</button>`).join('')}</div></section>`}
+function coachHTML(c){return `<section class="card coach" id="coach"><div class="coach-glow"></div><span class="coach-badge"><svg class=ic data-c=violet><use href=#isparkles></use></svg> مربی هوشمند</span><div class="coach-body"><div class="coach-emoji tile" style="${c.g||''}">${c.e}</div><div><h3>${c.t}</h3><p><span id="coachText">${c.x}</span>${ttsBtn('coachText')}</p></div></div><div class="coach-actions">${c.a.map((a,i)=>`<button class="btn ${a[2]?'':'ghost'}" data-ca="${i}">${a[0]}</button>`).join('')}</div></section>`}
 function bindCoach(c){$$('[data-ca]').forEach(b=>b.onclick=()=>c.a[+b.dataset.ca][1](b))}
 
 /* ============ صفحه اصلی ============ */
@@ -247,40 +255,40 @@ function home(){go(()=>{setTab('map');cur='home';renderHome()})}
 function renderHome(){
   const done=STAGES.filter((_,i)=>passed(i)).length,nx=nextStageIdx(),c=coach(),mst=mastered(),lvl=Math.floor(S.xp/250)+1,lp=(S.xp%250)/250;
   let map='';STAGES.forEach((s,i)=>{if(s.sec)map+=`<div class="sec-title">${s.sec}</div>`;const st=S.stars[s.id]||0,lock=!unlocked(i),isNext=i===nx;
-    map+=`<button class="stage ${lock?'locked':''} ${st?'done':''} ${isNext?'next':''}" data-i="${i}" style="--d:${Math.min(i,12)*28}ms"><div class="st-top"><span class="st-icon">${lock?'🔒':s.icon}</span><span class="st-num">${fa(i+1)}</span></div><div class="st-title">${s.title}</div><div class="st-stars">${[0,1,2].map(k=>`<span class="${k<st?'on':''}">★</span>`).join('')}</div>${isNext?'<span class="st-badge">بعدی</span>':''}${st?'<span class="st-check">✓</span>':''}</button>`});
+    map+=`<button class="stage ${lock?'locked':''} ${st?'done':''} ${isNext?'next':''}" data-i="${i}" style="--d:${Math.min(i,12)*28}ms"><div class="st-top"><span class="st-icon tile" style="${lock?'':sVars(s)}">${lock?'<svg class=ic><use href=#ilock></use></svg>':sGlyph(s)}</span><span class="st-num">${fa(i+1)}</span></div><div class="st-title">${s.title}</div><div class="st-stars">${[0,1,2].map(k=>`<span class="${k<st?'on':''}"><svg class=icf><use href=#istar></use></svg></span>`).join('')}</div>${isNext?'<span class="st-badge">بعدی</span>':''}${st?'<span class="st-check"><svg class=ic><use href=#icheck></use></svg></span>':''}</button>`});
   const web=location.protocol!=='file:';
   app.innerHTML=`
-  <section class="hello"><div class="eyebrow">${greeting()}</div><h1>${done===N?'قهرمان ضرب! 🏆':'سلام قهرمان!'}</h1><p class="mut">${done===0?'امروز قراره ضرب رو از صفر تا صد، با بازی و ترفند یاد بگیری.':done===N?'همه‌ی مراحل رو فتح کردی. حالا فقط مرور کن که همیشه یادت بمونه.':`${fa(done)} مرحله از ${fa(N)} رو رد کردی. ادامه بده، داری عالی پیش میری.`}</p>${narrHTML('guide','راهنمای صوتی: بازی چطوریه؟',1)}</section>
+  <section class="hello"><div class="eyebrow">${greeting()}</div><h1>${done===N?'قهرمان ضرب! <svg class=ic data-c=gold><use href=#itrophy></use></svg>':'سلام قهرمان!'}</h1><p class="mut">${done===0?'امروز قراره ضرب رو از صفر تا صد، با بازی و ترفند یاد بگیری.':done===N?'همه‌ی مراحل رو فتح کردی. حالا فقط مرور کن که همیشه یادت بمونه.':`${fa(done)} مرحله از ${fa(N)} رو رد کردی. ادامه بده، داری عالی پیش میری.`}</p>${narrHTML('guide','راهنمای صوتی: بازی چطوریه؟',1)}</section>
   ${coachHTML(c)}
   <section class="stat-grid">
     <div class="card stat">${ringSVG('a',done/N)}<div><div class="lbl">مراحل</div><b>${fa(done)}/${fa(N)}</b></div></div>
     <div class="card stat"><div class="lbl">ضرب‌های مسلط</div><div class="big">${fa(mst)}<span class="mut" style="font-size:14px">/${fa(36)}</span></div><div class="mini"><i data-w="${mst/36*100}%"></i></div></div>
-    <div class="card stat"><div class="lbl">سطح ${fa(lvl)}</div><div class="big">⚡${fa(S.xp)}</div><div class="mini"><i data-w="${lp*100}%"></i></div></div>
+    <div class="card stat"><div class="lbl">سطح ${fa(lvl)}</div><div class="big"><svg class=ic data-c=amber><use href=#izap></use></svg>${fa(S.xp)}</div><div class="mini"><i data-w="${lp*100}%"></i></div></div>
   </section>
-  ${nx>=0?`<button class="card continue" id="cont"><span class="ci">${STAGES[nx].icon}</span><div><div class="eyebrow">${done?'ادامه بده':'شروع کن'} — مرحله ${fa(nx+1)}</div><h3>${STAGES[nx].title}</h3></div><span class="arrow">←</span></button>`:''}
+  ${nx>=0?`<button class="card continue" id="cont"><span class="ci">${sGlyph(STAGES[nx])}</span><div><div class="eyebrow">${done?'ادامه بده':'شروع کن'} — مرحله ${fa(nx+1)}</div><h3>${STAGES[nx].title}</h3></div><span class="arrow"><svg class=ic><use href=#ichevron_left></use></svg></span></button>`:''}
   <div class="section-h"><h2>نقشه‌ی مراحل</h2><span class="mut small">${fa(totalStars())} از ${fa(N*3)} ستاره</span></div>
   <div class="map">${map}</div>
-  <details class="card plan"><summary>📅 برنامه‌ی یک‌روزه</summary><ul>
-   <li>☀️ <b>صبح (حدود ۱ ساعت):</b> مراحل ۱ تا ۶، یعنی معنی ضرب و ترفندهای ${M('0, 1, 2, 5, 10, 4')}</li>
-   <li>☕ <b>۱۵ دقیقه استراحت.</b> مغز موقع استراحت یادگرفته‌ها رو تثبیت می‌کنه.</li>
-   <li>🌤️ <b>قبل از ظهر:</b> مراحل ۷ تا ۱۱، یعنی ترفندهای ${M('9, 3, 6, 8, 7')}</li>
-   <li>🍽️ <b>ناهار و استراحت</b></li>
-   <li>🌇 <b>عصر:</b> مرحله ۱۲، بعد ۱۰ دقیقه مرور هوشمند و یه دور مسابقه‌ی سرعت</li>
-   <li>🌙 <b>شب:</b> مراحل ۱۳ تا ۱۸، یعنی ضرب عددهای بزرگ، منفی و اعشاری</li>
-   <li>👹 <b>قبل خواب:</b> غول آخر و یه دور مرور هوشمند</li>
-   <li>💡 <b>نکته طلایی:</b> تا یه هفته هر روز ۵ دقیقه مرور هوشمند بزن تا همیشه یادت بمونه.</li></ul></details>
-  <div class="footer">${web?`<a class="btn good" href="https://github.com/Amir13891389199/zarb-hero/releases/latest/download/zarb-hero.apk">📱 دانلود نسخه اندروید</a>`:''}<span class="mut small">پیشرفتت خودکار ذخیره میشه.</span><button class="linkbtn" id="reset">شروع از اول</button></div>`;
+  <details class="card plan"><summary><svg class=ic data-c=violet><use href=#icalendar_days></use></svg> برنامه‌ی یک‌روزه</summary><ul>
+   <li><svg class=ic data-c=amber><use href=#isun></use></svg> <b>صبح (حدود ۱ ساعت):</b> مراحل ۱ تا ۶، یعنی معنی ضرب و ترفندهای ${M('0, 1, 2, 5, 10, 4')}</li>
+   <li><svg class=ic data-c=orange><use href=#icoffee></use></svg> <b>۱۵ دقیقه استراحت.</b> مغز موقع استراحت یادگرفته‌ها رو تثبیت می‌کنه.</li>
+   <li><svg class=ic data-c=amber><use href=#icloud_sun></use></svg> <b>قبل از ظهر:</b> مراحل ۷ تا ۱۱، یعنی ترفندهای ${M('9, 3, 6, 8, 7')}</li>
+   <li><svg class=ic data-c=teal><use href=#iutensils></use></svg> <b>ناهار و استراحت</b></li>
+   <li><svg class=ic data-c=orange><use href=#isunset></use></svg> <b>عصر:</b> مرحله ۱۲، بعد ۱۰ دقیقه مرور هوشمند و یه دور مسابقه‌ی سرعت</li>
+   <li><svg class=ic data-c=violet><use href=#imoon></use></svg> <b>شب:</b> مراحل ۱۳ تا ۱۸، یعنی ضرب عددهای بزرگ، منفی و اعشاری</li>
+   <li><svg class=ic data-c=red><use href=#iswords></use></svg> <b>قبل خواب:</b> غول آخر و یه دور مرور هوشمند</li>
+   <li><svg class=ic data-c=amber><use href=#ilightbulb></use></svg> <b>نکته طلایی:</b> تا یه هفته هر روز ۵ دقیقه مرور هوشمند بزن تا همیشه یادت بمونه.</li></ul></details>
+  <div class="footer">${web?`<a class="btn good" href="https://github.com/Amir13891389199/zarb-hero/releases/latest/download/zarb-hero.apk"><svg class=ic><use href=#ismartphone></use></svg> دانلود نسخه اندروید</a>`:''}<span class="mut small">پیشرفتت خودکار ذخیره میشه.</span><button class="linkbtn" id="reset">شروع از اول</button></div>`;
   bindCoach(c);bindNarr(app);bindTTS(app);
   if(!S.guided&&!S.mute)narrPlay('guide',{ok:()=>{S.guided=1;save()}});
   $$('.stage').forEach(b=>b.onclick=()=>stageSheet(+b.dataset.i,b));
   if($('#cont'))$('#cont').onclick=e=>stageSheet(nx,e.currentTarget);
-  $('#reset').onclick=e=>askConfirm({origin:e.currentTarget,icon:'🗑️',title:'همه‌ی پیشرفت پاک بشه؟',text:'ستاره‌ها، امتیازها و جعبه‌های لایتنر صفر میشن.',yes:'آره، پاک کن',danger:1,onYes:()=>{const th=S.theme,mu=S.mute;S={xp:0,stars:{},lt:{},tm:{},best:0,mute:mu,theme:th,lastDay:'',log:[]};save();updateHeader();home()}});
+  $('#reset').onclick=e=>askConfirm({origin:e.currentTarget,icon:'<svg class=ic data-c=red><use href=#itrash_c></use></svg>',title:'همه‌ی پیشرفت پاک بشه؟',text:'ستاره‌ها، امتیازها و جعبه‌های لایتنر صفر میشن.',yes:'آره، پاک کن',danger:1,onYes:()=>{const th=S.theme,mu=S.mute;S={xp:0,stars:{},lt:{},tm:{},best:0,mute:mu,theme:th,lastDay:'',log:[]};save();updateHeader();home()}});
   animateMeters();
 }
 
 function stageSheet(i,origin){
   const s=STAGES[i],st=S.stars[s.id]||0,lock=!unlocked(i);
-  openSheet(origin,`<div class="sheet-icon" style="view-transition-name:hero">${s.icon}</div><div class="eyebrow center">مرحله ${fa(i+1)} از ${fa(N)}</div><h3>${s.title}</h3><div class="sheet-stars">${[0,1,2].map(k=>`<span class="${k<st?'on':''}">★</span>`).join('')}</div><div class="meta-row"><span>📖 ${fa(s.lesson.length)} صفحه درس</span><span>✏️ ${fa(s.count)} سوال</span><span>🎯 قبولی: ${fa(s.pass)}</span></div>${lock?`<div class="note warn">🔒 این مرحله هنوز قفله. پیشنهاد می‌کنم اول مرحله‌ی ${fa(i)} رو تموم کنی. ولی اگه این قسمت رو بلدی، می‌تونی بری.</div>`:''}<div class="sheet-actions"><button class="btn block" id="sa1">📖 ${st?'دوباره دیدن درس':'شروع درس'}</button><button class="btn ghost block" id="sa2">⚡ مستقیم برو تمرین</button></div>`);
+  openSheet(origin,`<div class="sheet-icon tile" style="view-transition-name:hero;${sVars(s)}">${sGlyph(s)}</div><div class="eyebrow center">مرحله ${fa(i+1)} از ${fa(N)}</div><h3>${s.title}</h3><div class="sheet-stars">${[0,1,2].map(k=>`<span class="${k<st?'on':''}"><svg class=icf><use href=#istar></use></svg></span>`).join('')}</div><div class="meta-row"><span><svg class=ic><use href=#ibook_open></use></svg> ${fa(s.lesson.length)} صفحه درس</span><span><svg class=ic><use href=#ipencil></use></svg> ${fa(s.count)} سوال</span><span><svg class=ic data-c=red><use href=#itarget></use></svg> قبولی: ${fa(s.pass)}</span></div>${lock?`<div class="note warn"><svg class=ic><use href=#ilock></use></svg> این مرحله هنوز قفله. پیشنهاد می‌کنم اول مرحله‌ی ${fa(i)} رو تموم کنی. ولی اگه این قسمت رو بلدی، می‌تونی بری.</div>`:''}<div class="sheet-actions"><button class="btn block" id="sa1"><svg class=ic><use href=#ibook_open></use></svg> ${st?'دوباره دیدن درس':'شروع درس'}</button><button class="btn ghost block" id="sa2"><svg class=ic data-c=amber><use href=#izap></use></svg> مستقیم برو تمرین</button></div>`);
   $('#sa1').onclick=()=>lesson(i,0);$('#sa2').onclick=()=>startQuiz(i);
 }
 
@@ -289,10 +297,10 @@ let L=null;
 function lesson(i,k){go(()=>{setTab(null);cur='lesson';renderLessonShell(i);showSlide(k,0)})}
 function renderLessonShell(i){
   const s=STAGES[i];L={i,k:0};
-  app.innerHTML=`<div class="lesson-head"><button class="icon-btn" id="lback" aria-label="برگشت">→</button><div class="lh-icon" style="view-transition-name:hero">${s.icon}</div><div class="lh-text"><div class="eyebrow">مرحله ${fa(i+1)} — درس</div><h2>${s.title}</h2></div><button class="btn ghost sm" id="lskip">تمرین ⏭</button></div>
+  app.innerHTML=`<div class="lesson-head"><button class="icon-btn" id="lback" aria-label="برگشت"><svg class=ic><use href=#ichevron_right></use></svg></button><div class="lh-icon tile" style="view-transition-name:hero;${sVars(s)}">${sGlyph(s)}</div><div class="lh-text"><div class="eyebrow">مرحله ${fa(i+1)} — درس</div><h2>${s.title}</h2></div><button class="btn ghost sm" id="lskip">تمرین <svg class=ic><use href=#ichevrons_left></use></svg></button></div>
   <div id="lnarr"></div>
   <article class="card lesson" id="lcard"></article>
-  <div class="lesson-nav"><button class="btn ghost" id="lprev">→ قبلی</button><div class="sdots" id="ldots"></div><button class="btn" id="lnext">بعدی ←</button></div>${s.lesson.length>1?'<div class="swipe-hint">می‌تونی صفحه‌ها رو با کشیدن انگشت هم عوض کنی 👆</div>':''}`;
+  <div class="lesson-nav"><button class="btn ghost" id="lprev"><svg class=ic><use href=#ichevron_right></use></svg> قبلی</button><div class="sdots" id="ldots"></div><button class="btn" id="lnext">بعدی <svg class=ic><use href=#ichevron_left></use></svg></button></div>${s.lesson.length>1?'<div class="swipe-hint">می‌تونی صفحه‌ها رو با کشیدن انگشت هم عوض کنی <svg class=ic><use href=#ipointer></use></svg></div>':''}`;
   $('#lback').onclick=()=>home();$('#lskip').onclick=()=>startQuiz(i);
   $('#lprev').onclick=()=>showSlide(L.k-1,-1);
   $('#lnext').onclick=()=>{if(L.k<s.lesson.length-1)showSlide(L.k+1,1);else startQuiz(i)};
@@ -305,7 +313,7 @@ function showSlide(k,dir){
   lc.innerHTML=typeof sl==='string'?sl:sl.html;if(sl.mount)sl.mount();
   $('#ldots').innerHTML=s.lesson.map((_,j)=>`<i class="${j===k?'on':''}"></i>`).join('');
   $('#lprev').style.visibility=k>0?'visible':'hidden';
-  const nb=$('#lnext'),last=k===n-1;nb.textContent=last?'بزن بریم تمرین! 🚀':'بعدی ←';nb.classList.toggle('good',last);
+  const nb=$('#lnext'),last=k===n-1;nb.innerHTML=last?'بزن بریم تمرین! <svg class=ic data-c=violet><use href=#irocket></use></svg>':'بعدی <svg class=ic><use href=#ichevron_left></use></svg>';nb.classList.toggle('good',last);
   narrStop();const nk=`s${L.i+1}-${k}`;$('#lnarr').innerHTML=narrHTML(nk,'بزن تا معلم این صفحه رو برات توضیح بده');bindNarr($('#lnarr'));nb.classList.remove('nudge2');
   if(S.auto&&!S.mute)narrPlay(nk,{onEnd:lessonEnded});
   if(dir&&!RM){sTap();lc.animate([{opacity:0,transform:`translateX(${dir>0?-48:48}px)`},{opacity:1,transform:'none'}],{duration:420,easing:SPRING})}
@@ -313,7 +321,7 @@ function showSlide(k,dir){
 
 /* ============ کیبورد عددی ============ */
 let pad=null;
-function padHTML(){const k=[['7','7'],['8','8'],['9','9'],['4','4'],['5','5'],['6','6'],['1','1'],['2','2'],['3','3'],['-','−'],['0','0'],['.','٫']];return k.map(([v,l])=>`<button data-k="${v}" aria-label="${v==='.'?'ممیز':l}">${v==='.'?'<b style="font-size:34px;line-height:1">.</b>':fa(l)}</button>`).join('')+'<button class="bk" data-k="back" aria-label="پاک کردن">⌫</button><button class="ok" data-k="ok">✔ ثبت</button>'}
+function padHTML(){const k=[['7','7'],['8','8'],['9','9'],['4','4'],['5','5'],['6','6'],['1','1'],['2','2'],['3','3'],['-','−'],['0','0'],['.','٫']];return k.map(([v,l])=>`<button data-k="${v}" aria-label="${v==='.'?'ممیز':l}">${v==='.'?'<b style="font-size:34px;line-height:1">.</b>':fa(l)}</button>`).join('')+'<button class="bk" data-k="back" aria-label="پاک کردن"><svg class=ic><use href=#idelete></use></svg></button><button class="ok" data-k="ok"><svg class=ic><use href=#icheck></use></svg> ثبت</button>'}
 function bindPad(){$$('.pad button').forEach(b=>b.onclick=()=>padPress(b.dataset.k))}
 function updateDisp(){const d=$('#disp');if(d)d.innerHTML=(pad&&pad.buf?`<span>${fa(pad.buf)}</span>`:'')+'<span class="caret"></span>'}
 function padPress(k){if(!pad)return;if(pad.locked){if(k==='ok'&&pad.cont)pad.cont();return}
@@ -339,24 +347,24 @@ function flyXP(from,amount){
 /* ============ تمرین ============ */
 let Q=null;
 const TIP_STAGE={2:3,5:4,4:5,9:6,3:7,6:8,8:9,7:10};
-function startQuiz(i){const s=STAGES[i];const deck=s.deck?s.deck():Array.from({length:s.count},()=>s.gen());beginQuiz({mode:'stage',i,title:`${s.icon} ${s.title}`,deck,pass:s.pass})}
-function startReview(){lastFact='';beginQuiz({mode:'review',title:'🧠 مرور هوشمند',deck:Array.from({length:15},()=>factQ(...pickFact()))})}
-function startFocus(facts){const d=[];while(d.length<10)shuffle(facts).forEach(f=>{if(d.length<10)d.push(f)});beginQuiz({mode:'focus',title:'🎯 تمرین هدفمند',deck:d.map(([a,b])=>Math.random()<.5?factQ(a,b):factQ(b,a))})}
+function startQuiz(i){const s=STAGES[i];const deck=s.deck?s.deck():Array.from({length:s.count},()=>s.gen());beginQuiz({mode:'stage',i,title:`<span class="qt-ic tile" style="${sVars(s)}">${sGlyph(s)}</span>${s.title}`,deck,pass:s.pass})}
+function startReview(){lastFact='';beginQuiz({mode:'review',title:'<svg class=ic data-c=pink><use href=#ibrain></use></svg> مرور هوشمند',deck:Array.from({length:15},()=>factQ(...pickFact()))})}
+function startFocus(facts){const d=[];while(d.length<10)shuffle(facts).forEach(f=>{if(d.length<10)d.push(f)});beginQuiz({mode:'focus',title:'<svg class=ic data-c=red><use href=#itarget></use></svg> تمرین هدفمند',deck:d.map(([a,b])=>Math.random()<.5?factQ(a,b):factQ(b,a))})}
 function beginQuiz(o){vfxPreload();Q=Object.assign({queue:o.deck,total:o.deck.length,done:0,first:0,xp:0,streak:0,maxStreak:0,wrong:[],t:Date.now(),wrongBy:{},tipped:{}},o);go(()=>{setTab(null);cur='quiz';renderQuizShell();nextQ(true)})}
 function renderQuizShell(){
-  app.innerHTML=`<div class="quiz"><div class="quiz-bar"><button class="icon-btn" id="qx" aria-label="خروج">✕</button><div class="pbar"><i id="pfill"></i></div><span class="qcount" id="qcount"></span></div><div class="card qcard" id="qcard"></div><div class="pad glass" id="pad">${padHTML()}</div></div>`;
+  app.innerHTML=`<div class="quiz"><div class="quiz-bar"><button class="icon-btn" id="qx" aria-label="خروج"><svg class=ic><use href=#ix></use></svg></button><div class="pbar"><i id="pfill"></i></div><span class="qcount" id="qcount"></span></div><div class="card qcard" id="qcard"></div><div class="pad glass" id="pad">${padHTML()}</div></div>`;
   bindPad();
-  $('#qx').onclick=e=>askConfirm({origin:e.currentTarget,icon:'🚪',title:'از تمرین خارج میشی؟',text:'نتیجه‌ی این دور ثبت نمیشه، ولی XPهایی که گرفتی می‌مونه.',yes:'آره، خروج',no:'نه، ادامه میدم',danger:1,onYes:()=>{clearTimeout(Q&&Q.ht);clearTimeout(window._nq);pad=null;home()}});
+  $('#qx').onclick=e=>askConfirm({origin:e.currentTarget,icon:'<svg class=ic data-c=red><use href=#idoor_open></use></svg>',title:'از تمرین خارج میشی؟',text:'نتیجه‌ی این دور ثبت نمیشه، ولی XPهایی که گرفتی می‌مونه.',yes:'آره، خروج',no:'نه، ادامه میدم',danger:1,onYes:()=>{clearTimeout(Q&&Q.ht);clearTimeout(window._nq);pad=null;home()}});
 }
 function nextQ(first){
   clearTimeout(Q.ht);if(!Q.queue.length)return finish();
   const c=Q.cur=Q.queue.shift();Q.t0=Date.now();Q.hint=false;
   $('#pfill').style.width=(Q.done/Q.total*100)+'%';$('#qcount').textContent=`${fa(Q.done)}/${fa(Q.total)}`;
   const qc=$('#qcard');
-  qc.innerHTML=`<div class="q-top"><span>${Q.title}</span>${c.retry?'<span class="tag warn">🔁 دوباره</span>':''}${Q.streak>=3?`<span class="tag fire">🔥 ${fa(Q.streak)} تا پشت هم</span>`:''}</div>${c.viz||''}${c.sub?`<div class="qsub">${c.sub}</div>`:''}<div class="qtext"><span id="qtext">${c.text}</span>${ttsBtn('qtext')}</div><div class="disp" id="disp"></div><div class="fb" id="fb"></div><button class="hint-btn" id="hbtn">💡 راهنما</button>`;
+  qc.innerHTML=`<div class="q-top"><span>${Q.title}</span>${c.retry?'<span class="tag warn"><svg class=ic data-c=blue><use href=#irepeat></use></svg> دوباره</span>':''}${Q.streak>=3?`<span class="tag fire"><svg class=ic data-c=orange><use href=#iflame></use></svg> ${fa(Q.streak)} تا پشت هم</span>`:''}</div>${c.viz||''}${c.sub?`<div class="qsub">${c.sub}</div>`:''}<div class="qtext"><span id="qtext">${c.text}</span>${ttsBtn('qtext')}</div><div class="disp" id="disp"></div><div class="fb" id="fb"></div><button class="hint-btn" id="hbtn"><svg class=ic data-c=amber><use href=#ilightbulb></use></svg> راهنما</button>`;
   pad={buf:'',locked:false,submit:checkAns,cont:null};updateDisp();
   if(!first&&!RM)qc.animate([{opacity:0,transform:'translateX(-40px) scale(.98)'},{opacity:1,transform:'none'}],{duration:420,easing:SPRING});
-  $('#hbtn').onclick=()=>{Q.hint=true;$('#fb').innerHTML=`<div class="hintbox">💡 <span id="hintT">${c.hint}</span>${ttsBtn('hintT')}</div>`;bindTTS($('#fb'));$('#hbtn').style.display='none'};
+  $('#hbtn').onclick=()=>{Q.hint=true;$('#fb').innerHTML=`<div class="hintbox"><svg class=ic data-c=amber><use href=#ilightbulb></use></svg> <span id="hintT">${c.hint}</span>${ttsBtn('hintT')}</div>`;bindTTS($('#fb'));$('#hbtn').style.display='none'};
   bindTTS(qc);
   Q.ht=setTimeout(()=>{const h=$('#hbtn');if(h&&pad&&!pad.locked)h.classList.add('nudge')},12000);
 }
@@ -370,14 +378,14 @@ function checkAns(){
   if(ok){
     sGood();if(Q.mode!=='speed')vfx(pick(['ok1','ok2','ok3','ok4','ok5']),140);Q.streak++;Q.maxStreak=Math.max(Q.maxStreak,Q.streak);if(!c.retry)Q.first++;
     const g=c.retry?3:(Q.hint?5:10)+(Q.streak>=5?2:0);Q.xp+=g;S.xp+=g;save();
-    d.classList.add('ok');fb.innerHTML=`<span class="fb-chip good">${pick(praise)}${ms<4000&&!Q.hint?' ⚡ سریع!':''}</span>`;
+    d.classList.add('ok');fb.innerHTML=`<span class="fb-chip good">${pick(praise)}${ms<4000&&!Q.hint?' <svg class=ic data-c=amber><use href=#izap></use></svg> سریع!':''}</span>`;
     flyXP(d,g);window._nq=setTimeout(()=>nextQ(),900);
   }else{
     sBad();vfx(pick(['no1','no2']),350);Q.streak=0;d.classList.add('bad');Q.queue.push(Object.assign({},c,{retry:true}));if(!c.retry)Q.wrong.push(c);
     d.innerHTML=`<s>${fa(pad.buf)}</s><span class="to">→</span><span class="right">${fa(c.ans)}</span>`;
     let tip='';
-    if(c.fact){const m=stratM(c.fact[0],c.fact[1]);if(m!==null&&TIP_STAGE[m]!==undefined){Q.wrongBy[m]=(Q.wrongBy[m]||0)+1;if(Q.wrongBy[m]>=2&&!Q.tipped[m]&&Q.i!==TIP_STAGE[m]){Q.tipped[m]=1;tip=`<div class="coachtip">✨ <b>مربی:</b> به نظر میاد ضرب در ${M(m)} هنوز جا نیفتاده. بعد از این تمرین، درس «${STAGES[TIP_STAGE[m]].title}» رو یه بار دیگه ببین.</div>`}}}
-    fb.innerHTML=`<span class="fb-chip bad">نزدیک بود! جواب درست: ${M(c.ans)}</span><div class="hintbox">💡 <span id="hintT">${c.hint}</span>${ttsBtn('hintT')}</div>${tip}<button class="btn block" id="cbtn">فهمیدم، ادامه ←</button><div class="mut small" style="margin-top:6px">این سوال آخر تمرین دوباره میاد 🔁</div>`;
+    if(c.fact){const m=stratM(c.fact[0],c.fact[1]);if(m!==null&&TIP_STAGE[m]!==undefined){Q.wrongBy[m]=(Q.wrongBy[m]||0)+1;if(Q.wrongBy[m]>=2&&!Q.tipped[m]&&Q.i!==TIP_STAGE[m]){Q.tipped[m]=1;tip=`<div class="coachtip"><svg class=ic data-c=violet><use href=#isparkles></use></svg> <b>مربی:</b> به نظر میاد ضرب در ${M(m)} هنوز جا نیفتاده. بعد از این تمرین، درس «${STAGES[TIP_STAGE[m]].title}» رو یه بار دیگه ببین.</div>`}}}
+    fb.innerHTML=`<span class="fb-chip bad">نزدیک بود! جواب درست: ${M(c.ans)}</span><div class="hintbox"><svg class=ic data-c=amber><use href=#ilightbulb></use></svg> <span id="hintT">${c.hint}</span>${ttsBtn('hintT')}</div>${tip}<button class="btn block" id="cbtn">فهمیدم، ادامه <svg class=ic><use href=#ichevron_left></use></svg></button><div class="mut small" style="margin-top:6px">این سوال آخر تمرین دوباره میاد <svg class=ic data-c=blue><use href=#irepeat></use></svg></div>`;
     pad.cont=()=>{pad=null;nextQ()};$('#cbtn').onclick=pad.cont;bindTTS(fb);save();
     setTimeout(()=>{const b=$('#cbtn');if(b)b.scrollIntoView({block:'center',behavior:RM?'auto':'smooth'})},120);
   }
@@ -390,18 +398,18 @@ function finish(){
     const s=STAGES[Q.i],f=Q.first,t=Q.total;st=f>=t?3:f>=Q.pass+Math.ceil((t-Q.pass)/2)?2:f>=Q.pass?1:0;
     if(st>(S.stars[s.id]||0))S.stars[s.id]=st;if(st){S.log.push(Date.now());S.log=S.log.slice(-20)}
     const hasNext=Q.i<N-1;
-    if(st){emoji=Q.i===N-1?'👹':'🎉';title=Q.i===N-1?'غول رو شکست دادی! 🏆':'مرحله رد شد!';sub=st===3?'بی‌نقص! همه رو در اولین تلاش درست زدی.':'عالی بود! برای ⭐ بیشتر می‌تونی دوباره امتحان کنی.';
-      actions=`${hasNext?`<button class="btn good" id="ra1">مرحله‌ی بعد ←</button>`:''}<button class="btn ghost" id="ra2">دوباره (برای ⭐ بیشتر)</button><button class="btn ghost" id="ra3">🗺️ نقشه</button>`}
-    else{emoji='💪';title='تقریباً رسیدی!';sub=`برای قبولی ${fa(Q.pass)} جواب درست در اولین تلاش لازمه. مغز با اشتباه کردن یاد می‌گیره، پس یه بار دیگه امتحان کن!`;
-      actions=`<button class="btn" id="ra2">دوباره امتحان کن 🔁</button><button class="btn ghost" id="ra4">📖 دیدن درس</button><button class="btn ghost" id="ra3">🗺️ نقشه</button>`}
-  }else{emoji=Q.mode==='focus'?'🎯':'🧠';title=Q.mode==='focus'?'تمرین هدفمند تموم شد!':'مرور تموم شد!';sub=`ضرب‌های مسلط‌شده: ${fa(mastered())} از ${fa(36)}`;
-    actions=`<button class="btn" id="ra5">یه دور دیگه 🔁</button><button class="btn ghost" id="ra6">📊 جدول من</button><button class="btn ghost" id="ra3">🗺️ نقشه</button>`}
+    if(st){emoji=Q.i===N-1?'<svg class=ic data-c=red><use href=#iswords></use></svg>':'<svg class=ic data-c=pink><use href=#iparty_popper></use></svg>';title=Q.i===N-1?'غول رو شکست دادی! <svg class=ic data-c=gold><use href=#itrophy></use></svg>':'مرحله رد شد!';sub=st===3?'بی‌نقص! همه رو در اولین تلاش درست زدی.':'عالی بود! برای <svg class=icf data-c=gold><use href=#istar></use></svg> بیشتر می‌تونی دوباره امتحان کنی.';
+      actions=`${hasNext?`<button class="btn good" id="ra1">مرحله‌ی بعد <svg class=ic><use href=#ichevron_left></use></svg></button>`:''}<button class="btn ghost" id="ra2">دوباره (برای <svg class=icf data-c=gold><use href=#istar></use></svg> بیشتر)</button><button class="btn ghost" id="ra3"><svg class=ic><use href=#imap></use></svg> نقشه</button>`}
+    else{emoji='<svg class=ic data-c=orange><use href=#ibiceps_flexed></use></svg>';title='تقریباً رسیدی!';sub=`برای قبولی ${fa(Q.pass)} جواب درست در اولین تلاش لازمه. مغز با اشتباه کردن یاد می‌گیره، پس یه بار دیگه امتحان کن!`;
+      actions=`<button class="btn" id="ra2">دوباره امتحان کن <svg class=ic data-c=blue><use href=#irepeat></use></svg></button><button class="btn ghost" id="ra4"><svg class=ic><use href=#ibook_open></use></svg> دیدن درس</button><button class="btn ghost" id="ra3"><svg class=ic><use href=#imap></use></svg> نقشه</button>`}
+  }else{emoji=Q.mode==='focus'?'<svg class=ic data-c=red><use href=#itarget></use></svg>':'<svg class=ic data-c=pink><use href=#ibrain></use></svg>';title=Q.mode==='focus'?'تمرین هدفمند تموم شد!':'مرور تموم شد!';sub=`ضرب‌های مسلط‌شده: ${fa(mastered())} از ${fa(36)}`;
+    actions=`<button class="btn" id="ra5">یه دور دیگه <svg class=ic data-c=blue><use href=#irepeat></use></svg></button><button class="btn ghost" id="ra6"><svg class=ic><use href=#igrid_dxd></use></svg> جدول من</button><button class="btn ghost" id="ra3"><svg class=ic><use href=#imap></use></svg> نقشه</button>`}
   save();
   const mode=Q.mode,qi=Q.i,first=Q.first,total=Q.total,xp=Q.xp,ms=Q.maxStreak;
   go(()=>{setTab(null);cur='result';
-    app.innerHTML=`<div class="card result"><div class="res-emoji">${emoji}</div>${mode==='stage'?`<div class="rstars">${[0,1,2].map(k=>`<span class="rstar ${k<st?'on':''}" style="animation-delay:${350+k*200}ms">★</span>`).join('')}</div>`:''}<h1 style="font-size:28px">${title}</h1><p class="mut">${sub}</p>
-    <div class="res-stats"><div style="animation-delay:.1s"><b>${fa(first)}/${fa(total)}</b><span>درست در اولین تلاش</span></div><div style="animation-delay:.18s"><b>+${fa(xp)}</b><span>امتیاز XP</span></div><div style="animation-delay:.26s"><b>${M(durS)}</b><span>زمان</span></div><div style="animation-delay:.34s"><b>🔥${fa(ms)}</b><span>بهترین پشت‌سرهم</span></div></div>
-    ${wrongFacts.length?`<div class="coachtip" style="margin-bottom:14px">✨ <b>مربی:</b> این‌ها رو اشتباه زدی: ${wrongFacts.slice(0,5).map(([a,b])=>M(`${a}×${b}`)).join('، ')}. تو مرور هوشمند بیشتر ازت پرسیده میشن تا کامل جا بیفتن.</div>`:''}
+    app.innerHTML=`<div class="card result"><div class="res-emoji tile">${emoji}</div>${mode==='stage'?`<div class="rstars">${[0,1,2].map(k=>`<span class="rstar ${k<st?'on':''}" style="animation-delay:${350+k*200}ms"><svg class=icf><use href=#istar></use></svg></span>`).join('')}</div>`:''}<h1 style="font-size:28px">${title}</h1><p class="mut">${sub}</p>
+    <div class="res-stats"><div style="animation-delay:.1s"><b>${fa(first)}/${fa(total)}</b><span>درست در اولین تلاش</span></div><div style="animation-delay:.18s"><b>+${fa(xp)}</b><span>امتیاز XP</span></div><div style="animation-delay:.26s"><b>${M(durS)}</b><span>زمان</span></div><div style="animation-delay:.34s"><b><svg class=ic data-c=orange><use href=#iflame></use></svg>${fa(ms)}</b><span>بهترین پشت‌سرهم</span></div></div>
+    ${wrongFacts.length?`<div class="coachtip" style="margin-bottom:14px"><svg class=ic data-c=violet><use href=#isparkles></use></svg> <b>مربی:</b> این‌ها رو اشتباه زدی: ${wrongFacts.slice(0,5).map(([a,b])=>M(`${a}×${b}`)).join('، ')}. تو مرور هوشمند بیشتر ازت پرسیده میشن تا کامل جا بیفتن.</div>`:''}
     <div class="res-actions">${actions}</div></div>`;
     const on=(id,fn)=>{const b=$('#'+id);if(b)b.onclick=fn};
     on('ra1',()=>lesson(qi+1,0));on('ra2',()=>startQuiz(qi));on('ra3',()=>home());on('ra4',()=>lesson(qi,0));on('ra5',()=>mode==='focus'&&wrongFacts.length?startFocus(wrongFacts):startReview());on('ra6',()=>tableScreen());
@@ -412,15 +420,15 @@ function finish(){
 /* ============ مسابقه سرعت ============ */
 let SP=null;const TC=213.6;
 function speedIntro(){go(()=>{setTab('speed');cur='speed';
-  app.innerHTML=`<section class="hello"><div class="eyebrow">چالش ۶۰ ثانیه‌ای ⏱️</div><h1>مسابقه سرعت</h1><p class="mut">وقتی جواب‌ها بدون فکر کردن به ذهنت برسن، یعنی ضرب رو واقعاً یاد گرفتی. ${fa(60)} ثانیه وقت داری تا هر چند تا ضرب که می‌تونی جواب بدی!</p></section>
-  <div class="card result"><div class="bigemoji">⚡</div><div class="res-stats" style="grid-template-columns:1fr 1fr"><div><b>${fa(S.best)}</b><span>رکورد تو</span></div><div><b>${fa(30)}+</b><span>هدف (تسلط کامل)</span></div></div><button class="btn good block" id="sgo" style="height:56px;font-size:17px">شروع! 🏁</button></div>`;
+  app.innerHTML=`<section class="hello"><div class="eyebrow">چالش ۶۰ ثانیه‌ای <svg class=ic data-c=blue><use href=#itimer></use></svg></div><h1>مسابقه سرعت</h1><p class="mut">وقتی جواب‌ها بدون فکر کردن به ذهنت برسن، یعنی ضرب رو واقعاً یاد گرفتی. ${fa(60)} ثانیه وقت داری تا هر چند تا ضرب که می‌تونی جواب بدی!</p></section>
+  <div class="card result"><div class="bigemoji tile"><svg class=ic data-c=amber><use href=#izap></use></svg></div><div class="res-stats" style="grid-template-columns:1fr 1fr"><div><b>${fa(S.best)}</b><span>رکورد تو</span></div><div><b>${fa(30)}+</b><span>هدف (تسلط کامل)</span></div></div><button class="btn good block" id="sgo" style="height:56px;font-size:17px">شروع! <svg class=ic data-c=green><use href=#iflag></use></svg></button></div>`;
   $('#sgo').onclick=speedStart})}
 function speedStart(){SP={score:0,wrong:0,end:Date.now()+60000};
   go(()=>{setTab(null);cur='speedRun';
-    app.innerHTML=`<div class="quiz"><div class="quiz-bar"><button class="icon-btn" id="qx" aria-label="خروج">✕</button><div class="timer-ring" id="tring"><svg class="ring" viewBox="0 0 80 80"><defs><linearGradient id="gt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--acc)"/><stop offset="1" stop-color="var(--acc2)"/></linearGradient></defs><circle class="bgc" cx="40" cy="40" r="34"/><circle class="fgc" id="tfg" cx="40" cy="40" r="34" stroke="url(#gt)" style="stroke-dasharray:${TC};stroke-dashoffset:0;transition:none"/></svg><b id="tm">${fa(60)}</b></div><div class="score">✅ <span id="sc">${fa(0)}</span></div></div>
-    <div class="card qcard"><div class="q-top">⚡ مسابقه سرعت</div><div class="qtext" id="sq"></div><div class="disp" id="disp"></div><div class="fb" id="fb"></div></div><div class="pad glass">${padHTML()}</div></div>`;
+    app.innerHTML=`<div class="quiz"><div class="quiz-bar"><button class="icon-btn" id="qx" aria-label="خروج"><svg class=ic><use href=#ix></use></svg></button><div class="timer-ring" id="tring"><svg class="ring" viewBox="0 0 80 80"><defs><linearGradient id="gt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--acc)"/><stop offset="1" stop-color="var(--acc2)"/></linearGradient></defs><circle class="bgc" cx="40" cy="40" r="34"/><circle class="fgc" id="tfg" cx="40" cy="40" r="34" stroke="url(#gt)" style="stroke-dasharray:${TC};stroke-dashoffset:0;transition:none"/></svg><b id="tm">${fa(60)}</b></div><div class="score"><svg class=ic data-c=green><use href=#icircle_check></use></svg> <span id="sc">${fa(0)}</span></div></div>
+    <div class="card qcard"><div class="q-top"><svg class=ic data-c=amber><use href=#izap></use></svg> مسابقه سرعت</div><div class="qtext" id="sq"></div><div class="disp" id="disp"></div><div class="fb" id="fb"></div></div><div class="pad glass">${padHTML()}</div></div>`;
     bindPad();
-    $('#qx').onclick=e=>askConfirm({origin:e.currentTarget,icon:'🏳️',title:'مسابقه رو تموم می‌کنی؟',yes:'آره، خروج',danger:1,onYes:()=>{clearInterval(window._spT);SP=null;pad=null;speedIntro()}});
+    $('#qx').onclick=e=>askConfirm({origin:e.currentTarget,icon:'<svg class=ic data-c=mut><use href=#iflag></use></svg>',title:'مسابقه رو تموم می‌کنی؟',yes:'آره، خروج',danger:1,onYes:()=>{clearInterval(window._spT);SP=null;pad=null;speedIntro()}});
     speedQ();
     clearInterval(window._spT);window._spT=setInterval(()=>{if(!SP)return clearInterval(window._spT);const rem=Math.max(0,(SP.end-Date.now())/1000),f=$('#tfg'),t=$('#tm');if(f)f.style.strokeDashoffset=TC*(1-rem/60);if(t)t.textContent=fa(Math.ceil(rem));if(rem<=10)$('#tring')?.classList.add('hurry');if(rem<=0){clearInterval(window._spT);speedEnd()}},100);
   })}
@@ -432,9 +440,9 @@ function speedQ(){if(!SP||Date.now()>=SP.end)return;const[a,b]=pickFact();SP.t0=
   updateDisp()}
 function speedEnd(){pad=null;if(!SP)return;const sc=SP.score,wr=SP.wrong,rec=sc>S.best;if(rec)S.best=sc;const g=sc*4;S.xp+=g;S.lastDay=today();save();SP=null;
   go(()=>{setTab(null);cur='result';
-    app.innerHTML=`<div class="card result"><div class="res-emoji">${rec?'🏆':'⏱️'}</div><h1 style="font-size:28px">${rec?'رکورد جدید!':'وقت تموم شد!'}</h1><p class="mut">${sc>=30?'فوق‌العاده! جدول ضرب رو کاملاً مسلطی.':sc>=20?'خیلی خوبه! چند دور دیگه و به ۳۰ می‌رسی.':'هر دور سریع‌تر میشی. ادامه بده!'}</p>
+    app.innerHTML=`<div class="card result"><div class="res-emoji tile">${rec?'<svg class=ic data-c=gold><use href=#itrophy></use></svg>':'<svg class=ic data-c=blue><use href=#itimer></use></svg>'}</div><h1 style="font-size:28px">${rec?'رکورد جدید!':'وقت تموم شد!'}</h1><p class="mut">${sc>=30?'فوق‌العاده! جدول ضرب رو کاملاً مسلطی.':sc>=20?'خیلی خوبه! چند دور دیگه و به ۳۰ می‌رسی.':'هر دور سریع‌تر میشی. ادامه بده!'}</p>
     <div class="res-stats"><div><b>${fa(sc)}</b><span>درست</span></div><div><b>${fa(wr)}</b><span>اشتباه</span></div><div><b>${fa(S.best)}</b><span>رکورد</span></div><div><b>+${fa(g)}</b><span>XP</span></div></div>
-    <div class="res-actions"><button class="btn good" id="r1">دوباره 🔁</button><button class="btn ghost" id="r2">🗺️ نقشه</button></div></div>`;
+    <div class="res-actions"><button class="btn good" id="r1">دوباره <svg class=ic data-c=blue><use href=#irepeat></use></svg></button><button class="btn ghost" id="r2"><svg class=ic><use href=#imap></use></svg> نقشه</button></div></div>`;
     $('#r1').onclick=speedStart;$('#r2').onclick=()=>home();updateHeader()});
   if(rec&&sc>0){setTimeout(sWin,300);setTimeout(confetti,350)}}
 
@@ -442,17 +450,17 @@ function speedEnd(){pad=null;if(!SP)return;const sc=SP.score,wr=SP.wrong,rec=sc>
 function reviewHub(){go(()=>{setTab('review');cur='review';
   const weak=weakFacts(8),f=coreFacts(),cnt=[f.filter(x=>ltBox(...x)===undefined).length,...[0,1,2,3,4,5].map(b=>f.filter(x=>ltBox(...x)===b).length)],mx=Math.max(1,...cnt);
   const cols=['var(--surface2)','rgba(240,68,103,.55)','rgba(245,120,60,.55)','rgba(245,190,40,.6)','rgba(160,210,60,.65)','rgba(40,200,110,.7)','var(--good)'],labels=['جدید','جعبه ۰','جعبه ۱','جعبه ۲','جعبه ۳','جعبه ۴','جعبه ۵'];
-  app.innerHTML=`<section class="hello"><div class="eyebrow">تکرار با فاصله 🧠</div><h1>مرور هوشمند</h1><p class="mut">مغز چیزی رو که درست قبل از فراموش شدن مرور کنه، برای همیشه نگه می‌داره. جعبه‌ی لایتنر دقیقاً همین کار رو می‌کنه: ضرب‌های سخت رو زیاد می‌پرسه و ضرب‌های آسون رو کم.</p></section>
-  <div class="modes"><button class="mode-card" id="m1"><div class="mi">🧠</div><b>مرور هوشمند</b><small>${fa(15)} سوال — سخت‌ترها بیشتر</small></button><button class="mode-card" id="m2" ${weak.length?'':'disabled'} style="animation-delay:.06s"><div class="mi">🎯</div><b>ضرب‌های سختم</b><small>${weak.length?`${fa(weak.length)} ضرب نیاز به تمرین داره`:'فعلاً ضرب سختی نداری 🎉'}</small></button></div>
-  <section class="card"><h3>جعبه‌های لایتنر تو</h3><p class="mut small">هر بار درست و سریع جواب بدی، اون ضرب یه جعبه جلو میره. اگه اشتباه بزنی، برمی‌گرده جعبه‌ی صفر. از جعبه‌ی ۳ به بعد یعنی مسلطی 💪</p>
+  app.innerHTML=`<section class="hello"><div class="eyebrow">تکرار با فاصله <svg class=ic data-c=pink><use href=#ibrain></use></svg></div><h1>مرور هوشمند</h1><p class="mut">مغز چیزی رو که درست قبل از فراموش شدن مرور کنه، برای همیشه نگه می‌داره. جعبه‌ی لایتنر دقیقاً همین کار رو می‌کنه: ضرب‌های سخت رو زیاد می‌پرسه و ضرب‌های آسون رو کم.</p></section>
+  <div class="modes"><button class="mode-card" id="m1"><div class="mi tile"><svg class=ic data-c=pink><use href=#ibrain></use></svg></div><b>مرور هوشمند</b><small>${fa(15)} سوال — سخت‌ترها بیشتر</small></button><button class="mode-card" id="m2" ${weak.length?'':'disabled'} style="animation-delay:.06s"><div class="mi tile"><svg class=ic data-c=red><use href=#itarget></use></svg></div><b>ضرب‌های سختم</b><small>${weak.length?`${fa(weak.length)} ضرب نیاز به تمرین داره`:'فعلاً ضرب سختی نداری <svg class=ic data-c=pink><use href=#iparty_popper></use></svg>'}</small></button></div>
+  <section class="card"><h3>جعبه‌های لایتنر تو</h3><p class="mut small">هر بار درست و سریع جواب بدی، اون ضرب یه جعبه جلو میره. اگه اشتباه بزنی، برمی‌گرده جعبه‌ی صفر. از جعبه‌ی ۳ به بعد یعنی مسلطی <svg class=ic data-c=orange><use href=#ibiceps_flexed></use></svg></p>
   <div class="boxes">${cnt.map((c,i)=>`<div class="col"><b>${fa(c)}</b><div class="barv" style="background:${cols[i]}" data-h="${Math.max(4,c/mx*100)}%"></div><span>${labels[i]}</span></div>`).join('')}</div></section>
-  ${weak.length?`<section class="card" style="margin-top:14px"><h3>نیاز به تمرین</h3><p class="mut small">روی هر کدوم بزن تا ترفندش رو ببینی 👇</p><div class="fchips">${weak.map(([a,b])=>`<button class="fchip" data-a="${a}" data-b="${b}">${M(`${a}×${b}`)}</button>`).join('')}</div></section>`:''}`;
+  ${weak.length?`<section class="card" style="margin-top:14px"><h3>نیاز به تمرین</h3><p class="mut small">روی هر کدوم بزن تا ترفندش رو ببینی <svg class=ic><use href=#iarrow_down></use></svg></p><div class="fchips">${weak.map(([a,b])=>`<button class="fchip" data-a="${a}" data-b="${b}">${M(`${a}×${b}`)}</button>`).join('')}</div></section>`:''}`;
   $('#m1').onclick=()=>startReview();if(weak.length)$('#m2').onclick=()=>startFocus(weak);
   $$('.fchip').forEach(b=>b.onclick=()=>factSheet(+b.dataset.a,+b.dataset.b,b));
   animateMeters()})}
 function factSheet(a,b,origin){
   const core=isCore(a,b),bx=ltBox(a,b),tm=S.tm[fkey(a,b)];
-  openSheet(origin,`<div class="sheet-icon txt">${M(`${a}×${b}`)}</div><h3>${M(`${a} × ${b} = ${a*b}`)}</h3><div class="hintbox">💡 ${strat(a,b)}</div>${core?`<div class="meta-row"><span>📦 ${bx===undefined?'هنوز تمرین نشده':'جعبه‌ی '+fa(bx)}</span>${tm?`<span>⏱️ میانگین ${fa((tm/1000).toFixed(1))} ثانیه</span>`:''}</div>`:''}<div class="sheet-actions">${core?`<button class="btn block" id="fs1">🎯 تمرین این ضرب</button>`:''}<button class="btn ghost block" id="fs2">فهمیدم</button></div>`);
+  openSheet(origin,`<div class="sheet-icon txt">${M(`${a}×${b}`)}</div><h3>${M(`${a} × ${b} = ${a*b}`)}</h3><div class="hintbox"><svg class=ic data-c=amber><use href=#ilightbulb></use></svg> ${strat(a,b)}</div>${core?`<div class="meta-row"><span><svg class=ic><use href=#ipackage></use></svg> ${bx===undefined?'هنوز تمرین نشده':'جعبه‌ی '+fa(bx)}</span>${tm?`<span><svg class=ic data-c=blue><use href=#itimer></use></svg> میانگین ${fa((tm/1000).toFixed(1))} ثانیه</span>`:''}</div>`:''}<div class="sheet-actions">${core?`<button class="btn block" id="fs1"><svg class=ic data-c=red><use href=#itarget></use></svg> تمرین این ضرب</button>`:''}<button class="btn ghost block" id="fs2">فهمیدم</button></div>`);
   if(core)$('#fs1').onclick=()=>{const rel=[[a,b]];range(2,9).filter(x=>x!==b).sort(()=>Math.random()-.5).slice(0,3).forEach(x=>rel.push([a,x]));startFocus(rel)};
   $('#fs2').onclick=()=>closeSheet();
 }
@@ -461,11 +469,11 @@ function factSheet(a,b,origin){
 function tableScreen(){go(()=>{setTab('table');cur='table';
   let h='<div class="h">×</div>';for(let c=1;c<=10;c++)h+=`<div class="h" style="animation-delay:${c*15}ms">${fa(c)}</div>`;
   for(let r=1;r<=10;r++){h+=`<div class="h" style="animation-delay:${r*15}ms">${fa(r)}</div>`;for(let c=1;c<=10;c++){let cls='easy';if(isCore(r,c)){const b=ltBox(r,c);cls=b===undefined?'new':'b'+b}h+=`<div class="${cls}" data-r="${r}" data-c="${c}" style="animation-delay:${(r+c)*18}ms">${fa(r*c)}</div>`}}
-  app.innerHTML=`<section class="hello"><div class="eyebrow">نقشه‌ی حافظه‌ی تو 📊</div><h1>جدول ضرب من</h1><p class="mut">رنگ هر خونه نشون میده چقدر بلدیش. جدول نسبت به قطرش قرینه‌ست (جابه‌جایی!). روی هر خونه بزن تا ترفندش رو ببینی.</p></section>
-  <div class="card"><div class="tbl">${h}</div><div class="legend"><span class="new">هنوز تمرین نشده</span><span class="b0">نیاز به تمرین</span><span class="b2">در حال یادگیری</span><span class="b3">خوب</span><span class="b5">مسلط 💪</span><span class="easy">آسون (×۱، ×۱۰)</span></div></div>`;
+  app.innerHTML=`<section class="hello"><div class="eyebrow">نقشه‌ی حافظه‌ی تو <svg class=ic><use href=#igrid_dxd></use></svg></div><h1>جدول ضرب من</h1><p class="mut">رنگ هر خونه نشون میده چقدر بلدیش. جدول نسبت به قطرش قرینه‌ست (جابه‌جایی!). روی هر خونه بزن تا ترفندش رو ببینی.</p></section>
+  <div class="card"><div class="tbl">${h}</div><div class="legend"><span class="new">هنوز تمرین نشده</span><span class="b0">نیاز به تمرین</span><span class="b2">در حال یادگیری</span><span class="b3">خوب</span><span class="b5">مسلط <svg class=ic data-c=orange><use href=#ibiceps_flexed></use></svg></span><span class="easy">آسون (×۱، ×۱۰)</span></div></div>`;
   $$('.tbl div[data-r]').forEach(el=>el.onclick=()=>factSheet(+el.dataset.r,+el.dataset.c,el))})}
 
-const TABS=[['map','🗺️','مراحل',home],['review','🧠','مرور',reviewHub],['speed','⚡','سرعت',speedIntro],['table','📊','جدول',tableScreen]];
+const TABS=[['map','<svg class=ic><use href=#imap></use></svg>','مراحل',home],['review','<svg class=ic data-c=pink><use href=#ibrain></use></svg>','مرور',reviewHub],['speed','<svg class=ic data-c=amber><use href=#izap></use></svg>','سرعت',speedIntro],['table','<svg class=ic><use href=#igrid_dxd></use></svg>','جدول',tableScreen]];
 
 /* دکمه‌ی برگشت اندروید */
 window.onAndroidBack=function(){

@@ -156,8 +156,8 @@ h3{font-size:18px;font-weight:900;line-height:1.55}
 details.plan{margin-top:16px}
 details.plan summary{list-style:none;font-weight:900;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:16px}
 details.plan summary::-webkit-details-marker{display:none}
-details.plan summary::after{content:"⌄";font-size:20px;transition:transform .35s var(--spring)}
-details.plan[open] summary::after{transform:rotate(180deg)}
+details.plan summary::after{content:"";width:9px;height:9px;margin:0 6px 6px;border:solid currentColor;border-width:0 2.5px 2.5px 0;transform:rotate(45deg);transition:transform .35s var(--spring)}
+details.plan[open] summary::after{transform:translateY(5px) rotate(225deg)}
 .plan ul{list-style:none;margin-top:12px;display:grid;gap:8px}
 .plan li{padding:10px 14px;border-radius:16px;background:var(--surface2);animation:cardIn .5s var(--spring) both}
 .footer{text-align:center;margin-top:22px;display:grid;gap:10px;justify-items:center}
@@ -274,7 +274,7 @@ input[type=range]{width:100%;accent-color:var(--acc);height:28px}
 .res-emoji{font-size:64px;animation:pop .7s var(--spring)}
 .rstars{font-size:52px;letter-spacing:8px;margin:4px 0}
 .rstar{display:inline-block;opacity:.18;animation:starIn .7s var(--spring) both}
-.rstar.on{color:#ffb020;opacity:1;text-shadow:0 6px 20px rgba(255,176,32,.5)}
+.rstar.on{color:#ffb020;opacity:1;filter:drop-shadow(0 6px 14px rgba(255,176,32,.55))}
 @keyframes starIn{from{transform:scale(0) rotate(-120deg);opacity:0}}
 .res-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0}
 .res-stats div{background:var(--surface2);border-radius:18px;padding:12px 6px;animation:cardIn .6s var(--spring) both}
@@ -363,3 +363,44 @@ body.focus #top{position:relative;top:0}
 .tts-btn svg{width:18px;height:18px;fill:currentColor}
 body.has-tts .tts-btn{display:inline-grid}
 @media (max-width:400px){.narr{gap:9px;padding:9px}.nbtn{width:48px;height:48px}.nlbl{font-size:13px}}
+
+/* ---------- آیکون‌های برداری ---------- */
+.ic,.icf{width:1.15em;height:1.15em;flex:none;display:inline-block;vertical-align:-.22em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
+.icf{fill:currentColor;stroke-width:1.2}
+svg[data-c=gold]{color:#f5a300}svg[data-c=amber]{color:#ff9500}svg[data-c=orange]{color:#ff5f2e}svg[data-c=pink]{color:#ec3f78}
+svg[data-c=violet]{color:var(--acc)}svg[data-c=green]{color:var(--good)}svg[data-c=red]{color:var(--bad)}svg[data-c=blue]{color:#2f8bff}
+svg[data-c=teal]{color:#00a88f}svg[data-c=mut]{color:var(--mut)}
+.lesson h3 .ic{width:1.05em;height:1.05em;margin-inline-start:4px}
+.logo svg{width:23px;height:23px}
+.icon-btn .ic{width:19px;height:19px}
+.nav-item .ni{display:grid;place-items:center;height:28px}.nav-item .ni .ic{width:23px;height:23px;stroke-width:2.1}
+.nav-item[aria-current=true] .ni .ic{stroke-width:2.4}
+.chip .ic,.chip .icf{width:17px;height:17px}
+.tile{background:linear-gradient(140deg,var(--g1,var(--acc)),var(--g2,var(--acc2)))!important;color:#fff;box-shadow:0 10px 22px -10px var(--g1,#6d4aff),inset 0 1px 0 rgba(255,255,255,.42),inset 0 -2px 6px rgba(0,0,0,.08)}
+.tile>.ic,.tile>.icf{color:#fff!important;width:.95em;height:.95em;stroke-width:2.2;filter:drop-shadow(0 1px 1px rgba(0,0,0,.15))}
+.gt{font-weight:900;line-height:1;direction:ltr;unicode-bidi:isolate;letter-spacing:-.5px;text-shadow:0 1px 2px rgba(0,0,0,.15)}
+.st-icon .gt{font-size:21px}.st-icon .gt.sm{font-size:16px}
+.lh-icon .gt{font-size:25px}.lh-icon .gt.sm{font-size:19px}
+.sheet-icon .gt{font-size:34px}.sheet-icon .gt.sm{font-size:27px}
+.coach-emoji .gt{font-size:25px}.coach-emoji .gt.sm{font-size:19px}
+.continue .ci .gt{font-size:25px}.continue .ci .gt.sm{font-size:19px}.continue .ci .ic{width:30px;height:30px;color:#fff}
+.continue .arrow .ic{width:26px;height:26px}
+.qt-ic{font-size:15px;display:inline-grid;place-items:center;width:26px;height:26px;border-radius:9px;vertical-align:middle;margin-inline-end:7px;box-shadow:none}
+.qt-ic .gt{font-size:11px}
+.res-emoji.tile,.bigemoji.tile{width:104px;height:104px;border-radius:34px;margin:0 auto 10px;display:grid;place-items:center;font-size:0;animation:pop .7s var(--spring)}
+.bigemoji.tile{width:92px;height:92px;border-radius:30px;--g1:#ff9a12;--g2:#ffcc33}
+.res-emoji.tile>.ic,.bigemoji.tile>.ic{width:54px;height:54px}
+.coach-emoji.tile>.ic{width:30px;height:30px}
+.mode-card .mi.tile>.ic{width:28px;height:28px}
+#m2 .mi.tile{--g1:#ff5a3c;--g2:#ff8a4a}
+.st-check .ic{width:14px;height:14px;stroke-width:3.2}
+.rstars .icf{width:52px;height:52px;vertical-align:middle}
+.sheet-stars .icf{width:28px;height:28px}
+.st-stars .icf{width:15px;height:15px}
+.pad .ic{width:24px;height:24px}
+.btn .ic{width:19px;height:19px;vertical-align:-.25em}
+.tag .ic{width:14px;height:14px}
+.meta-row .ic{width:14px;height:14px;margin-inline-end:3px}
+.plan li>.ic:first-child{width:20px;height:20px;margin-inline-end:4px}
+.mut>.ic{opacity:.9}
+.btn:not(.ghost):not(.sec) svg[data-c],.coach-badge svg[data-c],.continue svg[data-c],.nauto.on svg,.tile svg[data-c]{color:#fff}
