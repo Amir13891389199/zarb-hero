@@ -1,0 +1,24 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'io.github.amir.zarbhero'
+    compileSdk 34
+    defaultConfig {
+        applicationId 'io.github.amir.zarbhero'
+        minSdk 24
+        targetSdk 34
+        versionCode Integer.parseInt(System.getenv('VERSION_CODE') ?: '1')
+        versionName '1.0.' + (System.getenv('VERSION_CODE') ?: '1')
+    }
+    signingConfigs {
+        release {
+            storeFile file(System.getenv('KEYSTORE_PATH') ?: 'none.jks')
+            storePassword System.getenv('KEYSTORE_PASSWORD')
+            keyAlias 'zarb'
+            keyPassword System.getenv('KEYSTORE_PASSWORD')
+        }
+    }
+    buildTypes {
+        release { minifyEnabled false; signingConfig signingConfigs.release }
+    }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+}
