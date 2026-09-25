@@ -4,3 +4,5 @@ android/app/build/
 android/app/src/main/assets/index.html
 *.jks
 android/zarb-hero.apk
+
+android/app/src/main/assets/audio/

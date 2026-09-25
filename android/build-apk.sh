@@ -5,6 +5,7 @@ set -eo pipefail
 D=$(cd "$(dirname "$0")" && pwd); SRC=$D/app/src/main; W=$(mktemp -d)
 mkdir -p $W/{gen,cls,dex} $SRC/assets
 cp "$D/../index.html" $SRC/assets/index.html
+rm -rf $SRC/assets/audio && cp -r "$D/../audio" $SRC/assets/audio
 VC=${VERSION_CODE:-1}
 sed "s#<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\">#<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" package=\"io.github.amir.zarbhero\" android:versionCode=\"$VC\" android:versionName=\"1.0.$VC\">\n    <uses-sdk android:minSdkVersion=\"24\" android:targetSdkVersion=\"34\"/>#" $SRC/AndroidManifest.xml > $W/AndroidManifest.xml
 $BT/aapt2 compile --dir $SRC/res -o $W/res.zip

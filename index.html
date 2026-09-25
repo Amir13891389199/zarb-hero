@@ -338,6 +338,41 @@ html.vt-theme #top,html.vt-theme #nav{view-transition-name:none}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 body.focus #top{position:relative;top:0}
 
+/* ---------- صدای معلم ---------- */
+.narr{display:flex;align-items:center;gap:12px;padding:10px 12px;margin-bottom:12px;border-radius:24px;border:1px solid var(--line);background:linear-gradient(135deg,var(--acc-soft),rgba(0,179,255,.09));animation:cardIn .5s var(--spring) both}
+.nbtn{position:relative;flex:none;width:54px;height:54px;border-radius:50%;border:none;cursor:pointer;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 8px 20px rgba(109,74,255,.35),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .3s var(--spring),filter .3s}
+.nbtn:hover{filter:brightness(1.08)}.nbtn:active{transform:scale(.88)}
+.nbtn svg{width:27px;height:27px;fill:currentColor}
+.nbtn .w1,.nbtn .w2{transition:opacity .3s}
+.narr[data-st=play] .w1{animation:nwave 1s ease-in-out infinite}
+.narr[data-st=play] .w2{animation:nwave 1s ease-in-out .25s infinite}
+@keyframes nwave{50%{opacity:.2}}
+.narr[data-st=play] .nbtn::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid var(--acc);animation:nring 1.5s ease-out infinite;pointer-events:none}
+@keyframes nring{from{transform:scale(.9);opacity:.9}to{transform:scale(1.3);opacity:0}}
+.narr[data-st=pause] .w1,.narr[data-st=pause] .w2{opacity:.35}
+.nspin{position:absolute;inset:-4px;border-radius:50%;border:3px solid transparent;pointer-events:none}
+.narr[data-st=load] .nspin{border-top-color:var(--acc);animation:spin .8s linear infinite}
+.narr.call .nbtn{animation:pulse 1.6s infinite}
+.narr[data-st=err]{opacity:.65}.narr[data-st=err] .nbtn{filter:grayscale(1)}
+.ninfo{flex:1;min-width:0}
+.nlbl{display:block;font-size:14px;font-weight:800;line-height:1.55}
+.nprog{height:6px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:7px}
+.nprog i{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(270deg,var(--acc2),var(--acc));transition:width .3s linear}
+.nopts{display:flex;flex-direction:column;gap:6px;flex:none}
+.nrate,.nauto{height:30px;padding:0 10px;border-radius:10px;border:1px solid var(--line);background:var(--chip);color:var(--text);font:800 12px var(--font);cursor:pointer;white-space:nowrap;transition:background .25s,color .25s,transform .25s var(--spring)}
+.nrate:active,.nauto:active{transform:scale(.92)}
+.nauto.on{background:var(--acc);color:#fff;border-color:transparent}
+.narr.compact{display:inline-flex;max-width:100%;padding:6px 16px 6px 6px;margin:12px 0 0;border-radius:99px}
+.narr.compact .nbtn{width:42px;height:42px}.narr.compact .nbtn svg{width:21px;height:21px}
+.narr.compact .nprog{width:150px;height:4px;margin-top:4px}
+.narr.compact .nlbl{font-size:13px}
+#lnext.nudge2{animation:pulse 1.4s 3}
+.tts-btn{display:none;width:34px;height:34px;border-radius:50%;border:none;background:var(--acc-soft);color:var(--acc);cursor:pointer;place-items:center;vertical-align:middle;margin-inline-start:8px;transition:transform .25s var(--spring)}
+.tts-btn:active{transform:scale(.88)}
+.tts-btn svg{width:18px;height:18px;fill:currentColor}
+body.has-tts .tts-btn{display:inline-grid}
+@media (max-width:400px){.narr{gap:9px;padding:9px}.nbtn{width:48px;height:48px}.nlbl{font-size:13px}}
+
 </style>
 </head>
 <body>
@@ -620,7 +655,53 @@ function cycleTheme(ev){
 
 /* ============ انتقال صفحه‌ها ============ */
 let cur='home';
-function go(fn){const run=()=>{closeSheet(true);fn();window.scrollTo(0,0)};if(document.startViewTransition&&!RM){try{document.startViewTransition(run);return}catch(e){}}run()}
+
+/* ============ صدای معلم (روایت صوتی) ============ */
+const AUD='audio/';
+const SPK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path class="w1" d="M16.5 12A4.5 4.5 0 0 0 14 7.97v8.05A4.47 4.47 0 0 0 16.5 12z"/><path class="w2" d="M14 3.23v2.06a7 7 0 0 1 0 13.42v2.06A9 9 0 0 0 14 3.23z"/></svg>';
+const RATES=[[1,'سرعت ۱×'],[.8,'آهسته 🐢'],[1.2,'تند 🐇']];
+if(S.auto===undefined)S.auto=true;if(!(S.rate>=0&&S.rate<RATES.length))S.rate=0;
+const NLBL={load:'یه لحظه صبر کن…',play:'معلم داره توضیح میده…',pause:'مکث شد — بزن تا ادامه بده',done:'✓ تموم شد — بزن تا دوباره گوش بدی',err:'صدا الان در دسترس نیست'};
+const NV={a:null,key:null,st:'idle',onEnd:null};
+function narrEl(){return NV.key?$$('.narr').find(e=>e.dataset.nk===NV.key):null}
+function narrUI(){$$('.narr').forEach(el=>{const on=el.dataset.nk===NV.key,st=on?NV.st:'idle';el.dataset.st=st;const l=el.querySelector('.nlbl');if(l)l.textContent=st==='idle'?el.dataset.l:NLBL[st];const b=el.querySelector('.nbtn');if(b)b.setAttribute('aria-pressed',String(st==='play'));if(!on){const i=el.querySelector('.nprog i');if(i)i.style.width='0'}})}
+function narrAudio(){if(NV.a)return NV.a;const a=NV.a=new Audio();a.preload='auto';
+  const set=st=>{NV.st=st;narrUI()};
+  a.addEventListener('playing',()=>set('play'));a.addEventListener('waiting',()=>{if(!a.paused)set('load')});
+  a.addEventListener('pause',()=>{if(!a.ended&&NV.st!=='err'&&NV.key)set('pause')});
+  a.addEventListener('ended',()=>{set('done');const i=narrEl()&&narrEl().querySelector('.nprog i');if(i)i.style.width='100%';const f=NV.onEnd;NV.onEnd=null;if(f)f()});
+  a.addEventListener('error',()=>{if(NV.key&&a.getAttribute('src'))set('err')});
+  a.addEventListener('timeupdate',()=>{const el=narrEl();if(!el||!a.duration)return;const i=el.querySelector('.nprog i');if(i)i.style.width=(a.currentTime/a.duration*100)+'%'});
+  return a}
+function narrStop(){try{window.speechSynthesis&&speechSynthesis.cancel()}catch(e){}if(NV.a){try{NV.a.pause()}catch(e){}}NV.key=null;NV.st='idle';NV.onEnd=null;narrUI()}
+function narrPlay(key,o){o=o||{};const a=narrAudio();try{a.pause()}catch(e){}
+  NV.key=key;NV.onEnd=o.onEnd||null;NV.st='load';narrUI();
+  a.src=AUD+key+'.mp3';a.defaultPlaybackRate=a.playbackRate=RATES[S.rate][0];
+  let p;try{p=a.play()}catch(e){p=null}
+  if(p&&p.then)p.then(()=>{if(o.ok)o.ok()}).catch(e=>{if(NV.key!==key)return;if(e&&e.name==='NotAllowedError'){NV.st='idle';narrUI();const el=narrEl();if(el)el.classList.add('call')}else if(e&&e.name!=='AbortError'){NV.st='err';narrUI()}});
+}
+function narrToggle(key){const a=NV.a;if(NV.key===key&&a&&NV.st!=='done'&&NV.st!=='err'){if(a.paused){a.play().catch(()=>{})}else a.pause();return}narrPlay(key,{onEnd:key[0]==='s'?lessonEnded:null})}
+function narrHTML(key,label,compact){return `<div class="narr${compact?' compact':''}" data-nk="${key}" data-l="${label}" data-st="idle"><button class="nbtn" aria-label="گوش بده" aria-pressed="false">${SPK}<span class="nspin"></span></button><div class="ninfo"><b class="nlbl">${label}</b><div class="nprog"><i></i></div></div>${compact?'':`<div class="nopts"><button class="nrate" aria-label="سرعت صدا">${RATES[S.rate][1]}</button><button class="nauto${S.auto?' on':''}" aria-pressed="${S.auto}" aria-label="پخش خودکار درس‌ها">${S.auto?'▶︎ خودکار':'خودکار'}</button></div>`}</div>`}
+function bindNarr(root){$$('.narr',root||document).forEach(el=>{const k=el.dataset.nk;
+  el.querySelector('.nbtn').onclick=()=>{el.classList.remove('call');narrToggle(k)};
+  const r=el.querySelector('.nrate');if(r)r.onclick=()=>{S.rate=(S.rate+1)%RATES.length;save();$$('.nrate').forEach(b=>b.textContent=RATES[S.rate][1]);if(NV.a)NV.a.defaultPlaybackRate=NV.a.playbackRate=RATES[S.rate][0];toast('🔊 سرعت صدا: '+RATES[S.rate][1])};
+  const au=el.querySelector('.nauto');if(au)au.onclick=()=>{S.auto=!S.auto;save();$$('.nauto').forEach(b=>{b.classList.toggle('on',S.auto);b.setAttribute('aria-pressed',String(S.auto));b.textContent=S.auto?'▶︎ خودکار':'خودکار'});toast(S.auto?'▶︎ از این به بعد درس‌ها خودشون پخش میشن':'⏸ پخش خودکار خاموش شد؛ هر وقت خواستی دکمه‌ی 🔊 رو بزن')};
+  narrUI()})}
+function lessonEnded(){const b=$('#lnext');if(b){b.classList.remove('nudge2');void b.offsetWidth;b.classList.add('nudge2')}}
+/* صدای تشویق کوتاه */
+const VFX={};let vfxT=0;
+function vfx(k,delay){if(S.mute)return;const now=Date.now();if(now-vfxT<1500)return;vfxT=now;setTimeout(()=>{try{const a=VFX[k]||(VFX[k]=new Audio(AUD+k+'.mp3'));a.currentTime=0;a.playbackRate=1;const p=a.play();if(p&&p.catch)p.catch(()=>{})}catch(e){}},delay||0)}
+function vfxPreload(){['ok1','ok2','ok3','ok4','ok5','no1','no2'].forEach(k=>{if(!VFX[k]){try{const a=new Audio();a.preload='auto';a.src=AUD+k+'.mp3';VFX[k]=a}catch(e){}}})}
+/* خواندن متن‌های پویا با صدای سیستم (فقط اگه دستگاه صدای فارسی داشته باشه) */
+let faV=null;
+function findFaV(){try{faV=speechSynthesis.getVoices().find(v=>/^fa\b|^fa[-_]|persian|farsi/i.test(v.lang+' '+v.name))||null}catch(e){faV=null}document.body.classList.toggle('has-tts',!!faV)}
+if('speechSynthesis' in window){findFaV();try{speechSynthesis.addEventListener('voiceschanged',findFaV)}catch(e){}}
+function ttsText(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent.replace(/×/g,' ضربدر ').replace(/=\s*[؟?]/g,' چند میشه؟').replace(/=/g,' مساوی ').replace(/−/g,' منفی ').replace(/٫/g,' ممیز ').replace(/[💡✨🔁⚡🎉🌟💪🔥👏🧠🚀]/g,'').replace(/\s+/g,' ').trim()}
+function ttsSay(h){if(!faV)return;try{narrStop();const u=new SpeechSynthesisUtterance(ttsText(h));u.voice=faV;u.lang=faV.lang;u.rate=.9*RATES[S.rate][0];speechSynthesis.speak(u)}catch(e){}}
+const ttsBtn=(id)=>`<button class="tts-btn" data-tts="${id}" aria-label="برام بخون">${SPK}</button>`;
+function bindTTS(root){$$('[data-tts]',root||document).forEach(b=>b.onclick=e=>{e.stopPropagation();const t=document.getElementById(b.dataset.tts);if(t)ttsSay(t.innerHTML)})}
+
+function go(fn){const run=()=>{closeSheet(true);narrStop();fn();window.scrollTo(0,0)};if(document.startViewTransition&&!RM){try{document.startViewTransition(run);return}catch(e){}}run()}
 
 /* ============ هدر و ناوبری شناور ============ */
 function renderChrome(){
@@ -628,7 +709,7 @@ function renderChrome(){
   <div class="chips"><span class="chip" id="chStars" title="ستاره‌ها">⭐ <b></b></span><span class="chip" id="xpchip" title="امتیاز">⚡ <b></b></span><span class="chip hide-sm" id="chLvl" title="سطح">🎖️ <b></b></span>
   <button class="icon-btn" id="thBtn" aria-label="تغییر تم"></button><button class="icon-btn" id="muBtn" aria-label="صدا"></button></div>`;
   $('#brand').onclick=()=>home();$('#thBtn').onclick=cycleTheme;
-  $('#muBtn').onclick=()=>{S.mute=!S.mute;save();updateHeader();toast(S.mute?'🔇 صدا خاموش شد':'🔊 صدا روشن شد')};
+  $('#muBtn').onclick=()=>{S.mute=!S.mute;save();if(S.mute)narrStop();updateHeader();toast(S.mute?'🔇 صدا خاموش شد':'🔊 صدا روشن شد')};
   $('#nav').innerHTML='<div class="pill" id="pill"></div>'+TABS.map(t=>`<button class="nav-item" data-tab="${t[0]}" aria-current="false"><span class="ni">${t[1]}</span>${t[2]}</button>`).join('');
   $$('.nav-item').forEach(b=>b.onclick=()=>{const t=TABS.find(x=>x[0]===b.dataset.tab);if(t)t[3]()});
   updateHeader();
@@ -698,7 +779,7 @@ function coach(){
   const s=STAGES[nx],mins=Math.max(3,Math.round(s.lesson.length*1.2+s.count*.35));
   return{e:s.icon,t:`قدم بعدی: ${s.title}`,x:`حدود ${fa(mins)} دقیقه طول می‌کشه. ${done?`تا اینجا ${fa(done)} مرحله رو رد کردی. ${done>=N/2?'بیشتر از نصف راه رو اومدی! 💪':'عالی پیش میری!'}`:''}`,a:[['بزن بریم 🚀',el=>stageSheet(nx,el),1]]};
 }
-function coachHTML(c){return `<section class="card coach" id="coach"><div class="coach-glow"></div><span class="coach-badge">✨ مربی هوشمند</span><div class="coach-body"><div class="coach-emoji">${c.e}</div><div><h3>${c.t}</h3><p id="coachText">${c.x}</p></div></div><div class="coach-actions">${c.a.map((a,i)=>`<button class="btn ${a[2]?'':'ghost'}" data-ca="${i}">${a[0]}</button>`).join('')}</div></section>`}
+function coachHTML(c){return `<section class="card coach" id="coach"><div class="coach-glow"></div><span class="coach-badge">✨ مربی هوشمند</span><div class="coach-body"><div class="coach-emoji">${c.e}</div><div><h3>${c.t}</h3><p><span id="coachText">${c.x}</span>${ttsBtn('coachText')}</p></div></div><div class="coach-actions">${c.a.map((a,i)=>`<button class="btn ${a[2]?'':'ghost'}" data-ca="${i}">${a[0]}</button>`).join('')}</div></section>`}
 function bindCoach(c){$$('[data-ca]').forEach(b=>b.onclick=()=>c.a[+b.dataset.ca][1](b))}
 
 /* ============ صفحه اصلی ============ */
@@ -711,7 +792,7 @@ function renderHome(){
     map+=`<button class="stage ${lock?'locked':''} ${st?'done':''} ${isNext?'next':''}" data-i="${i}" style="--d:${Math.min(i,12)*28}ms"><div class="st-top"><span class="st-icon">${lock?'🔒':s.icon}</span><span class="st-num">${fa(i+1)}</span></div><div class="st-title">${s.title}</div><div class="st-stars">${[0,1,2].map(k=>`<span class="${k<st?'on':''}">★</span>`).join('')}</div>${isNext?'<span class="st-badge">بعدی</span>':''}${st?'<span class="st-check">✓</span>':''}</button>`});
   const web=location.protocol!=='file:';
   app.innerHTML=`
-  <section class="hello"><div class="eyebrow">${greeting()}</div><h1>${done===N?'قهرمان ضرب! 🏆':'سلام قهرمان!'}</h1><p class="mut">${done===0?'امروز قراره ضرب رو از صفر تا صد، با بازی و ترفند یاد بگیری.':done===N?'همه‌ی مراحل رو فتح کردی. حالا فقط مرور کن که همیشه یادت بمونه.':`${fa(done)} مرحله از ${fa(N)} رو رد کردی. ادامه بده، داری عالی پیش میری.`}</p></section>
+  <section class="hello"><div class="eyebrow">${greeting()}</div><h1>${done===N?'قهرمان ضرب! 🏆':'سلام قهرمان!'}</h1><p class="mut">${done===0?'امروز قراره ضرب رو از صفر تا صد، با بازی و ترفند یاد بگیری.':done===N?'همه‌ی مراحل رو فتح کردی. حالا فقط مرور کن که همیشه یادت بمونه.':`${fa(done)} مرحله از ${fa(N)} رو رد کردی. ادامه بده، داری عالی پیش میری.`}</p>${narrHTML('guide','راهنمای صوتی: بازی چطوریه؟',1)}</section>
   ${coachHTML(c)}
   <section class="stat-grid">
     <div class="card stat">${ringSVG('a',done/N)}<div><div class="lbl">مراحل</div><b>${fa(done)}/${fa(N)}</b></div></div>
@@ -731,7 +812,8 @@ function renderHome(){
    <li>👹 <b>قبل خواب:</b> غول آخر و یه دور مرور هوشمند</li>
    <li>💡 <b>نکته طلایی:</b> تا یه هفته هر روز ۵ دقیقه مرور هوشمند بزن تا همیشه یادت بمونه.</li></ul></details>
   <div class="footer">${web?`<a class="btn good" href="https://github.com/Amir13891389199/zarb-hero/releases/latest/download/zarb-hero.apk">📱 دانلود نسخه اندروید</a>`:''}<span class="mut small">پیشرفتت خودکار ذخیره میشه.</span><button class="linkbtn" id="reset">شروع از اول</button></div>`;
-  bindCoach(c);
+  bindCoach(c);bindNarr(app);bindTTS(app);
+  if(!S.guided&&!S.mute)narrPlay('guide',{ok:()=>{S.guided=1;save()}});
   $$('.stage').forEach(b=>b.onclick=()=>stageSheet(+b.dataset.i,b));
   if($('#cont'))$('#cont').onclick=e=>stageSheet(nx,e.currentTarget);
   $('#reset').onclick=e=>askConfirm({origin:e.currentTarget,icon:'🗑️',title:'همه‌ی پیشرفت پاک بشه؟',text:'ستاره‌ها، امتیازها و جعبه‌های لایتنر صفر میشن.',yes:'آره، پاک کن',danger:1,onYes:()=>{const th=S.theme,mu=S.mute;S={xp:0,stars:{},lt:{},tm:{},best:0,mute:mu,theme:th,lastDay:'',log:[]};save();updateHeader();home()}});
@@ -750,6 +832,7 @@ function lesson(i,k){go(()=>{setTab(null);cur='lesson';renderLessonShell(i);show
 function renderLessonShell(i){
   const s=STAGES[i];L={i,k:0};
   app.innerHTML=`<div class="lesson-head"><button class="icon-btn" id="lback" aria-label="برگشت">→</button><div class="lh-icon" style="view-transition-name:hero">${s.icon}</div><div class="lh-text"><div class="eyebrow">مرحله ${fa(i+1)} — درس</div><h2>${s.title}</h2></div><button class="btn ghost sm" id="lskip">تمرین ⏭</button></div>
+  <div id="lnarr"></div>
   <article class="card lesson" id="lcard"></article>
   <div class="lesson-nav"><button class="btn ghost" id="lprev">→ قبلی</button><div class="sdots" id="ldots"></div><button class="btn" id="lnext">بعدی ←</button></div>${s.lesson.length>1?'<div class="swipe-hint">می‌تونی صفحه‌ها رو با کشیدن انگشت هم عوض کنی 👆</div>':''}`;
   $('#lback').onclick=()=>home();$('#lskip').onclick=()=>startQuiz(i);
@@ -765,6 +848,8 @@ function showSlide(k,dir){
   $('#ldots').innerHTML=s.lesson.map((_,j)=>`<i class="${j===k?'on':''}"></i>`).join('');
   $('#lprev').style.visibility=k>0?'visible':'hidden';
   const nb=$('#lnext'),last=k===n-1;nb.textContent=last?'بزن بریم تمرین! 🚀':'بعدی ←';nb.classList.toggle('good',last);
+  narrStop();const nk=`s${L.i+1}-${k}`;$('#lnarr').innerHTML=narrHTML(nk,'بزن تا معلم این صفحه رو برات توضیح بده');bindNarr($('#lnarr'));nb.classList.remove('nudge2');
+  if(S.auto&&!S.mute)narrPlay(nk,{onEnd:lessonEnded});
   if(dir&&!RM){sTap();lc.animate([{opacity:0,transform:`translateX(${dir>0?-48:48}px)`},{opacity:1,transform:'none'}],{duration:420,easing:SPRING})}
 }
 
@@ -799,7 +884,7 @@ const TIP_STAGE={2:3,5:4,4:5,9:6,3:7,6:8,8:9,7:10};
 function startQuiz(i){const s=STAGES[i];const deck=s.deck?s.deck():Array.from({length:s.count},()=>s.gen());beginQuiz({mode:'stage',i,title:`${s.icon} ${s.title}`,deck,pass:s.pass})}
 function startReview(){lastFact='';beginQuiz({mode:'review',title:'🧠 مرور هوشمند',deck:Array.from({length:15},()=>factQ(...pickFact()))})}
 function startFocus(facts){const d=[];while(d.length<10)shuffle(facts).forEach(f=>{if(d.length<10)d.push(f)});beginQuiz({mode:'focus',title:'🎯 تمرین هدفمند',deck:d.map(([a,b])=>Math.random()<.5?factQ(a,b):factQ(b,a))})}
-function beginQuiz(o){Q=Object.assign({queue:o.deck,total:o.deck.length,done:0,first:0,xp:0,streak:0,maxStreak:0,wrong:[],t:Date.now(),wrongBy:{},tipped:{}},o);go(()=>{setTab(null);cur='quiz';renderQuizShell();nextQ(true)})}
+function beginQuiz(o){vfxPreload();Q=Object.assign({queue:o.deck,total:o.deck.length,done:0,first:0,xp:0,streak:0,maxStreak:0,wrong:[],t:Date.now(),wrongBy:{},tipped:{}},o);go(()=>{setTab(null);cur='quiz';renderQuizShell();nextQ(true)})}
 function renderQuizShell(){
   app.innerHTML=`<div class="quiz"><div class="quiz-bar"><button class="icon-btn" id="qx" aria-label="خروج">✕</button><div class="pbar"><i id="pfill"></i></div><span class="qcount" id="qcount"></span></div><div class="card qcard" id="qcard"></div><div class="pad glass" id="pad">${padHTML()}</div></div>`;
   bindPad();
@@ -810,10 +895,11 @@ function nextQ(first){
   const c=Q.cur=Q.queue.shift();Q.t0=Date.now();Q.hint=false;
   $('#pfill').style.width=(Q.done/Q.total*100)+'%';$('#qcount').textContent=`${fa(Q.done)}/${fa(Q.total)}`;
   const qc=$('#qcard');
-  qc.innerHTML=`<div class="q-top"><span>${Q.title}</span>${c.retry?'<span class="tag warn">🔁 دوباره</span>':''}${Q.streak>=3?`<span class="tag fire">🔥 ${fa(Q.streak)} تا پشت هم</span>`:''}</div>${c.viz||''}${c.sub?`<div class="qsub">${c.sub}</div>`:''}<div class="qtext">${c.text}</div><div class="disp" id="disp"></div><div class="fb" id="fb"></div><button class="hint-btn" id="hbtn">💡 راهنما</button>`;
+  qc.innerHTML=`<div class="q-top"><span>${Q.title}</span>${c.retry?'<span class="tag warn">🔁 دوباره</span>':''}${Q.streak>=3?`<span class="tag fire">🔥 ${fa(Q.streak)} تا پشت هم</span>`:''}</div>${c.viz||''}${c.sub?`<div class="qsub">${c.sub}</div>`:''}<div class="qtext"><span id="qtext">${c.text}</span>${ttsBtn('qtext')}</div><div class="disp" id="disp"></div><div class="fb" id="fb"></div><button class="hint-btn" id="hbtn">💡 راهنما</button>`;
   pad={buf:'',locked:false,submit:checkAns,cont:null};updateDisp();
   if(!first&&!RM)qc.animate([{opacity:0,transform:'translateX(-40px) scale(.98)'},{opacity:1,transform:'none'}],{duration:420,easing:SPRING});
-  $('#hbtn').onclick=()=>{Q.hint=true;$('#fb').innerHTML=`<div class="hintbox">💡 ${c.hint}</div>`;$('#hbtn').style.display='none'};
+  $('#hbtn').onclick=()=>{Q.hint=true;$('#fb').innerHTML=`<div class="hintbox">💡 <span id="hintT">${c.hint}</span>${ttsBtn('hintT')}</div>`;bindTTS($('#fb'));$('#hbtn').style.display='none'};
+  bindTTS(qc);
   Q.ht=setTimeout(()=>{const h=$('#hbtn');if(h&&pad&&!pad.locked)h.classList.add('nudge')},12000);
 }
 function checkAns(){
@@ -824,17 +910,17 @@ function checkAns(){
   if(!c.retry)Q.done++;
   $('#pfill').style.width=(Q.done/Q.total*100)+'%';$('#qcount').textContent=`${fa(Q.done)}/${fa(Q.total)}`;
   if(ok){
-    sGood();Q.streak++;Q.maxStreak=Math.max(Q.maxStreak,Q.streak);if(!c.retry)Q.first++;
+    sGood();if(Q.mode!=='speed')vfx(pick(['ok1','ok2','ok3','ok4','ok5']),140);Q.streak++;Q.maxStreak=Math.max(Q.maxStreak,Q.streak);if(!c.retry)Q.first++;
     const g=c.retry?3:(Q.hint?5:10)+(Q.streak>=5?2:0);Q.xp+=g;S.xp+=g;save();
     d.classList.add('ok');fb.innerHTML=`<span class="fb-chip good">${pick(praise)}${ms<4000&&!Q.hint?' ⚡ سریع!':''}</span>`;
     flyXP(d,g);window._nq=setTimeout(()=>nextQ(),900);
   }else{
-    sBad();Q.streak=0;d.classList.add('bad');Q.queue.push(Object.assign({},c,{retry:true}));if(!c.retry)Q.wrong.push(c);
+    sBad();vfx(pick(['no1','no2']),350);Q.streak=0;d.classList.add('bad');Q.queue.push(Object.assign({},c,{retry:true}));if(!c.retry)Q.wrong.push(c);
     d.innerHTML=`<s>${fa(pad.buf)}</s><span class="to">→</span><span class="right">${fa(c.ans)}</span>`;
     let tip='';
     if(c.fact){const m=stratM(c.fact[0],c.fact[1]);if(m!==null&&TIP_STAGE[m]!==undefined){Q.wrongBy[m]=(Q.wrongBy[m]||0)+1;if(Q.wrongBy[m]>=2&&!Q.tipped[m]&&Q.i!==TIP_STAGE[m]){Q.tipped[m]=1;tip=`<div class="coachtip">✨ <b>مربی:</b> به نظر میاد ضرب در ${M(m)} هنوز جا نیفتاده. بعد از این تمرین، درس «${STAGES[TIP_STAGE[m]].title}» رو یه بار دیگه ببین.</div>`}}}
-    fb.innerHTML=`<span class="fb-chip bad">نزدیک بود! جواب درست: ${M(c.ans)}</span><div class="hintbox">💡 ${c.hint}</div>${tip}<button class="btn block" id="cbtn">فهمیدم، ادامه ←</button><div class="mut small" style="margin-top:6px">این سوال آخر تمرین دوباره میاد 🔁</div>`;
-    pad.cont=()=>{pad=null;nextQ()};$('#cbtn').onclick=pad.cont;save();
+    fb.innerHTML=`<span class="fb-chip bad">نزدیک بود! جواب درست: ${M(c.ans)}</span><div class="hintbox">💡 <span id="hintT">${c.hint}</span>${ttsBtn('hintT')}</div>${tip}<button class="btn block" id="cbtn">فهمیدم، ادامه ←</button><div class="mut small" style="margin-top:6px">این سوال آخر تمرین دوباره میاد 🔁</div>`;
+    pad.cont=()=>{pad=null;nextQ()};$('#cbtn').onclick=pad.cont;bindTTS(fb);save();
     setTimeout(()=>{const b=$('#cbtn');if(b)b.scrollIntoView({block:'center',behavior:RM?'auto':'smooth'})},120);
   }
 }
@@ -862,7 +948,7 @@ function finish(){
     const on=(id,fn)=>{const b=$('#'+id);if(b)b.onclick=fn};
     on('ra1',()=>lesson(qi+1,0));on('ra2',()=>startQuiz(qi));on('ra3',()=>home());on('ra4',()=>lesson(qi,0));on('ra5',()=>mode==='focus'&&wrongFacts.length?startFocus(wrongFacts):startReview());on('ra6',()=>tableScreen());
   });
-  if(st||mode!=='stage'){setTimeout(sWin,300);if(st)setTimeout(confetti,350)}
+  if(st||mode!=='stage'){setTimeout(sWin,300);if(st)setTimeout(confetti,350);vfxT=0;vfx(st?'win':'ok2',900)}
 }
 
 /* ============ مسابقه سرعت ============ */
